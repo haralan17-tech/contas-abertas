@@ -1,0 +1,20 @@
+{
+  "_sobre": "Percentuais de saúde e educação copiados dos demonstrativos oficiais (SIOPS e SIOPE), que não vêm nos arquivos do Siconfi. Atualize a cada novo bimestre.",
+  "2026": {
+    "saude_pct": 18.10,
+    "saude_periodo": "até o 3º bimestre de 2026 (despesa liquidada)",
+    "saude_fonte": "SIOPS, RREO Anexo 12, 3º bimestre de 2026, homologado em 08/07/2026",
+    "saude_parcial": true,
+    "educacao_pct": 17.48,
+    "educacao_periodo": "até o 2º bimestre de 2026 (despesa liquidada)",
+    "educacao_fonte": "SIOPE, RREO Anexo 8, 2º bimestre de 2026",
+    "educacao_parcial": true,
+    "fundeb70_pct": 71.82
+  },
+  "2025": {
+    "saude_pct": 28.44,
+    "saude_periodo": "ano de 2025 (despesa empenhada)",
+    "saude_fonte": "SIOPS, RREO Anexo 12 do 3º bimestre de 2026, quadro de controle dos restos a pagar (valor aplicado em 2025 de R$ 307,4 mi sobre mínimo de R$ 162,1 mi)",
+    "saude_parcial": false
+  }
+}

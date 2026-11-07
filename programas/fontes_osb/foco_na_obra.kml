@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>FOCO NA OBRA</name>
+    <description><![CDATA[Desenvolvido pelo Observatório Social do Brasil - Foz do Iguaçu, esta ferramenta visa promover mais transparência nas obras públicas do Município de Foz do Iguaçu.<br>(27 - Obras monitoradas)<br><br>Acesse o nosso site: https://fozdoiguacu.osbrasil.org.br/<br>Instagram: https://www.instagram.com/osbfozdoiguacu/]]></description>
+    <Style id="icon-1551-0F9D58-normal">
+      <IconStyle>
+        <color>ff589d0f</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+    </Style>
+    <Style id="icon-1551-0F9D58-highlight">
+      <IconStyle>
+        <color>ff589d0f</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+    </Style>
+    <StyleMap id="icon-1551-0F9D58">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1551-0F9D58-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1551-0F9D58-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="icon-1551-1A237E-normal">
+      <IconStyle>
+        <color>ff7e231a</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+    </Style>
+    <Style id="icon-1551-1A237E-highlight">
+      <IconStyle>
+        <color>ff7e231a</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+    </Style>
+    <StyleMap id="icon-1551-1A237E">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1551-1A237E-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1551-1A237E-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="icon-1551-E65100-labelson">
+      <IconStyle>
+        <color>ff0051e6</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+      </IconStyle>
+    </Style>
+    <Style id="icon-1551-FFD600-normal">
+      <IconStyle>
+        <color>ff00d6ff</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+    </Style>
+    <Style id="icon-1551-FFD600-highlight">
+      <IconStyle>
+        <color>ff00d6ff</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+    </Style>
+    <StyleMap id="icon-1551-FFD600">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1551-FFD600-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1551-FFD600-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Style id="icon-1551-FFEA00-normal">
+      <IconStyle>
+        <color>ff00eaff</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0</scale>
+      </LabelStyle>
+    </Style>
+    <Style id="icon-1551-FFEA00-highlight">
+      <IconStyle>
+        <color>ff00eaff</color>
+        <scale>1</scale>
+        <Icon>
+          <href>https://www.gstatic.com/mapspro/images/stock/503-wht-blank_maps.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>1</scale>
+      </LabelStyle>
+    </Style>
+    <StyleMap id="icon-1551-FFEA00">
+      <Pair>
+        <key>normal</key>
+        <styleUrl>#icon-1551-FFEA00-normal</styleUrl>
+      </Pair>
+      <Pair>
+        <key>highlight</key>
+        <styleUrl>#icon-1551-FFEA00-highlight</styleUrl>
+      </Pair>
+    </StyleMap>
+    <Folder>
+      <name>EDUCAÇÃO</name>
+      <Placemark>
+        <name>Quadra Poliesportiva na Escola Municipal de Educação Infantil Altair Ferrais da Silva “Zizo”</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA 007/2025<br>Valor do edital: R$ 383984,17<br>N° do contrato: 191/2025<br>Valor contratado: R$ 321586,74<br>Valor executado até o momento: <br>Data da última medição: 19/12/2025<br>Data de Início: 04/09/25<br>Previsão de término: 04/08/2031<br>Status: Em andamento (31,02%)<br>Empresa: CONSTRUTORA GASPARIN LTDA<br>CNPJ: 76.206.606/0001-40 <br>Deixe sua sugestão, dúvida, denúncia ou foto:<br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform]]></description>
+        <styleUrl>#icon-1551-E65100-labelson</styleUrl>
+        <Point>
+          <coordinates>
+            -54.5608599,-25.4822862,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Escola Municipal de Ensino Fundamental Professora Lúcia Marlene Pena Nieradka</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA 004/2026<br>Valor do edital: R$R$ 10.278.276,6<br>N° do contrato: 55/2026<br>Valor contratado: 8.299.708,35<br>Valor executado até o momento: <br>Data da última medição: <br>Data de Início: 27/04/2026<br>Previsão de término: 27/02/2028<br>Status: Edital: Em andamento<br>Empresa:  LOWE CONSTRUCAO CIVIL LTDA<br>CNPJ: 08.644.227/0001-81<br>Deixe sua sugestão, dúvida, denúncia ou foto:<br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform]]></description>
+        <styleUrl>#icon-1551-E65100-labelson</styleUrl>
+        <Point>
+          <coordinates>
+            -54.5776776,-25.5549552,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Escola Municipal Cândido Portinari</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA 009/2023<br>Valor do edital: R$ 5.341.424,94<br>N° do contrato: 235/2023<br>Valor contratado: R$ 4.788.363,85<br>Valor executado até o momento: <br>Data da última medição: 19/12/2025<br>Data de Início: 04/09/25<br>Previsão de término: <br>Status: Em andamento (83,17%)<br>Empresa: ANCEMA CONSTRUCOES LTDA<br>CNPJ: 06.974.313/0001-27<br>Deixe sua sugestão, dúvida, denúncia ou foto:<br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform]]></description>
+        <styleUrl>#icon-1551-E65100-labelson</styleUrl>
+        <Point>
+          <coordinates>
+            -54.5765912,-25.4837013,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>CMEI no Ayrton Senna</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA 010/2026<br>Valor do edital: R$ 3.325.141,55<br>N° do contrato: <br>Valor contratado:<br>Valor executado até o momento: <br>Data da última medição: <br>Data de Início: <br>Previsão de término: <br>Status:<br>Empresa: <br>CNPJ: <br>Deixe sua sugestão, dúvida, denúncia ou foto:<br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform]]></description>
+        <styleUrl>#icon-1551-E65100-labelson</styleUrl>
+        <Point>
+          <coordinates>
+            -54.5409662134702,-25.5392854904484,0
+          </coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>INFRAESTRUTURA:</name>
+      <Placemark>
+        <name>Drenagem de águas pluviais para atender a região do Jardim Morenitas II</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA   013/2024<br>Valor do edital:  R$ 3.503.210,38<br>N° do contrato:  319/2024<br>Valor contratado: R$ 3.534.313,14<br>Valor executado até o momento: 6,05%<br>Data da última medição: 28/08/2025<br>Data de Início: <br>Previsão de término: <br>Status: Suspenso temporariamente<br> Empresa: ENGENHARQ CONSTRUÇÃO,<br>TERRAPLENAGEM E PAVIMENTAÇÃO LTDA<br>CNPJ: 28323311000100<br>Deixe sua sugestão, dúvida, denúncia ou foto:<br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform]]></description>
+        <styleUrl>#icon-1551-0F9D58</styleUrl>
+        <Point>
+          <coordinates>
+            -54.5662818,-25.5750865,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Revitalização da Avenida Juscelino Kubitscheck</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA 002/2024<br>Valor do edital: R$ 24.400.467,24<br>N° do contrato: 107/2024<br>Valor contratado: R$23.698.258,17<br>Valor executado até o momento: <br>R$ 20.337.910,47  <br>Data da última medição: 11/02/2025<br>Data de Início: 21/05/2024<br>Previsão de término: 21/05/2025<br>Status: Em andamento  (97,30%)<br>Empresa: CONSÓRCIO NOVA JK - CONSTRUBES ENGENHARIA E CONSTRUÇÕES LTDA<br>CNPJ: 14.792.068/0001-65<br>Deixe sua sugestão, dúvida, denúncia ou foto:<br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform]]></description>
+        <styleUrl>#icon-1551-0F9D58</styleUrl>
+        <Point>
+          <coordinates>
+            -54.5866339,-25.532939,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Ampliação do sistema de drenagem da rua das Papoulas e rua das Açucenas</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA 005/2026 <br>Valor do edital: R$ 867.932,98 <br>N° do contrato: 41/2026<br>Valor contratado: $692.838,82<br>Valor executado até o momento: <br>Data da última medição: <br>Data de Início: 30/03/2026<br>Previsão de término: 26/10/2026<br>Status: Para iniciar <br>Empresa: SERRANO CONSTRUTORA LTDA<br>CNPJ: 50.983.370/0001-64<br>Deixe sua sugestão, dúvida, denúncia ou foto: <br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform ]]></description>
+        <styleUrl>#icon-1551-0F9D58</styleUrl>
+        <Point>
+          <coordinates>
+            -54.572506,-25.561963,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Drenagem urbana no bairro Morumbi 2</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA 006/2026 <br>Valor do edital: R$1.849.471,70 <br>N° do contrato: <br>Valor contratado: <br>Valor executado até o momento: <br>Data da última medição: <br>Data de Início: <br>Previsão de término: <br>Status: Edital <br>Empresa: <br>CNPJ: <br>Deixe sua sugestão, dúvida, denúncia ou foto: <br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform ]]></description>
+        <styleUrl>#icon-1551-0F9D58</styleUrl>
+        <Point>
+          <coordinates>
+            -54.540729,-25.520866,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Drenagem urbana no bairro morumbi 3</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA 006/2026 <br>Valor do edital: R$ 1.849.471,70 <br>N° do contrato: <br>Valor contratado: <br>Valor executado até o momento: <br>Data da última medição: <br>Data de Início: <br>Previsão de término: <br>Status: Edital <br>Empresa: <br>CNPJ: <br>Deixe sua sugestão, dúvida, denúncia ou foto: <br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform ]]></description>
+        <styleUrl>#icon-1551-0F9D58</styleUrl>
+        <Point>
+          <coordinates>
+            -54.534985,-25.515728,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Drenagem urbana no Jardim Liberdade</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA 006/2026 <br>Valor do edital: R$ 1.849.471,70 <br>N° do contrato: <br>Valor contratado: <br>Valor executado até o momento: <br>Data da última medição: <br>Data de Início: <br>Previsão de término: <br>Status: Edital <br>Empresa: <br>CNPJ: <br>Deixe sua sugestão, dúvida, denúncia ou foto: <br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform ]]></description>
+        <styleUrl>#icon-1551-0F9D58</styleUrl>
+        <Point>
+          <coordinates>
+            -54.545663,-25.515887,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Drenagem urbana Jardim Alice 2</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA 006/2026 <br>Valor do edital: R$ 1.849.471,70 <br>N° do contrato: <br>Valor contratado: <br>Valor executado até o momento: <br>Data da última medição: <br>Data de Início: <br>Previsão de término: <br>Status: Edital <br>Empresa: <br>CNPJ: <br>Deixe sua sugestão, dúvida, denúncia ou foto: <br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform ]]></description>
+        <styleUrl>#icon-1551-0F9D58</styleUrl>
+        <Point>
+          <coordinates>
+            -54.553068,-25.521487,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Drenagem urbana no Jardim Italia</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA 006/2026 <br>Valor do edital: R$ 1.849.471,70 <br>N° do contrato: <br>Valor contratado: <br>Valor executado até o momento: <br>Data da última medição: <br>Data de Início: <br>Previsão de término: <br>Status: Edital <br>Empresa: <br>CNPJ: <br>Deixe sua sugestão, dúvida, denúncia ou foto: <br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform ]]></description>
+        <styleUrl>#icon-1551-0F9D58</styleUrl>
+        <Point>
+          <coordinates>
+            -54.585403,-25.516521,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Drenagem urbana Jardim Canadá</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA 007/2026 <br>Valor do edital: R$ 3.323.186,46 <br>N° do contrato: <br>Valor contratado: <br>Valor executado até o momento: <br>Data da última medição: <br>Data de Início: <br>Previsão de término: <br>Status: Edital <br>Empresa: <br>CNPJ: <br>Deixe sua sugestão, dúvida, denúncia ou foto: <br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform ]]></description>
+        <styleUrl>#icon-1551-0F9D58</styleUrl>
+        <Point>
+          <coordinates>
+            -54.551632,-25.499334,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Drenagem urbana Parque imperatriz 2</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA 007/2026 <br>Valor do edital: R$ 3.323.186,46 <br>N° do contrato: <br>Valor contratado: <br>Valor executado até o momento: <br>Data da última medição: <br>Data de Início: <br>Previsão de término: <br>Status: Edital <br>Empresa: <br>CNPJ: <br>Deixe sua sugestão, dúvida, denúncia ou foto: <br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform ]]></description>
+        <styleUrl>#icon-1551-0F9D58</styleUrl>
+        <Point>
+          <coordinates>
+            -54.543322,-25.502673,0
+          </coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>ESPORTE E LAZER:</name>
+      <Placemark>
+        <name>Construção de Praça Esportiva - Jardim Alvorada</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA  021/2024<br>Valor do edital:  R$ 1.015.642,06<br>N° do contrato:  068/2025<br>Valor contratado:  R$ 660.000,00 <br>Valor executado até o momento: <br>Data da última medição: <br>Data de Início: <br>Previsão de término: <br>Status:  Aguardando Ordem de Serviço<br>Empresa: ERGE CONTRUTORA LTDA<br>CNPJ: 35.169.000/0001-02<br>Deixe sua sugestão, dúvida, denúncia ou foto:<br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform]]></description>
+        <styleUrl>#icon-1551-FFEA00</styleUrl>
+        <Point>
+          <coordinates>
+            -54.5056477,-25.4929534,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Construção do Ginásio Cidade Nova</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA  003/2024<br>Valor do edital: R$ 9.186.806,30<br>N° do contrato: 258/2024<br>Valor contratado:  R$ 8.436.712,52 <br>Valor executado até o momento: R$ 3.012.014,95  -  (20,54%)<br>Data da última medição: 25/05/2025<br>Data de Início: 02/01/2025<br>Previsão de término: 26/06/2026<br>Status: Em andamento<br>Empresa: Consórcio Amboni/Martinello<br>(Amboni Construções Ltda. – empresa líder; e Martinello Engenharia e Incorporadora Ltda.),<br>CNPJ: 80239965000170<br>Deixe sua sugestão, dúvida, denúncia ou foto:<br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform]]></description>
+        <styleUrl>#icon-1551-FFEA00</styleUrl>
+        <Point>
+          <coordinates>
+            -54.5594187,-25.46307,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Construção da Pista de Pump Track na Vila A.</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA  011/2024<br>Valor do edital:  R$ 790.304,71 <br>N° do contrato: 338/2024<br>Valor contratado: R$ 788.012,80<br>Valor executado até o momento: <br>Data da última medição: <br>Data de Início: <br>Previsão de término: <br>Status: <br>Empresa: BRASTEKA CONSTRUÇÕES E TERRAPLENAGEM LTDA<br>CNPJ: 85.041.077/0001-62<br>Deixe sua sugestão, dúvida, denúncia ou foto:<br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform]]></description>
+        <styleUrl>#icon-1551-FFEA00</styleUrl>
+        <Point>
+          <coordinates>
+            -54.5645187,-25.498496,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Construção da 3ª (terceira) Etapa da Pista de Arrancada</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA  018/2024<br>Valor do edital: R$957.706,65 <br>N° do contrato: 456/2024<br>Valor contratado: R$ 799.999,14 <br>Valor executado até o momento: R$ 495.580,69 (61,95%)<br>Data da última medição: 08/07/2025 <br>Data de Início: 02/01/2025<br>Previsão de término: 02/06/2025<br>Status: Em andamento<br>Empresa: MPB CONSTRUÇÃO LTDA <br>CNPJ: 09.372.579-0001/98 <br>Deixe sua sugestão, dúvida, denúncia ou foto:<br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform]]></description>
+        <styleUrl>#icon-1551-FFEA00</styleUrl>
+        <Point>
+          <coordinates>
+            -54.5053362,-25.4494777,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Loteamento Bubas - Foz do Iguaçu.</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA 006/2025<br>Valor do edital: R$ 25.796.835,56 <br>N° do contrato:187/2025 <br>Valor contratado: R$ 23.460.864,23<br>Data da última medição: <br>Data de Início: 25 de setembro de 2025<br>Previsão de término: setembro de 2028 <br>Status:Em andamento (0,46%)<br>Empresa: Consórcio Foz<br>CNPJ: 62.814.070/0001-30 <br>Deixe sua sugestão, dúvida, denúncia ou foto:<br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform]]></description>
+        <styleUrl>#icon-1551-FFEA00</styleUrl>
+        <Point>
+          <coordinates>
+            -54.5743027,-25.5838034,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>CEU da Cultura na região do Bubas</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA CP 008/2025<br>Valor do edital: R$ 2.176.646,28<br>N° do contrato: 205/2025<br>Valor contratado: R$ 1.610.718,24<br>Valor executado até o momento:<br>Data da última medição:<br>Data de Início:10/2025<br>Previsão de término: 09/2026<br>Status: Em andamento (17,35%)<br>Empresa: PORTIQUE ENGENHARIA LTDA<br>CNPJ: 43.792.598/0001-01<br>Deixe sua sugestão, dúvida, denúncia ou foto:<br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform]]></description>
+        <styleUrl>#icon-1551-FFEA00</styleUrl>
+        <Point>
+          <coordinates>
+            -54.5743639,-25.5837147,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Campo com grama sintética</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA CP 013/2025<br>Valor do edital: R$ 798.831,58<br>N° do contrato: 253/2025<br>Valor contratado: R$ 646.254,74<br>Valor executado até o momento: R$ 326.189,22<br>Data da última medição: 29/05/2026<br>Data de Início:26/12/2025<br>Previsão de término: <br>Status: em andamento (40,83%)<br>Empresa: MACRO CONSTRUCOES E ENGENHARIA LTDA<br>CNPJ: 76.206.606/0001-40 <br>Deixe sua sugestão, dúvida, denúncia ou foto:<br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform]]></description>
+        <styleUrl>#icon-1551-FFEA00</styleUrl>
+        <Point>
+          <coordinates>
+            -54.5410168,-25.5909393,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Revitalização de pista de skate e estacionamento</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA 001/2026 <br>Valor do edital: R$ 799.351,85 <br>N° do contrato: <br>Valor contratado: <br>Valor executado até o momento: <br>Data da última medição: <br>Data de Início: <br>Previsão de término: <br>Status: Edital <br>Empresa: <br>CNPJ: <br>Deixe sua sugestão, dúvida, denúncia ou foto: <br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform ]]></description>
+        <styleUrl>#icon-1551-FFD600</styleUrl>
+        <Point>
+          <coordinates>
+            -54.555137,-25.517821,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Reforma do Ginásio de Esportes Costa Cavalcanti</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA 002/2026 <br>Valor do edital: R$ 1.684.798,73 <br>N° do contrato: <br>Valor contratado: <br>Valor executado até o momento: <br>Data da última medição: <br>Data de Início: <br>Previsão de término: <br>Status: Edital <br>Empresa: <br>CNPJ: <br>Deixe sua sugestão, dúvida, denúncia ou foto: <br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform ]]></description>
+        <styleUrl>#icon-1551-FFEA00</styleUrl>
+        <Point>
+          <coordinates>
+            -54.554774,-25.51846,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>42 unidades habitacionais </name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA 007/2023<br>Valor do edital: R$ 7.924.582,87<br>N° do contrato: 168/2023<br>Valor contratado: R$ 6.963.004,72<br>Valor executado até o momento: <br>Data da última medição: 07/11/2025<br>Data de Início: 19/11/2023<br>Previsão de término: Era 17/01/2024<br>Status: Paralizado<br>Empresa:BRASTEKA CONSTRUÇÕES E TERRAPLENAGEM LTDA<br>CNPJ: 85.041.077/0001-62<br>Deixe sua sugestão, dúvida, denúncia ou foto:<br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform]]></description>
+        <styleUrl>#icon-1551-FFEA00</styleUrl>
+        <Point>
+          <coordinates>
+            -54.5110582891277,-25.4783329570822,0
+          </coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+    <Folder>
+      <name>SAÚDE:</name>
+      <Placemark>
+        <name>Construção de UBS - Bubas</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA 004/2025<br>Valor do edital: 5.762.629,76 <br>N° do contrato: 158-2025<br>Valor contratado: 4.171.061,29<br>Valor executado até o momento: <br>Data da última medição: <br>Data de Início:  09/2025<br>Previsão de término: 12/2026<br>Status: Contratação <br>Empresa: J Araújo Engenharia LTDA<br>CNPJ: 35.561.928/0001-20<br>Deixe sua sugestão, dúvida, denúncia ou foto:<br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform]]></description>
+        <styleUrl>#icon-1551-1A237E</styleUrl>
+        <Point>
+          <coordinates>
+            -54.5697745,-25.5817727,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Reforma das Piscinas do Ginásio Costa Cavalcanti.</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA <br>Valor do edital: 1.749.049,76<br>N° do contrato: 117/2025<br>Valor contratado:  1.300.000,00<br>Valor executado até o momento: <br>Data da última medição: <br>Data de Início: <br>Previsão de término: <br>Status: <br>Empresa:  OESTE SERVIÇOS DE TERRAPLENAGEM LTDA<br>CNPJ: 04.540.896/0001-52<br>Deixe sua sugestão, dúvida, denúncia ou foto:<br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform]]></description>
+        <styleUrl>#icon-1551-1A237E</styleUrl>
+        <Point>
+          <coordinates>
+            -54.5552614,-25.5189592,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>UBS PORTO BELO</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA 001/2023<br>Valor do edital: R$ 1.330.052,46<br>N° do contrato: 74/2023<br>Valor contratado: R$ 1.107.268,56<br>Valor executado até o momento: <br>Data da última medição: 31/03/2025<br>Data de Início: 31/07/2023<br>Previsão de término: <br>Status: PARALISADA                              Empressa: MPB CONSTRUÇÃO CIVIL LTDA<br>CNPJ: 09.372.579/0001-98<br>Deixe sua sugestão, dúvida, denúncia ou foto:<br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform]]></description>
+        <styleUrl>#icon-1551-1A237E</styleUrl>
+        <Point>
+          <coordinates>
+            -54.5891764,-25.4713993,0
+          </coordinates>
+        </Point>
+      </Placemark>
+      <Placemark>
+        <name>Unidade de Atenção Especializada em Saúde (Policlínica)</name>
+        <description><![CDATA[CONCORRÊNCIA PÚBLICA 014/2025<br>Valor do edital: R$ 21.341.800,34<br>N° do contrato: 249/2025<br>Valor contratado: R$ 16.539.895,26<br>Valor executado até o momento: R$ 443.431,48<br>Data da última medição: 15/05/2026<br>Data de Início: 06/03/2026<br>Previsão de término: 20 meses<br>Status: Em andamento ( 3,47%%)<br>Empresa: LOWE CONSTRUÇÃO CIVIL LTDA ME<br>CNPJ: 08.644.227/0001-81 <br>Deixe sua sugestão, dúvida, denúncia ou foto:<br>https://docs.google.com/forms/d/e/1FAIpQLSdAzH3cy_QJYUFKq78pGb4vygNlSmtaf4pRKXK8VH5sagxueA/viewform]]></description>
+        <styleUrl>#icon-1551-1A237E</styleUrl>
+        <Point>
+          <coordinates>
+            -54.5345960952612,-25.5221213076874,0
+          </coordinates>
+        </Point>
+      </Placemark>
+    </Folder>
+  </Document>
+</kml>

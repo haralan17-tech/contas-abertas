@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contas Abertas de Foz do Iguaçu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<style>
+/* Identidade do Observatório Social de Foz do Iguaçu: verde-folha escuro, verde-limão do Luposo, laranja do colete.
+   Layout: cabeçalho verde com o Luposo, seções empilhadas em coluna larga; resumo antes do detalhe. */
+:root {
+  color-scheme: light;
+  --bg: #f4f7ef;
+  --surface: #fdfefb;
+  --ink: #18210f;
+  --ink-2: #4a5444;
+  --ink-3: #6b7464;
+  --line: #dde5d3;
+  --accent: #436617;
+  --accent-ink: #ffffff;
+  --accent-soft: #eaf5da;
+  --lime: #96e635;
+  --laranja: #f98a32;
+  --demo: #fff1d6;
+  --demo-ink: #5c3a00;
+  --series-1: #018ac0;
+  --series-2: #f98a32;
+  --s1:#018ac0;--s2:#f98a32;--s3:#089850;--s4:#1d6a9e;--s5:#c9a400;--s6:#c9a400;--s7:#c9a400;--s8:#939393;
+  --good: #0a8a3e; --warning: #fab219; --critical: #d03b3b;
+  --font-display: "Montserrat", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Montserrat", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #121611; --surface: #1c211b; --ink: #eef3e8; --ink-2: #c3ccbb; --ink-3: #97a08f; --line: #2f372b;
+    --accent: #96e635; --accent-ink: #17210f; --accent-soft: #263619; --demo: #3d3210; --demo-ink: #f5dc93;
+    --series-1: #1890c8; --series-2: #db6a12;
+    --s1:#1890c8;--s2:#db6a12;--s3:#089850;--s4:#5b8fd0;--s5:#ad8c00;--s6:#ad8c00;--s7:#ad8c00;--s8:#6f6e69;
+    --good: #2fbf62;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #121611; --surface: #1c211b; --ink: #eef3e8; --ink-2: #c3ccbb; --ink-3: #97a08f; --line: #2f372b;
+  --accent: #96e635; --accent-ink: #17210f; --accent-soft: #263619; --demo: #3d3210; --demo-ink: #f5dc93;
+  --series-1: #1890c8; --series-2: #db6a12;
+  --s1:#1890c8;--s2:#db6a12;--s3:#089850;--s4:#5b8fd0;--s5:#ad8c00;--s6:#ad8c00;--s7:#ad8c00;--s8:#6f6e69;
+  --good: #2fbf62;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.55; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.15; }
+h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; letter-spacing: -.01em; }
+h3 { font-weight: 700; }
+h3 { font-size: 1.1rem; font-weight: 600; }
+p { margin: 0; }
+a { color: var(--accent); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.num { font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+.demo-bar { background: var(--demo); color: var(--demo-ink); font-size: .92rem; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.demo-bar strong { font-weight: 700; }
+
+header.top { background: #436617; color: #fff; border-bottom: 6px solid var(--lime); position: relative; overflow: hidden; }
+header.top::after { content: ""; position: absolute; right: -120px; top: -140px; width: 420px; height: 420px; border-radius: 50%; border: 38px solid rgba(150, 230, 53, .14); pointer-events: none; }
+.top-row { display: grid; grid-template-columns: 1fr auto; gap: 8px 24px; align-items: end; padding-top: 20px; position: relative; z-index: 1; }
+.marca-osb { grid-column: 1 / -1; display: flex; align-items: center; gap: 10px; font-size: .78rem; line-height: 1.25; letter-spacing: .02em; text-transform: uppercase; font-weight: 600; color: #e7f5d3; }
+.marca-osb img { width: 34px; height: auto; }
+.marca-osb b { display: block; font-weight: 800; color: #fff; }
+.marca-osb { justify-self: start; background: #fff; border-radius: 0 0 14px 14px; padding: 10px 16px 8px; margin-top: -20px; box-shadow: 0 2px 0 rgba(0,0,0,.08); }
+.marca-osb .logo-oficial { width: auto; height: 64px; display: block; }
+@media (max-width: 640px) { .marca-osb .logo-oficial { height: 40px; } }
+.top h1 { font-size: clamp(1.9rem, 4.6vw, 3rem); font-weight: 900; letter-spacing: -.02em; }
+.top h1 span { color: var(--lime); }
+.top .sub { opacity: .92; margin-top: 8px; max-width: 52ch; font-weight: 500; }
+.top-texto { padding-bottom: 26px; }
+.top-lado { display: flex; align-items: flex-end; gap: 14px; }
+.top-lado .lupa { width: 118px; height: auto; display: block; margin-bottom: -6px; }
+.ano-box { display: flex; flex-direction: column; gap: 4px; font-size: .85rem; font-weight: 600; padding-bottom: 26px; }
+.ano-box select { font: inherit; font-size: 1rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; border: 2px solid var(--lime); background: #fff; color: #18210f; min-width: 160px; }
+@media (max-width: 640px) { .top-row { grid-template-columns: 1fr; } .top-lado { justify-content: space-between; } .top-texto { padding-bottom: 4px; } .top-lado .lupa { width: 84px; } }
+nav.secoes { position: sticky; top: 0; z-index: 10; background: var(--surface); border-bottom: 1px solid var(--line); }
+nav.secoes ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0 2px; }
+@media (max-width: 760px) { nav.secoes ul { flex-wrap: nowrap; overflow-x: auto; } }
+nav.secoes a { display: block; padding: 10px 11px; text-decoration: none; color: var(--ink-2); font-weight: 600; font-size: .92rem; white-space: nowrap; border-bottom: 3px solid transparent; }
+nav.secoes a:hover { color: var(--ink); border-bottom-color: var(--lime); }
+
+main.wrap { display: flex; flex-direction: column; gap: 56px; padding: 36px 20px 64px; }
+section { scroll-margin-top: 60px; display: flex; flex-direction: column; gap: 20px; }
+.intro { color: var(--ink-2); max-width: 68ch; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 20px; }
+.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 16px; }
+.fonte { font-size: .8rem; color: var(--ink-3); }
+
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; display: flex; flex-direction: column; gap: 4px; }
+.tile .rot { font-size: .88rem; color: var(--ink-2); font-weight: 600; }
+.tile .val { font-family: var(--font-display); font-size: 2rem; font-weight: 800; line-height: 1.1; }
+.tile .det { font-size: .85rem; color: var(--ink-3); }
+.tile.dest { border-top: 4px solid var(--accent); }
+.marca { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: 0; }
+
+/* barras horizontais */
+.barras { display: flex; flex-direction: column; gap: 10px; }
+.barra { display: grid; grid-template-columns: minmax(120px, 210px) 1fr auto; gap: 12px; align-items: center; padding: 3px 4px; border-radius: 6px; cursor: default; }
+.barra:hover { background: var(--accent-soft); }
+.barra .nome { font-size: .92rem; overflow-wrap: anywhere; }
+.barra .trilho { height: 14px; position: relative; }
+.barra .preench { height: 100%; border-radius: 0 4px 4px 0; background: var(--series-1); min-width: 2px; }
+.barra .valor { font-size: .9rem; font-weight: 600; text-align: right; min-width: 92px; }
+.barra .valor small { display: block; font-weight: 400; color: var(--ink-3); font-size: .78rem; }
+@media (max-width: 560px) {
+  .barra { grid-template-columns: 1fr auto; }
+  .barra .trilho { grid-column: 1 / -1; order: 3; }
+}
+
+/* receitas agrupadas */
+details.grupo { border-top: 1px solid var(--line); padding: 10px 0; }
+details.grupo:first-of-type { border-top: 0; }
+details.grupo summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: baseline; }
+details.grupo summary::-webkit-details-marker { display: none; }
+details.grupo summary .g-nome { font-weight: 700; }
+details.grupo summary .g-nome::before { content: "+"; display: inline-block; width: 1.2em; color: var(--accent); font-weight: 800; }
+details.grupo[open] summary .g-nome::before { content: "−"; }
+details.grupo summary .g-val { font-weight: 700; text-align: right; }
+details.grupo summary .g-trilho { grid-column: 1 / -1; height: 12px; background: var(--line); border-radius: 0 4px 4px 0; overflow: hidden; }
+details.grupo summary .g-trilho div { height: 100%; background: var(--series-1); border-radius: 0 4px 4px 0; }
+details.grupo .g-ex { color: var(--ink-2); font-size: .9rem; margin: 8px 0 4px 1.2em; }
+details.grupo ul { list-style: none; margin: 6px 0 0 1.2em; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+details.grupo li { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; font-size: .92rem; }
+details.grupo li .i-ex { grid-column: 1 / -1; color: var(--ink-3); font-size: .84rem; }
+
+/* faixa "de cada R$ 100" */
+.faixa { display: flex; gap: 2px; height: 46px; border-radius: 8px; overflow: hidden; }
+.faixa div { height: 100%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: .85rem; min-width: 2px; }
+.legenda { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: .88rem; color: var(--ink-2); }
+.legenda span { white-space: nowrap; }
+
+/* linha mensal */
+.graf-linha { position: relative; width: 100%; }
+.graf-linha svg { width: 100%; height: auto; display: block; overflow: visible; }
+.graf-linha text { fill: var(--ink-3); font-size: 12px; font-family: var(--font-body); }
+.tip { position: fixed; pointer-events: none; background: var(--ink); color: var(--bg); padding: 8px 10px; border-radius: 8px; font-size: .84rem; line-height: 1.4; z-index: 50; max-width: 260px; opacity: 0; transition: opacity .1s; }
+.tip.on { opacity: 1; }
+
+/* funil de estágios */
+.estagios { display: flex; flex-direction: column; gap: 14px; }
+.estagio { display: grid; grid-template-columns: 150px 1fr; gap: 12px; align-items: center; }
+.estagio .e-nome { font-weight: 700; }
+.estagio .e-nome small { display: block; font-weight: 400; color: var(--ink-3); font-size: .8rem; }
+tr.cred-linha { cursor: pointer; }
+tr.cred-linha:hover td { background: var(--accent-soft); }
+tr.cred-det td { background: var(--bg); color: var(--ink-2); font-size: .88rem; }
+.aviso { border-left: 4px solid var(--critical); background: var(--surface); padding: 12px 14px; border-radius: 0 10px 10px 0; color: var(--ink-2); font-size: .92rem; }
+.vazio { color: var(--ink-3); font-style: italic; }
+.estagio .e-barra { height: 34px; border-radius: 0 6px 6px 0; display: flex; align-items: center; padding: 0 10px; color: #fff; font-weight: 700; font-size: .9rem; white-space: nowrap; }
+@media (max-width: 560px) { .estagio { grid-template-columns: 1fr; gap: 4px; } }
+
+/* indicadores */
+.ind { display: flex; flex-direction: column; gap: 10px; }
+.ind-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.pill { display: inline-flex; align-items: center; gap: 6px; font-size: .8rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; border: 1.5px solid currentColor; }
+.pill.ok { color: var(--good); } .pill.alerta { color: #b07a00; } .pill.ruim { color: var(--critical); }
+:root[data-theme="dark"] .pill.alerta { color: var(--warning); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .pill.alerta { color: var(--warning); } }
+.bullet { position: relative; height: 18px; background: var(--line); border-radius: 0 4px 4px 0; }
+.bullet .b-val { height: 100%; background: var(--series-1); border-radius: 0 4px 4px 0; }
+.bullet .b-lim { position: absolute; top: -5px; bottom: -5px; width: 3px; background: var(--ink); border-radius: 2px; }
+.bullet-esc { display: flex; justify-content: space-between; font-size: .78rem; color: var(--ink-3); }
+
+/* tabela credores */
+.filtros { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
+.filtros label { display: flex; flex-direction: column; gap: 4px; font-size: .85rem; color: var(--ink-2); font-weight: 600; }
+.filtros input, .filtros select { font: inherit; font-size: .95rem; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); min-width: 200px; }
+.tabela-box { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-3); font-weight: 700; }
+th button { all: unset; cursor: pointer; }
+th button:focus-visible { outline: 3px solid var(--accent); }
+td.dir, th.dir { text-align: right; white-space: nowrap; }
+td .doc { display: block; font-size: .8rem; color: var(--ink-3); }
+td .barrinha { height: 6px; background: var(--series-2); border-radius: 0 3px 3px 0; margin-top: 6px; }
+.tag { display: inline-block; font-size: .75rem; font-weight: 700; padding: 1px 7px; border-radius: 4px; background: var(--accent-soft); color: var(--ink); }
+.btn { font: inherit; font-weight: 600; padding: 9px 16px; border-radius: 8px; border: 1.5px solid var(--accent); background: transparent; color: var(--accent); cursor: pointer; align-self: flex-start; }
+.btn:hover { background: var(--accent-soft); }
+
+/* glossário */
+dl.glos { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; margin: 0; }
+dl.glos div { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+dl.glos dt { font-weight: 700; font-family: var(--font-display); font-size: 1.05rem; }
+dl.glos dd { margin: 4px 0 0; color: var(--ink-2); font-size: .93rem; }
+
+.sec-head { display: flex; gap: 20px; align-items: flex-end; justify-content: space-between; }
+.sec-head > div { display: flex; flex-direction: column; gap: 6px; }
+.sec-head h2::after { content: ""; display: block; width: 56px; height: 5px; border-radius: 3px; background: var(--lime); margin-top: 8px; }
+.sec-head .lupa { width: 92px; height: auto; flex: none; margin-bottom: -4px; }
+@media (max-width: 640px) { .sec-head .lupa { width: 64px; } }
+.dica { display: flex; gap: 12px; align-items: center; background: var(--accent-soft); border-radius: 14px; padding: 10px 16px; color: var(--ink-2); font-size: .92rem; }
+.dica img { width: 38px; height: auto; flex: none; }
+.dica strong { color: var(--ink); }
+footer .osb { display: flex; gap: 14px; align-items: center; }
+footer .osb img { width: 56px; height: auto; }
+footer .lema { font-weight: 700; color: var(--accent); }
+nav.secoes li.sep { width: 1px; background: var(--line); margin: 10px 6px; flex: none; }
+nav.secoes a.esp { color: var(--accent); }
+nav.secoes a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--lime); }
+.sankey-box { overflow-x: auto; }
+.sankey-box svg { min-width: 760px; width: 100%; height: auto; display: block; }
+.sankey-box text { font-family: var(--font-body); font-size: 12.5px; fill: var(--ink); }
+.sankey-box text .v { fill: var(--ink-3); font-weight: 400; }
+.sankey-box path.lk { transition: opacity .12s; }
+.sankey-box path.lk:hover, .sankey-box path.lk.on { opacity: .62 !important; }
+.cards-esp { grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); }
+.card-esp { display: flex; flex-direction: column; gap: 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; text-decoration: none; color: var(--ink); border-bottom: 4px solid var(--lime); transition: transform .12s; }
+.card-esp:hover { transform: translateY(-2px); }
+.card-esp img { width: 64px; height: 80px; object-fit: contain; object-position: left bottom; }
+.card-esp strong { font-size: 1.05rem; }
+.card-esp span { color: var(--ink-2); font-size: .9rem; }
+#especial-conteudo { display: flex; flex-direction: column; gap: 22px; }
+.voltar { display: inline-block; font-weight: 700; text-decoration: none; margin-bottom: -24px; }
+.esp-topo { display: flex; gap: 20px; align-items: flex-end; justify-content: space-between; background: var(--accent-soft); border-radius: 18px; padding: 24px 24px 0; }
+.esp-topo > div { display: flex; flex-direction: column; gap: 8px; padding-bottom: 24px; }
+.esp-topo h2 { font-size: clamp(1.7rem, 3.6vw, 2.4rem); }
+.esp-topo .lupa { width: 120px; height: auto; flex: none; }
+@media (max-width: 640px) { .esp-topo .lupa { width: 76px; } }
+.colunas svg { width: 100%; height: auto; display: block; }
+.colunas text { font-family: var(--font-body); font-size: 12px; fill: var(--ink-3); }
+.nota { background: var(--surface); border-left: 4px solid var(--laranja); border-radius: 0 10px 10px 0; padding: 12px 14px; color: var(--ink-2); font-size: .92rem; }
+.tabela-esp td { font-size: .88rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font: inherit; font-size: .85rem; font-weight: 600; padding: 6px 12px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--surface); color: var(--ink-2); cursor: pointer; }
+.chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); }
+footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--ink-2); font-size: .9rem; }
+footer .wrap { display: flex; flex-direction: column; gap: 10px; }
+
+/* ---------- barra superior estilo OSB ---------- */
+.topo-barra { display: block; background: #fff; color: #18210f; position: sticky; top: 0; z-index: 30; box-shadow: 0 1px 0 #dde5d3, 0 4px 16px rgba(24,33,15,.06); }
+.barra-in { display: flex; align-items: center; gap: 12px; min-height: 76px; max-width: 1240px; }
+.logo img { height: 56px; width: auto; display: block; }
+.menu { flex: 1; }
+.menu-lista { list-style: none; margin: 0; padding: 0; display: flex; gap: 2px; align-items: center; justify-content: center; flex-wrap: wrap; }
+.menu-lista > li { position: relative; }
+.menu-lista > li > a, .menu-lista > li > button { font: inherit; font-size: .78rem; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; color: #3b4436; background: none; border: 0; padding: 10px 9px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; border-radius: 8px; white-space: nowrap; }
+.menu-lista > li > button::after { content: ""; border: 4px solid transparent; border-top-color: currentColor; margin-top: 4px; }
+.menu-lista > li > a:hover, .menu-lista > li > button:hover, .menu-lista > li > button[aria-expanded="true"] { background: #eaf5da; color: #18210f; }
+.sub { list-style: none; margin: 0; padding: 8px; position: absolute; top: calc(100% + 4px); left: 0; min-width: 250px; background: #fff; border: 1px solid #dde5d3; border-radius: 12px; box-shadow: 0 12px 32px rgba(24,33,15,.14); display: none; z-index: 40; }
+.tem-sub:hover > .sub, .tem-sub > button[aria-expanded="true"] + .sub { display: block; }
+.sub a { display: block; padding: 9px 12px; border-radius: 8px; color: #18210f; text-decoration: none; font-weight: 600; font-size: .92rem; }
+.sub a:hover, .sub a[aria-current="page"] { background: #eaf5da; }
+.ano-mini { display: flex; align-items: center; gap: 6px; font-size: .78rem; font-weight: 700; text-transform: uppercase; color: #4a5444; }
+.ano-mini select { font: inherit; font-size: .9rem; text-transform: none; font-weight: 700; padding: 7px 8px; border-radius: 8px; border: 1.5px solid #c9d6bb; background: #fff; color: #18210f; }
+.doe { background: #2e9e2e; color: #fff; font-weight: 800; letter-spacing: .03em; text-decoration: none; padding: 13px 26px; border-radius: 999px; white-space: nowrap; box-shadow: 0 2px 0 #1f7a1f; }
+.doe:hover { background: #268a26; }
+.menu-btn { display: none; font: inherit; font-weight: 700; border: 1.5px solid #c9d6bb; background: #fff; border-radius: 8px; padding: 8px 12px; color: #18210f; }
+@media (max-width: 1100px) {
+  .barra-in { flex-wrap: wrap; gap: 10px 14px; padding-top: 8px; padding-bottom: 8px; }
+  .menu-btn { display: inline-block; margin-left: auto; order: 3; }
+  .doe { order: 2; }
+  .logo { order: 1; }
+  .menu { order: 10; flex-basis: 100%; display: none; }
+  .menu.aberto { display: block; }
+  .menu-lista { flex-direction: column; align-items: stretch; }
+  .menu-lista > li > a, .menu-lista > li > button { width: 100%; justify-content: space-between; }
+  .sub { position: static; box-shadow: none; border: 0; padding: 0 0 6px 12px; min-width: 0; }
+  .tem-sub:hover > .sub { display: none; }
+  .tem-sub > button[aria-expanded="true"] + .sub { display: block; }
+  .logo img { height: 44px; }
+  .doe { padding: 10px 18px; }
+}
+@media (max-width: 520px) { .ano-mini span { display: none; } .doe { padding: 9px 14px; font-size: .85rem; } }
+
+/* ---------- slider de destaques ---------- */
+.slider { background: #436617; color: #fff; position: relative; overflow: hidden; border-bottom: 6px solid var(--lime); }
+.slider::after { content: ""; position: absolute; right: -140px; top: -160px; width: 460px; height: 460px; border-radius: 50%; border: 40px solid rgba(150,230,53,.13); pointer-events: none; }
+.slider-in { position: relative; z-index: 1; padding-top: 26px; padding-bottom: 16px; }
+.slides { position: relative; min-height: 230px; }
+.slide { display: none; grid-template-columns: 1fr auto; gap: 24px; align-items: end; }
+.slide.ativo { display: grid; animation: entra .45s ease; }
+@keyframes entra { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .slide.ativo { animation: none; } }
+.slide .sl-tag { font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--lime); }
+.slide .sl-num { font-family: var(--font-display); font-weight: 900; font-size: clamp(2.6rem, 7vw, 4.6rem); line-height: 1; color: #ffd23f; letter-spacing: -.02em; margin: 6px 0 4px; }
+.slide .sl-txt { font-size: clamp(1.1rem, 2.4vw, 1.6rem); font-weight: 700; max-width: 30ch; line-height: 1.25; text-wrap: balance; }
+.slide .sl-det { margin-top: 8px; opacity: .9; max-width: 60ch; font-size: .95rem; }
+.slide .sl-cta { display: inline-block; margin-top: 14px; background: #fff; color: #18210f; font-weight: 800; text-decoration: none; padding: 10px 18px; border-radius: 10px; }
+.slide .sl-cta:hover { background: var(--lime); }
+.slide img { width: 150px; height: auto; margin-bottom: -16px; }
+@media (max-width: 640px) { .slide img { width: 84px; } .slides { min-height: 260px; } }
+.slider-ctrl { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
+.sl-btn { font: inherit; font-weight: 800; width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.5); background: transparent; color: #fff; cursor: pointer; }
+.sl-btn:hover { background: rgba(255,255,255,.14); }
+.sl-pausa { font-size: .7rem; }
+.sl-dots { display: flex; gap: 6px; }
+.sl-dots button { width: 10px; height: 10px; border-radius: 50%; border: 0; background: rgba(255,255,255,.4); padding: 0; cursor: pointer; }
+.sl-dots button[aria-selected="true"] { background: var(--lime); width: 26px; border-radius: 6px; }
+.pagina-titulo { background: #436617; border-bottom: 6px solid var(--lime); color: #e7f5d3; font-size: .85rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 10px 0; }
+
+.sankey-box text.meio { paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
+.osb-mapa { flex-direction: row; align-items: center; justify-content: space-between; gap: 20px; border-left: 6px solid var(--lime); }
+.osb-mapa img { width: 110px; height: auto; flex: none; }
+.osb-mapa .btn { display: inline-block; text-decoration: none; margin-top: 8px; }
+.vazio-osb { flex-direction: row; align-items: center; gap: 22px; border-style: dashed; }
+.vazio-osb img { width: 140px; height: auto; flex: none; }
+.vazio-osb code { font-size: .82rem; background: var(--accent-soft); padding: 1px 5px; border-radius: 4px; }
+@media (max-width: 640px) { .osb-mapa, .vazio-osb { flex-direction: column; align-items: flex-start; } }
+td .pill { display: inline-flex; }
+section { scroll-margin-top: 96px; }
+
+.foco-obra { display: flex; align-items: center; justify-content: space-between; gap: 20px; background: #436617; color: #fff; border-radius: 18px; padding: 26px 28px 0; text-decoration: none; border-bottom: 6px solid var(--lime); position: relative; overflow: hidden; }
+.foco-obra::after { content: ""; position: absolute; right: -90px; top: -110px; width: 300px; height: 300px; border-radius: 50%; border: 30px solid rgba(150,230,53,.15); }
+.foco-obra > div { display: flex; flex-direction: column; gap: 8px; padding-bottom: 26px; position: relative; z-index: 1; }
+.fo-tag { font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--lime); }
+.fo-tit { font-family: var(--font-display); font-size: clamp(1.9rem, 4.6vw, 2.8rem); font-weight: 900; letter-spacing: -.01em; color: #ffd23f; line-height: 1; }
+.fo-txt { max-width: 56ch; opacity: .95; }
+.fo-btn { align-self: flex-start; margin-top: 6px; background: #ffd23f; color: #18210f; font-weight: 900; padding: 14px 24px; border-radius: 999px; font-size: 1.05rem; box-shadow: 0 3px 0 #b8930f; }
+.foco-obra:hover .fo-btn { background: #fff; }
+.foco-obra img { width: 130px; height: auto; flex: none; position: relative; z-index: 1; }
+@media (max-width: 640px) { .foco-obra img { width: 80px; } }
+#ob-mapa svg, #cm-disp svg, #tr-disp svg { width: 100%; height: auto; display: block; }
+#ob-mapa text, #cm-disp text, #tr-disp text { font-family: var(--font-body); font-size: 12px; fill: var(--ink-3); }
+
+.prog { height: 6px; background: var(--line); border-radius: 3px; margin-top: 6px; max-width: 140px; overflow: hidden; }
+.prog div { height: 100%; background: var(--series-2); border-radius: 3px; }
+.fo-form { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; background: var(--accent-soft); border: 2px solid var(--lime); border-radius: 14px; padding: 14px 18px; text-decoration: none; color: var(--ink); }
+.fo-form img { width: 56px; height: auto; }
+.fo-form span:nth-of-type(1) { flex: 1; min-width: 220px; }
+.fo-form .fo-btn { margin: 0; }
+td a { font-size: .82rem; font-weight: 700; }
+
+/* ---------- celular ---------- */
+.dica-deslize { display: none; font-size: .8rem; font-weight: 700; color: var(--ink-3); }
+@media (max-width: 760px) {
+  .dica-deslize { display: block; }
+  .sankey-box::before, .tabela-box::before { content: "↔ Deslize para o lado para ver tudo"; display: block; position: sticky; left: 0; font-size: .78rem; font-weight: 700; color: var(--ink-3); margin-bottom: 6px; }
+  .sankey-box svg { min-width: 1000px; }
+  .tabela-box { margin: 0 -4px; }
+  .tabela-box table { min-width: 640px; }
+  .tabela-esp td, .tabela-esp th { padding: 8px 6px; }
+}
+@media (max-width: 640px) {
+  body { font-size: 15px; }
+  .wrap { padding: 0 14px; }
+  main.wrap { gap: 40px; padding: 24px 14px 48px; }
+  .card { padding: 16px; border-radius: 12px; }
+  .grid-2, .grid-4 { gap: 12px; }
+  .tile { padding: 14px 16px; }
+  .tile .val { font-size: 1.6rem; }
+  h2 { font-size: 1.45rem; }
+  .sec-head .lupa, .esp-topo .lupa { width: 56px; }
+  .esp-topo { padding: 18px 16px 0; border-radius: 14px; }
+  .esp-topo > div { padding-bottom: 18px; }
+  .legenda span { white-space: normal; }
+  .filtros { flex-direction: column; align-items: stretch; }
+  .filtros label, .filtros input, .filtros select { min-width: 0; width: 100%; max-width: 100%; }
+  .chips { gap: 6px; }
+  .barra { gap: 4px 10px; }
+  .barra .valor { min-width: 0; }
+  .slide { grid-template-columns: 1fr 72px; gap: 10px; }
+  .slide .sl-txt { font-size: 1.05rem; }
+  .slide .sl-det { font-size: .88rem; }
+  .slides { min-height: 250px; }
+  .slider-in { padding-top: 18px; }
+  .foco-obra { padding: 18px 16px 0; }
+  .fo-btn { padding: 12px 18px; font-size: .95rem; }
+  .estagio .e-barra { font-size: .82rem; }
+  .card-esp img { width: 48px; height: 60px; }
+  footer .osb { flex-direction: column; align-items: flex-start; }
+  .voltar { margin-bottom: -12px; }
+  /* barra superior compacta: logo, DOE e Menu numa linha; ano aparece dentro do menu aberto */
+  .barra-in { min-height: 60px; }
+  .logo img { height: 38px; }
+  .doe { padding: 8px 14px; font-size: .8rem; margin-left: auto; }
+  .menu-btn { margin-left: 0; padding: 7px 10px; }
+  .ano-mini { display: none; order: 11; flex-basis: 100%; padding: 4px 0 10px; }
+  .barra-in:has(.menu.aberto) .ano-mini { display: flex; }
+  .ano-mini span { display: inline; }
+  .menu.aberto { max-height: calc(100vh - 70px); overflow-y: auto; }
+}
+.faixa-validacao { background: #ffd23f; color: #2b2300; font-size: .88rem; padding: 8px 0; text-align: center; }
+</style>
+</head>
+<body>
+<div class="demo-bar" id="demo-bar" role="note"><div class="wrap"><strong>Versão de demonstração.</strong> Os números e nomes desta página são fictícios e servem só para mostrar como o site vai funcionar. Os dados oficiais entram na próxima etapa.</div></div>
+
+<header class="topo-barra" id="topo">
+  <div class="wrap barra-in">
+    <a class="logo" href="#inicio" aria-label="Contas Abertas de Foz: início"><img src="img/logo-osb.webp" alt="Observatório Social do Brasil – Foz do Iguaçu | PR"></a>
+    <button type="button" class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="menu-principal"><span aria-hidden="true">☰</span> Menu</button>
+    <nav class="menu" id="menu-principal" aria-label="Menu principal">
+      <ul class="menu-lista">
+        <li class="tem-sub"><button type="button" aria-expanded="false">Painel</button>
+          <ul class="sub">
+            <li><a href="#resumo">Resumo</a></li>
+            <li><a href="#caminho">Caminho do dinheiro (resumo)</a></li>
+            <li><a href="#receitas">De onde vem o dinheiro</a></li>
+            <li><a href="#despesas">Para onde vai o dinheiro</a></li>
+            <li><a href="#credores">Quem recebe</a></li>
+            <li><a href="#limites">Limites da lei</a></li>
+          </ul></li>
+        <li><a class="topo-link" href="#caminho-do-dinheiro">O caminho do dinheiro</a></li>
+        <li class="tem-sub"><button type="button" aria-expanded="false">Temas</button>
+          <ul class="sub">
+            <li><a href="#camara">Câmara de Vereadores</a></li>
+            <li><a href="#transporte">Transporte coletivo</a></li>
+            <li><a href="#obras">Obras</a></li>
+            <li><a href="#alugueis">Aluguéis de imóveis</a></li>
+            <li><a href="#sem-licitacao">Contratações sem licitação</a></li>
+            <li><a href="#diarias">Diárias e passagens</a></li>
+            <li><a href="#gratificacoes">Gratificações</a></li>
+            <li><a href="#horas-extras">Horas extras</a></li>
+            <li><a href="#remuneracao">Remuneração dos servidores</a></li>
+          </ul></li>
+        <li class="tem-sub"><button type="button" aria-expanded="false">Atuação do OSB</button>
+          <ul class="sub">
+            <li><a href="#licitacoes-monitoradas">Licitações monitoradas</a></li>
+            <li><a href="#oficios">Ofícios enviados</a></li>
+          </ul></li>
+        <li class="tem-sub"><button type="button" aria-expanded="false">Sobre</button>
+          <ul class="sub">
+            <li><a href="#glossario">Glossário</a></li>
+            <li><a href="#sobre">Sobre os dados</a></li>
+            <li><a href="https://fozdoiguacu.osbrasil.org.br">Site do OSB Foz do Iguaçu ↗</a></li>
+          </ul></li>
+      </ul>
+    </nav>
+    <label class="ano-mini" for="ano"><span>Ano</span><select id="ano"></select></label>
+    <a class="doe" id="doe" href="https://fozdoiguacu.osbrasil.org.br">DOE AQUI</a>
+  </div>
+</header>
+
+<section class="slider" id="slider" aria-roledescription="carrossel" aria-label="Destaques dos dados">
+  <div class="wrap slider-in">
+    <div class="slides" id="slides" aria-live="polite"></div>
+    <div class="slider-ctrl">
+      <button type="button" class="sl-btn" id="sl-ant" aria-label="Destaque anterior">‹</button>
+      <div class="sl-dots" id="sl-dots" role="tablist"></div>
+      <button type="button" class="sl-btn" id="sl-prox" aria-label="Próximo destaque">›</button>
+      <button type="button" class="sl-btn sl-pausa" id="sl-pausa" aria-label="Pausar destaques">❚❚</button>
+    </div>
+  </div>
+</section>
+
+<div class="pagina-titulo" id="pagina-titulo" hidden><div class="wrap"><span id="pt-trilha">Contas Abertas de Foz</span></div></div>
+
+<main class="wrap" id="pagina-principal">
+  <span id="inicio"></span>
+  <section id="resumo" aria-labelledby="t-resumo">
+    <div>
+      <h2 id="t-resumo">Resumo de <span data-ano></span></h2>
+      <p class="intro" id="resumo-periodo"></p>
+    </div>
+    <div class="grid-4" id="tiles"></div>
+    <p class="dica"><img src="img/lupa-icone.webp" alt=""><span><strong>Dica do Luposo:</strong> passe o mouse ou toque nos gráficos e barras para ver os valores e o que cada item significa.</span></p>
+    <div class="card">
+      <h3>Dinheiro que entrou e que saiu, mês a mês</h3>
+      <div class="legenda" id="leg-mensal"></div>
+      <div class="graf-linha" id="graf-mensal"></div>
+      <p class="intro" id="nota-mensal" style="font-size:.88rem"></p>
+      <p class="fonte" id="fonte-mensal"></p>
+    </div>
+  </section>
+
+  <section id="caminho" aria-labelledby="t-caminho">
+    <div class="sec-head"><div>
+      <h2 id="t-caminho">O caminho do dinheiro</h2>
+      <p class="intro" id="caminho-intro">À esquerda, de onde veio cada real. À direita, para onde ele foi. A espessura de cada faixa é proporcional ao valor.</p>
+    </div><img class="lupa" src="img/lupa-acenando.webp" alt="Luposo acenando"></div>
+    <div class="card">
+      <div class="sankey-box" id="sankey"></div>
+      <p class="intro" id="caminho-nota" style="font-size:.88rem"></p>
+      <p class="fonte" id="fonte-caminho"></p>
+      <a class="btn" href="#caminho-do-dinheiro" style="text-decoration:none">Ver todos os diagramas do caminho do dinheiro →</a>
+    </div>
+  </section>
+
+  <section id="receitas" aria-labelledby="t-rec">
+    <div class="sec-head">
+    <div>
+      <h2 id="t-rec">De onde vem o dinheiro</h2>
+      <p class="intro">A Prefeitura tem duas grandes fontes: os impostos que ela mesma cobra e os repasses do Estado e da União. Toque em cada grupo para ver os detalhes.</p>
+    </div>
+    <img class="lupa" src="img/lupa-prancheta.webp" alt="Luposo conferindo uma prancheta">
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Receitas por origem</h3>
+        <div id="rec-grupos"></div>
+        <p class="intro" id="rec-nota" style="font-size:.88rem"></p>
+        <p class="fonte" data-fonte></p>
+      </div>
+      <div class="card">
+        <h3>Quanto depende de fora</h3>
+        <p class="intro" id="rec-autonomia"></p>
+        <div class="faixa" id="faixa-autonomia" aria-hidden="true"></div>
+        <div class="legenda" id="leg-autonomia"></div>
+        <h3 style="margin-top:12px">Previsto x arrecadado</h3>
+        <p class="intro" id="rec-previsto"></p>
+        <div class="barras" id="rec-prev-barras"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="despesas" aria-labelledby="t-desp">
+    <div class="sec-head">
+    <div>
+      <h2 id="t-desp">Para onde vai o dinheiro</h2>
+      <p class="intro" id="desp-intro"></p>
+    </div>
+    <img class="lupa" src="img/lupa-anotando.webp" alt="Luposo anotando">
+    </div>
+    <div class="card">
+      <h3 id="t-faixa">De cada R$ 100 pagos pela Prefeitura</h3>
+      <div class="faixa" id="faixa-100"></div>
+      <div class="legenda" id="leg-100"></div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <h3 id="t-funcao">Despesa paga por área</h3>
+        <div class="barras" id="desp-funcao"></div>
+        <p class="fonte" id="fonte-funcao"></p>
+      </div>
+      <div class="card">
+        <h3>Com o que o dinheiro é gasto</h3>
+        <div class="barras" id="desp-natureza"></div>
+        <h3 style="margin-top:12px">Do compromisso ao pagamento</h3>
+        <p class="intro">Toda despesa pública passa por três etapas. A diferença entre elas mostra o que já foi contratado mas ainda não foi entregue ou pago.</p>
+        <div class="estagios" id="estagios"></div>
+        <p class="fonte" id="fonte-natureza"></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="credores" aria-labelledby="t-cred">
+    <div class="sec-head">
+    <div>
+      <h2 id="t-cred">Quem recebe da Prefeitura</h2>
+      <p class="intro">Empresas, entidades e pessoas que receberam pagamentos da Prefeitura no período, do maior para o menor. Salários, aposentadorias e pensões de servidores não entram nesta lista. O CPF de pessoas físicas aparece mascarado, como publicado pelo Tribunal de Contas. Toque em um credor para ver a descrição do maior empenho.</p>
+    </div>
+    <img class="lupa" src="img/lupa-notebook.webp" alt="Luposo pesquisando no notebook">
+    </div>
+    <div class="grid-4" id="cred-tiles"></div>
+    <p class="card vazio" id="cred-vazio" hidden></p>
+    <div class="card" id="cred-conteudo">
+      <div class="filtros">
+        <label for="busca">Buscar por nome, CNPJ ou objeto<input id="busca" type="search" placeholder="Ex.: merenda, coleta, viação"></label>
+        <label for="f-area">Área<select id="f-area"><option value="">Todas as áreas</option></select></label>
+        <label for="f-tipo">Tipo<select id="f-tipo"><option value="">Todos os tipos</option></select></label>
+      </div>
+      <div class="tabela-box">
+        <table>
+          <thead><tr>
+            <th>#</th><th>Credor</th><th>Principal gasto</th><th>Área</th>
+            <th class="dir"><button type="button" id="ord-emp">Empenhos</button></th>
+            <th class="dir"><button type="button" id="ord-pago">Total pago ▼</button></th>
+          </tr></thead>
+          <tbody id="cred-corpo"></tbody>
+        </table>
+      </div>
+      <p class="intro" id="cred-resumo" style="font-size:.88rem"></p>
+      <button type="button" class="btn" id="mais">Mostrar mais</button>
+      <p class="fonte" id="fonte-cred"></p>
+    </div>
+  </section>
+
+  <section id="limites" aria-labelledby="t-lim">
+    <div class="sec-head">
+    <div>
+      <h2 id="t-lim">A Prefeitura está cumprindo a lei?</h2>
+      <p class="intro">A Constituição e a Lei de Responsabilidade Fiscal fixam mínimos para saúde e educação e um teto para gastos com pessoal. Os percentuais de saúde e educação são calculados sobre a receita de impostos; o de pessoal, sobre a receita corrente líquida dos últimos 12 meses.</p>
+    </div>
+    <img class="lupa" src="img/lupa-pensando.webp" alt="Luposo pensativo">
+    </div>
+    <div class="grid-4" id="indicadores" style="grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));"></div>
+  </section>
+
+  <section id="especiais-chamada" aria-labelledby="t-esp">
+    <div class="sec-head"><div>
+      <h2 id="t-esp">Páginas especiais</h2>
+      <p class="intro">Temas que costumam gerar dúvidas, explicados em detalhe.</p>
+    </div></div>
+    <div class="grid-4 cards-esp">
+      <a class="card-esp" href="#caminho-do-dinheiro"><img src="img/lupa-acenando.webp" alt=""><strong>O caminho do dinheiro</strong><span>Diagramas que seguem cada real da origem até o gasto.</span></a>
+      <a class="card-esp" href="#camara"><img src="img/lupa-pensando.webp" alt=""><strong>Câmara de Vereadores</strong><span>Quanto custa o Legislativo e como Foz se compara a 24 cidades.</span></a>
+      <a class="card-esp" href="#transporte"><img src="img/lupa-anotando.webp" alt=""><strong>Transporte coletivo</strong><span>Custo, subsídio, passageiros e o novo edital.</span></a>
+      <a class="card-esp" href="#obras"><img src="img/lupa-notebook.webp" alt=""><strong>Obras</strong><span>Obras em andamento, prazos e pagamentos às construtoras.</span></a>
+      <a class="card-esp" href="#alugueis"><img src="img/lupa-prancheta.webp" alt=""><strong>Aluguéis de imóveis</strong><span>Prédios alugados pela Prefeitura e quem recebe.</span></a>
+      <a class="card-esp" href="#sem-licitacao"><img src="img/lupa-pensando.webp" alt=""><strong>Sem licitação</strong><span>Dispensas e inexigibilidades: o que foi comprado e de quem.</span></a>
+      <a class="card-esp" href="#diarias"><img src="img/lupa-anotando.webp" alt=""><strong>Diárias e passagens</strong><span>Quem viajou, para onde, por quê e quanto custou.</span></a>
+      <a class="card-esp" href="#gratificacoes"><img src="img/lupa-prancheta.webp" alt=""><strong>Gratificações</strong><span>Valores pagos além do salário-base.</span></a>
+      <a class="card-esp" href="#horas-extras"><img src="img/lupa-pensando.webp" alt=""><strong>Horas extras</strong><span>Serviço extraordinário, mês a mês.</span></a>
+      <a class="card-esp" href="#remuneracao"><img src="img/lupa-notebook.webp" alt=""><strong>Remuneração</strong><span>Salários por cargo, vínculo e lotação.</span></a>
+      <a class="card-esp" href="#licitacoes-monitoradas"><img src="img/lupa-notebook.webp" alt=""><strong>Licitações monitoradas</strong><span>O trabalho do OSB e a economia gerada.</span></a>
+      <a class="card-esp" href="#oficios"><img src="img/lupa-anotando.webp" alt=""><strong>Ofícios do OSB</strong><span>Pedidos de informação e tempo de resposta.</span></a>
+    </div>
+  </section>
+
+  <section id="glossario" aria-labelledby="t-glos">
+    <div class="sec-head"><div><h2 id="t-glos">Glossário</h2></div><img class="lupa" src="img/lupa-sentado.webp" alt="Luposo sentado"></div>
+    <dl class="glos">
+      <div><dt>Empenho</dt><dd>É a reserva do dinheiro para uma despesa. A Prefeitura se compromete a pagar, mas o serviço ainda não foi entregue.</dd></div>
+      <div><dt>Liquidação</dt><dd>A Prefeitura confere que o produto ou serviço foi entregue como combinado. A partir daí, ela deve o valor.</dd></div>
+      <div><dt>Pagamento</dt><dd>O dinheiro sai da conta da Prefeitura e chega ao fornecedor. É o número usado na maior parte desta página.</dd></div>
+      <div><dt>Credor</dt><dd>Empresa ou pessoa que tem valores a receber da Prefeitura por um produto ou serviço.</dd></div>
+      <div><dt>Função</dt><dd>A grande área de governo a que a despesa pertence, como saúde, educação ou urbanismo. É um padrão nacional.</dd></div>
+      <div><dt>Receita corrente líquida (RCL)</dt><dd>Tudo o que o município arrecada de forma regular, menos algumas deduções. É a base para os limites da Lei de Responsabilidade Fiscal.</dd></div>
+      <div><dt>Restos a pagar</dt><dd>Despesas empenhadas em um ano que só são pagas no ano seguinte.</dd></div>
+      <div><dt>Royalties de Itaipu</dt><dd>Compensação financeira que a Itaipu Binacional paga a Foz e a outros municípios pelas áreas alagadas pelo reservatório.</dd></div>
+    </dl>
+  </section>
+
+  <section id="sobre" aria-labelledby="t-sobre">
+    <div class="sec-head"><div><h2 id="t-sobre">Sobre os dados</h2></div><img class="lupa" src="img/lupa-deitado.webp" alt="Luposo descansando"></div>
+    <div class="card">
+      <p id="sobre-texto"></p>
+      <ul id="sobre-fontes" style="margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px"></ul>
+      <p>Os totais de receita e despesa vêm do Relatório Resumido da Execução Orçamentária (RREO) enviado pela Prefeitura ao Tesouro Nacional e consideram todos os órgãos do município (Prefeitura, Câmara, autarquias e fundações), sem contar duas vezes os repasses entre eles. A lista de credores e a despesa paga por área e por mês vêm dos empenhos e pagamentos enviados ao Tribunal de Contas do Paraná. Os dois conjuntos foram conferidos e batem. Valores nominais, sem correção pela inflação.</p>
+      <p>Encontrou algo errado? Fale com o Observatório Social do Brasil – Foz do Iguaçu pelo site <a href="https://fozdoiguacu.osbrasil.org.br">fozdoiguacu.osbrasil.org.br</a>.</p>
+    </div>
+  </section>
+</main>
+
+<main class="wrap" id="pagina-especial" hidden>
+  <a class="voltar" href="#inicio">← Voltar ao painel principal</a>
+  <div id="especial-conteudo"></div>
+</main>
+
+<footer><div class="wrap">
+  <div class="osb"><img src="img/lupa-acenando.webp" alt="Luposo, o mascote do Observatório Social"><div><span style="display:inline-block;background:#fff;border-radius:12px;padding:8px 12px;margin-bottom:10px"><img src="img/logo-osb.webp" alt="Observatório Social do Brasil – Foz do Iguaçu | PR" style="width:auto;height:56px;display:block"></span><p class="lema">Pela transparência e qualidade na aplicação dos recursos públicos.</p><p>Uma iniciativa do Observatório Social do Brasil – Foz do Iguaçu. <a href="https://fozdoiguacu.osbrasil.org.br">fozdoiguacu.osbrasil.org.br</a></p></div></div>
+  <p class="fonte" id="rodape-atual"></p>
+</div></footer>
+
+<div class="tip" id="tip" role="tooltip"></div>
+
+<script id="dados-embutidos" type="application/json">/*__DADOS__*/</script>
+<script>
+/*__JS__*/
+</script>
+</body>
+</html>

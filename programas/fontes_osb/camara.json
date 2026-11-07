@@ -1,0 +1,1025 @@
+{
+ "fonte_anual": "Portal da Transparência da Câmara Municipal de Foz do Iguaçu (CMFI), consulta em 28/10/2026",
+ "anual": [
+  {
+   "ano": 2016,
+   "periodo": "Jan–dez",
+   "repasses": 27216005.75,
+   "empenhado": 22011668.96,
+   "liquidado": 21963268.96,
+   "pago": 21963268.96
+  },
+  {
+   "ano": 2017,
+   "periodo": "Jan–dez",
+   "repasses": 24308016.7,
+   "empenhado": 20728278.11,
+   "liquidado": 20728278.11,
+   "pago": 20728278.11
+  },
+  {
+   "ano": 2018,
+   "periodo": "Jan–dez",
+   "repasses": 27611747.04,
+   "empenhado": 22882728.67,
+   "liquidado": 22882728.67,
+   "pago": 22882728.67
+  },
+  {
+   "ano": 2019,
+   "periodo": "Jan–dez",
+   "repasses": 30099999.96,
+   "empenhado": 24674058.28,
+   "liquidado": 24674058.28,
+   "pago": 24674058.28
+  },
+  {
+   "ano": 2020,
+   "periodo": "Jan–dez",
+   "repasses": 33000000,
+   "empenhado": 26564713.39,
+   "liquidado": 25841048.07,
+   "pago": 25841048.07
+  },
+  {
+   "ano": 2021,
+   "periodo": "Jan–dez",
+   "repasses": 33000000,
+   "empenhado": 25562258.02,
+   "liquidado": 25035945.3,
+   "pago": 25024867.96
+  },
+  {
+   "ano": 2022,
+   "periodo": "Jan–dez",
+   "repasses": 32470000.0,
+   "empenhado": 29564064.56,
+   "liquidado": 28690040.63,
+   "pago": 28689684.63
+  },
+  {
+   "ano": 2023,
+   "periodo": "Jan–dez",
+   "repasses": 38659000.0,
+   "empenhado": 33486679.66,
+   "liquidado": 33059869.54,
+   "pago": 32805140.13
+  },
+  {
+   "ano": 2024,
+   "periodo": "Jan–dez",
+   "repasses": 43036500,
+   "empenhado": 40277663.43,
+   "liquidado": 38950906.53,
+   "pago": 38677194.49
+  },
+  {
+   "ano": 2025,
+   "periodo": "Jan–dez",
+   "repasses": 50937000.04,
+   "empenhado": 38039884.26,
+   "liquidado": 37415957.47,
+   "pago": 37170150.0
+  },
+  {
+   "ano": 2026,
+   "periodo": "Jan–set",
+   "repasses": 43683875,
+   "empenhado": 33488074.23,
+   "liquidado": 30264866.09,
+   "pago": 29961980.38
+  }
+ ],
+ "repasses_mensais": {
+  "2016": [
+   2226101.19,
+   2235032.19,
+   2242586.33,
+   2238726.29,
+   2236983.72,
+   2246743.1,
+   2252430.21,
+   2262163.51,
+   2264992.15,
+   2268472.45,
+   2277102.25,
+   2464672.36
+  ],
+  "2017": [
+   2196633.4,
+   2239255.16,
+   2220849.32,
+   2220663.7,
+   2222953.45,
+   2018801.67,
+   1094851.65,
+   2018801.67,
+   2018801.67,
+   2018801.67,
+   2018801.67,
+   2018801.67
+  ],
+  "2018": [
+   2300978.92,
+   2300978.92,
+   2300978.92,
+   2300978.92,
+   2300978.92,
+   2300978.92,
+   2300978.92,
+   2300978.92,
+   2300978.92,
+   2300978.92,
+   2300978.92,
+   2300978.92
+  ],
+  "2019": [
+   2508333.33,
+   2508333.33,
+   2508333.33,
+   2508333.33,
+   2508333.33,
+   2508333.33,
+   2508333.33,
+   2508333.33,
+   2508333.33,
+   2508333.33,
+   2508333.33,
+   2508333.33
+  ],
+  "2020": [
+   2750000,
+   2750000,
+   2750000,
+   2750000,
+   2750000,
+   2750000,
+   2750000,
+   2750000,
+   2750000,
+   2750000,
+   2750000,
+   2750000
+  ],
+  "2021": [
+   2750000,
+   2750000,
+   2750000,
+   2750000,
+   2750000,
+   2750000,
+   2750000,
+   2750000,
+   2750000,
+   2750000,
+   2750000,
+   2750000
+  ],
+  "2022": [
+   2708333.37,
+   2708333.33,
+   2678333.33,
+   2708333.33,
+   2708333.33,
+   2708333.33,
+   2708333.33,
+   2708333.33,
+   2708333.33,
+   2708333.33,
+   2708333.33,
+   2708333.33
+  ],
+  "2023": [
+   3221583.37,
+   3221583.33,
+   3221583.33,
+   3221583.33,
+   3221583.33,
+   3221583.33,
+   3221583.33,
+   3221583.33,
+   3221583.33,
+   3221583.33,
+   3221583.33,
+   3221583.33
+  ],
+  "2024": [
+   3853041.66,
+   3753041.66,
+   3653041.66,
+   3753041.66,
+   3753041.66,
+   3753041.66,
+   3753041.66,
+   3753041.66,
+   3753041.66,
+   3753041.66,
+   2753041.7,
+   2753041.7
+  ],
+  "2025": [
+   4786416.67,
+   4786416.67,
+   4786416.67,
+   4786416.67,
+   4786416.67,
+   4786416.67,
+   4786416.67,
+   3486416.67,
+   3486416.67,
+   3486416.67,
+   3486416.67,
+   3486416.67
+  ],
+  "2026": [
+   5164875,
+   5164875,
+   5164875,
+   5164875,
+   5164875,
+   5164875,
+   5164875,
+   3764875,
+   3764875
+  ]
+ },
+ "natureza_anual": {
+  "2016": [
+   [
+    "VENCIMENTOS E VANTAGENS FIXAS - PESSOAL CIVIL",
+    15195138.0
+   ],
+   [
+    "OBRIGACOES PATRONAIS",
+    2461682.0
+   ],
+   [
+    "OUTROS SERVICOS DE TERCEIROS - PESSOA JURIDICA",
+    1955863.56
+   ],
+   [
+    "INDENIZACOES E RESTITUICOES TRABALHISTAS",
+    1204260.62
+   ],
+   [
+    "OUTROS SERVICOS DE TERCEIROS - PESSOA FISICA",
+    528554.17
+   ],
+   [
+    "EQUIPAMENTOS E MATERIAL PERMANENTE",
+    235643.5
+   ],
+   [
+    "MATERIAL DE CONSUMO",
+    140127.03
+   ],
+   [
+    "DIARIAS - PESSOAL CIVIL",
+    96595.97
+   ],
+   [
+    "PASSAGENS E DESPESAS COM LOCOMOCAO",
+    73207.64
+   ],
+   [
+    "OUTROS BENEFICIOS PREVIDENCIARIOS DO SERVIDOR OU DO MILITAR",
+    56291.98
+   ],
+   [
+    "DESPESAS DE EXERCICIOS ANTERIORES",
+    15904.49
+   ]
+  ],
+  "2017": [
+   [
+    "VENCIMENTOS E VANTAGENS FIXAS - PESSOAL CIVIL",
+    15227728.87
+   ],
+   [
+    "OBRIGACOES PATRONAIS",
+    2397193.56
+   ],
+   [
+    "OUTROS SERVICOS DE TERCEIROS - PESSOA JURIDICA",
+    1906636.82
+   ],
+   [
+    "OUTROS SERVICOS DE TERCEIROS - PESSOA FISICA",
+    458049.71
+   ],
+   [
+    "INDENIZACOES E RESTITUICOES TRABALHISTAS",
+    280792.93
+   ],
+   [
+    "EQUIPAMENTOS E MATERIAL PERMANENTE",
+    187742.54
+   ],
+   [
+    "MATERIAL DE CONSUMO",
+    129935.38
+   ],
+   [
+    "OUTROS BENEFICIOS PREVIDENCIARIOS DO SERVIDOR OU DO MILITAR",
+    85774.16
+   ],
+   [
+    "DIARIAS - PESSOAL CIVIL",
+    34944
+   ],
+   [
+    "PASSAGENS E DESPESAS COM LOCOMOCAO",
+    16247.38
+   ],
+   [
+    "DESPESAS DE EXERCICIOS ANTERIORES",
+    3232.76
+   ]
+  ],
+  "2018": [
+   [
+    "VENCIMENTOS E VANTAGENS FIXAS - PESSOAL CIVIL",
+    16663494.78
+   ],
+   [
+    "OBRIGACOES PATRONAIS",
+    2635612.1
+   ],
+   [
+    "OUTROS SERVICOS DE TERCEIROS - PESSOA JURIDICA",
+    1750412.6
+   ],
+   [
+    "INDENIZACOES E RESTITUICOES TRABALHISTAS",
+    856598.61
+   ],
+   [
+    "OUTROS SERVICOS DE TERCEIROS - PESSOA FISICA",
+    441465.32
+   ],
+   [
+    "OUTROS BENEFICIOS PREVIDENCIARIOS DO SERVIDOR OU DO MILITAR",
+    230469.29
+   ],
+   [
+    "MATERIAL DE CONSUMO",
+    133013.74
+   ],
+   [
+    "EQUIPAMENTOS E MATERIAL PERMANENTE",
+    92574.86
+   ],
+   [
+    "DIARIAS - PESSOAL CIVIL",
+    42685.44
+   ],
+   [
+    "PASSAGENS E DESPESAS COM LOCOMOCAO",
+    27608.33
+   ],
+   [
+    "DESPESAS DE EXERCICIOS ANTERIORES",
+    8793.6
+   ]
+  ],
+  "2019": [
+   [
+    "VENCIMENTOS E VANTAGENS FIXAS - PESSOAL CIVIL",
+    18142629.08
+   ],
+   [
+    "OBRIGACOES PATRONAIS",
+    2822088.55
+   ],
+   [
+    "OUTROS SERVICOS DE TERCEIROS - PESSOA JURIDICA",
+    1721913.91
+   ],
+   [
+    "INDENIZACOES E RESTITUICOES TRABALHISTAS",
+    789911.11
+   ],
+   [
+    "OUTROS SERVICOS DE TERCEIROS - PESSOA FISICA",
+    490341.71
+   ],
+   [
+    "SERVICOS DE TECNOLOGIA DA INFORMACAO E \nCOMUNICACAO – PESSOA JURIDICA",
+    307409.44
+   ],
+   [
+    "EQUIPAMENTOS E MATERIAL PERMANENTE",
+    98178.85
+   ],
+   [
+    "MATERIAL DE CONSUMO",
+    88891.65
+   ],
+   [
+    "PASSAGENS E DESPESAS COM LOCOMOCAO",
+    74157.92
+   ],
+   [
+    "DIARIAS - PESSOAL CIVIL",
+    65959.94
+   ],
+   [
+    "OUTROS BENEFICIOS PREVIDENCIARIOS DO SERVIDOR OU DO MILITAR",
+    39959.44
+   ],
+   [
+    "DESPESAS DE EXERCICIOS ANTERIORES",
+    32616.68
+   ]
+  ],
+  "2020": [
+   [
+    "VENCIMENTOS E VANTAGENS FIXAS - PESSOAL CIVIL",
+    18716153.78
+   ],
+   [
+    "OBRIGACOES PATRONAIS",
+    3185238.81
+   ],
+   [
+    "OUTROS SERVICOS DE TERCEIROS - PESSOA JURIDICA",
+    1446933.91
+   ],
+   [
+    "INDENIZACOES E RESTITUICOES TRABALHISTAS",
+    848551.49
+   ],
+   [
+    "LOCACAO DE MAO-DE-OBRA",
+    547201.39
+   ],
+   [
+    "OUTROS SERVICOS DE TERCEIROS - PESSOA FISICA",
+    510462.11
+   ],
+   [
+    "EQUIPAMENTOS E MATERIAL PERMANENTE",
+    216491.18
+   ],
+   [
+    "SERVICOS DE TECNOLOGIA DA INFORMACAO E \nCOMUNICACAO – PESSOA JURIDICA",
+    160002.27
+   ],
+   [
+    "MATERIAL DE CONSUMO",
+    111309.07
+   ],
+   [
+    "OUTROS BENEFICIOS PREVIDENCIARIOS DO SERVIDOR OU DO MILITAR",
+    59594.06
+   ],
+   [
+    "DIARIAS - PESSOAL CIVIL",
+    20350.2
+   ],
+   [
+    "PASSAGENS E DESPESAS COM LOCOMOCAO",
+    17133.28
+   ],
+   [
+    "DESPESAS DE EXERCICIOS ANTERIORES",
+    1626.52
+   ]
+  ],
+  "2021": [
+   [
+    "VENCIMENTOS E VANTAGENS FIXAS - PESSOAL CIVIL",
+    18632769.03
+   ],
+   [
+    "OBRIGACOES PATRONAIS",
+    3290283.69
+   ],
+   [
+    "OUTROS SERVICOS DE TERCEIROS - PESSOA JURIDICA",
+    1554170.24
+   ],
+   [
+    "LOCACAO DE MAO-DE-OBRA",
+    458467.56
+   ],
+   [
+    "OUTROS SERVICOS DE TERCEIROS - PESSOA FISICA",
+    339324.8
+   ],
+   [
+    "SERVICOS DE TECNOLOGIA DA INFORMACAO E \nCOMUNICACAO – PESSOA JURIDICA",
+    239248.89
+   ],
+   [
+    "DESPESAS DE EXERCICIOS ANTERIORES",
+    187230.33
+   ],
+   [
+    "INDENIZACOES E RESTITUICOES TRABALHISTAS",
+    130746.53
+   ],
+   [
+    "MATERIAL DE CONSUMO",
+    121209.72
+   ],
+   [
+    "DIARIAS - PESSOAL CIVIL",
+    37677.14
+   ],
+   [
+    "EQUIPAMENTOS E MATERIAL PERMANENTE",
+    22266.07
+   ],
+   [
+    "PASSAGENS E DESPESAS COM LOCOMOCAO",
+    11473.96
+   ]
+  ],
+  "2022": [
+   [
+    "VENCIMENTOS E VANTAGENS FIXAS - PESSOAL CIVIL",
+    21223725.92
+   ],
+   [
+    "CONTRIBUICOES PATRONAIS",
+    2005996.15
+   ],
+   [
+    "OUTROS SERVICOS DE TERCEIROS - PESSOA JURIDICA",
+    1614608.22
+   ],
+   [
+    "OBRIGACOES PATRONAIS",
+    1608595.94
+   ],
+   [
+    "LOCACAO DE MAO-DE-OBRA",
+    484131.43
+   ],
+   [
+    "OUTROS SERVICOS DE TERCEIROS - PESSOA FISICA",
+    415367.15
+   ],
+   [
+    "INDENIZACOES E RESTITUICOES TRABALHISTAS",
+    377304.22
+   ],
+   [
+    "EQUIPAMENTOS E MATERIAL PERMANENTE",
+    262477.23
+   ],
+   [
+    "SERVICOS DE TECNOLOGIA DA INFORMACAO E COMUNICACAO – PESSOA JURIDICA",
+    237390.08
+   ],
+   [
+    "DESPESAS DE EXERCICIOS ANTERIORES",
+    180090.91
+   ],
+   [
+    "MATERIAL DE CONSUMO",
+    142533.26
+   ],
+   [
+    "DIARIAS - CIVIL",
+    73896.09
+   ],
+   [
+    "OBRAS E INSTALACOES",
+    31635.45
+   ],
+   [
+    "PASSAGENS E DESPESAS COM LOCOMOCAO",
+    31562.11
+   ],
+   [
+    "OBRIGACOES TRIBUTARIAS E CONTRIBUTIVAS",
+    370.47
+   ]
+  ],
+  "2023": [
+   [
+    "VENCIMENTOS E VANTAGENS FIXAS - PESSOAL CIVIL",
+    24889540.88
+   ],
+   [
+    "CONTRIBUICOES PATRONAIS",
+    4083824.78
+   ],
+   [
+    "OUTROS SERVICOS DE TERCEIROS - PESSOA JURIDICA",
+    1750709.27
+   ],
+   [
+    "LOCACAO DE MAO-DE-OBRA",
+    659762.99
+   ],
+   [
+    "OUTROS SERVICOS DE TERCEIROS - PESSOA FISICA",
+    430476.56
+   ],
+   [
+    "INDENIZACOES E RESTITUICOES TRABALHISTAS",
+    362448.3
+   ],
+   [
+    "SERVICOS DE TECNOLOGIA DA INFORMACAO E COMUNICACAO – PESSOA JURIDICA",
+    217775.85
+   ],
+   [
+    "PASSAGENS E DESPESAS COM LOCOMOCAO",
+    125501.59
+   ],
+   [
+    "DIARIAS - CIVIL",
+    119003.55
+   ],
+   [
+    "MATERIAL DE CONSUMO",
+    94998.87
+   ],
+   [
+    "DESPESAS DE EXERCICIOS ANTERIORES",
+    44917.87
+   ],
+   [
+    "EQUIPAMENTOS E MATERIAL PERMANENTE",
+    25997.74
+   ],
+   [
+    "OBRIGACOES TRIBUTARIAS E CONTRIBUTIVAS",
+    181.88
+   ]
+  ],
+  "2024": [
+   [
+    "Descrição não informada no portal",
+    38677194.49
+   ]
+  ],
+  "2025": [
+   [
+    "VENCIMENTOS E VANTAGENS FIXAS - PESSOAL CIVIL",
+    28154777.38
+   ],
+   [
+    "CONTRIBUICOES PATRONAIS",
+    2745223.15
+   ],
+   [
+    "OBRIGACOES PATRONAIS",
+    2145763.66
+   ],
+   [
+    "OUTROS SERVICOS DE TERCEIROS - PESSOA JURIDICA",
+    1209348.66
+   ],
+   [
+    "SERVICOS DE TECNOLOGIA DA INFORMACAO E COMUNICACAO – PESSOA JURIDICA",
+    585559.44
+   ],
+   [
+    "AUXILIO-ALIMENTACAO",
+    567506.52
+   ],
+   [
+    "LOCACAO DE MAO-DE-OBRA",
+    500768.41
+   ],
+   [
+    "INDENIZACOES E RESTITUICOES TRABALHISTAS",
+    234381.56
+   ],
+   [
+    "CONTRIBUICOES A ENTIDADES FECHADAS DE PREVIDENCIA",
+    209337.87
+   ],
+   [
+    "DIARIAS - CIVIL",
+    173707.2
+   ],
+   [
+    "OUTROS SERVICOS DE TERCEIROS - PESSOA FISICA",
+    150137.11
+   ],
+   [
+    "EQUIPAMENTOS E MATERIAL PERMANENTE",
+    134210.26
+   ],
+   [
+    "PASSAGENS E DESPESAS COM LOCOMOCAO",
+    124303.2
+   ],
+   [
+    "PREMIACOES CULTURAIS, ARTISTICAS, CIENTIFICAS, DESPORTIVAS E OUTRAS",
+    88234.57
+   ],
+   [
+    "MATERIAL DE CONSUMO",
+    81688.78
+   ],
+   [
+    "DESPESAS DE EXERCICIOS ANTERIORES",
+    47226.36
+   ],
+   [
+    "AUXILIO-TRANSPORTE",
+    13810
+   ],
+   [
+    "INDENIZACOES E RESTITUICOES",
+    3753.64
+   ],
+   [
+    "OBRIGACOES TRIBUTARIAS E CONTRIBUTIVAS",
+    412.23
+   ]
+  ],
+  "2026": [
+   [
+    "VENCIMENTOS E VANTAGENS FIXAS - PESSOAL CIVIL",
+    21486988.93
+   ],
+   [
+    "CONTRIBUIÇÕES PATRONAIS",
+    3449654.54
+   ],
+   [
+    "OUTROS SERVIÇOS DE TERCEIROS - PESSOA JURÍDICA",
+    1650249.06
+   ],
+   [
+    "APORTE PARA COBERTURA DO DÉFICIT ATUARIAL DO RPPS",
+    878556.24
+   ],
+   [
+    "LOCAÇÃO DE MÃO-DE-OBRA",
+    648970.94
+   ],
+   [
+    "AUXÍLIO-ALIMENTAÇÃO",
+    635286.6
+   ],
+   [
+    "SERVIÇOS DE TECNOLOGIA DA INFORMAÇÃO E COMUNICAÇÃO - PESSOA JURÍDICA",
+    224224.54
+   ],
+   [
+    "OUTROS SERVIÇOS DE TERCEIROS - PESSOA FÍSICA",
+    204554.34
+   ],
+   [
+    "INDENIZAÇÕES E RESTITUIÇÕES TRABALHISTAS",
+    186064.66
+   ],
+   [
+    "DIÁRIAS - CIVIL",
+    179220
+   ],
+   [
+    "CONTRIBUIÇÕES A ENTIDADES FECHADAS DE PREVIDÊNCIA",
+    149311.45
+   ],
+   [
+    "PASSAGENS E DESPESAS COM LOCOMOÇÃO",
+    101672.62
+   ],
+   [
+    "SERVIÇOS DE CONSULTORIA",
+    94608.96
+   ],
+   [
+    "MATERIAL DE CONSUMO",
+    36353.09
+   ],
+   [
+    "AUXÍLIO-TRANSPORTE",
+    17990
+   ],
+   [
+    "PREMIAÇÕES CULTURAIS, ARTÍSTICAS, CIENTÍFICAS, DESPORTIVAS E OUTRAS",
+    11161.04
+   ],
+   [
+    "EQUIPAMENTOS E MATERIAL PERMANENTE",
+    6352.41
+   ],
+   [
+    "DESPESAS DE EXERCÍCIOS ANTERIORES",
+    571.74
+   ],
+   [
+    "OBRIGAÇÕES TRIBUTÁRIAS E CONTRIBUTIVAS",
+    189.22
+   ]
+  ]
+ },
+ "periodo_comparacao": "janeiro a agosto de 2026",
+ "meses_comparacao": 8,
+ "foz_mensal": {
+  "repasses": [
+   5164875.0,
+   5164875.0,
+   5164875.0,
+   5164875.0,
+   5164875.0,
+   5164875.0,
+   5164875.0,
+   3764875.0
+  ],
+  "liquidado": [
+   3008369.19,
+   3105584.59,
+   3125523.5,
+   3341239.24,
+   3437206.92,
+   4131863.26,
+   3542741.23,
+   3335610.46
+  ]
+ },
+ "foz_estagios": {
+  "empenhado": 30562293.03,
+  "liquidado": 27028138.39,
+  "pago": 26574658.9,
+  "repasses": 39919000.0
+ },
+ "foz_grupos": [
+  [
+   "Vereadores: subsídios",
+   2076495.0
+  ],
+  [
+   "Servidores: remuneração e indenizações",
+   17183520.28
+  ],
+  [
+   "Previdência e encargos",
+   4343047.75
+  ],
+  [
+   "Serviços e terceirização",
+   2527148.24
+  ],
+  [
+   "Alimentação e transporte",
+   576358.93
+  ],
+  [
+   "Diárias e passagens",
+   277978.34
+  ],
+  [
+   "Materiais, equipamentos e outros",
+   43589.85
+  ]
+ ],
+ "comparativo": [
+  {
+   "municipio": "Curitiba",
+   "cadeiras": 38,
+   "despesa": 111125165.69,
+   "populacao": 1832183
+  },
+  {
+   "municipio": "Foz do Iguaçu",
+   "cadeiras": 15,
+   "despesa": 27028138.39,
+   "populacao": 299112
+  },
+  {
+   "municipio": "Araucária",
+   "cadeiras": 13,
+   "despesa": 22854271.35,
+   "populacao": 164291
+  },
+  {
+   "municipio": "Londrina",
+   "cadeiras": 19,
+   "despesa": 32870084.67,
+   "populacao": 584465
+  },
+  {
+   "municipio": "Maringá",
+   "cadeiras": 23,
+   "despesa": 37396463.67,
+   "populacao": 432635
+  },
+  {
+   "municipio": "São José dos Pinhais",
+   "cadeiras": 21,
+   "despesa": 32400307.61,
+   "populacao": 353874
+  },
+  {
+   "municipio": "Apucarana",
+   "cadeiras": 11,
+   "despesa": 15399365.06,
+   "populacao": 135481
+  },
+  {
+   "municipio": "Ponta Grossa",
+   "cadeiras": 19,
+   "despesa": 20411595.17,
+   "populacao": 378527
+  },
+  {
+   "municipio": "Colombo",
+   "cadeiras": 17,
+   "despesa": 16717200.42,
+   "populacao": 242698
+  },
+  {
+   "municipio": "Cascavel",
+   "cadeiras": 21,
+   "despesa": 20224531.47,
+   "populacao": 372026
+  },
+  {
+   "municipio": "Paranaguá",
+   "cadeiras": 19,
+   "despesa": 18225571.8,
+   "populacao": 150436
+  },
+  {
+   "municipio": "Guarapuava",
+   "cadeiras": 21,
+   "despesa": 18268073.42,
+   "populacao": 190542
+  },
+  {
+   "municipio": "Campo Mourão",
+   "cadeiras": 13,
+   "despesa": 10520459.66,
+   "populacao": 104881
+  },
+  {
+   "municipio": "Campo Largo",
+   "cadeiras": 15,
+   "despesa": 11993686.45,
+   "populacao": 146002
+  },
+  {
+   "municipio": "Pinhais",
+   "cadeiras": 17,
+   "despesa": 13082813.01,
+   "populacao": 131857
+  },
+  {
+   "municipio": "Arapongas",
+   "cadeiras": 15,
+   "despesa": 10749672.07,
+   "populacao": 125767
+  },
+  {
+   "municipio": "Fazenda Rio Grande",
+   "cadeiras": 13,
+   "despesa": 8439106.13,
+   "populacao": 170123
+  },
+  {
+   "municipio": "Almirante Tamandaré",
+   "cadeiras": 15,
+   "despesa": 9646414.18,
+   "populacao": 127031
+  },
+  {
+   "municipio": "Toledo",
+   "cadeiras": 19,
+   "despesa": 12149874.8,
+   "populacao": 162658
+  },
+  {
+   "municipio": "Piraquara",
+   "cadeiras": 13,
+   "despesa": 8291024.6,
+   "populacao": 129035
+  },
+  {
+   "municipio": "Umuarama",
+   "cadeiras": 10,
+   "despesa": 6287009.52,
+   "populacao": 124077
+  },
+  {
+   "municipio": "Sarandi",
+   "cadeiras": 10,
+   "despesa": 6253442.43,
+   "populacao": 130211
+  },
+  {
+   "municipio": "Cambé",
+   "cadeiras": 10,
+   "despesa": 6062544.37,
+   "populacao": 111553
+  },
+  {
+   "municipio": "Francisco Beltrão",
+   "cadeiras": 17,
+   "despesa": 4611892.97,
+   "populacao": 103424
+  }
+ ],
+ "fonte_comparativo": "Caderno de Transparência OSB Foz do Iguaçu: Quanto custa nossa Câmara de Vereadores? (TCE-PR/PIT SIM-AM, IBGE estimativa 2026, TSE vagas 2024). Despesa liquidada líquida de estornos, janeiro a agosto de 2026. Consulta em 29/10/2026."
+}

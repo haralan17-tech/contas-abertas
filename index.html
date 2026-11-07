@@ -1,0 +1,1918 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contas Abertas de Foz do Iguaçu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<style>
+/* Identidade do Observatório Social de Foz do Iguaçu: verde-folha escuro, verde-limão do Luposo, laranja do colete.
+   Layout: cabeçalho verde com o Luposo, seções empilhadas em coluna larga; resumo antes do detalhe. */
+:root {
+  color-scheme: light;
+  --bg: #f4f7ef;
+  --surface: #fdfefb;
+  --ink: #18210f;
+  --ink-2: #4a5444;
+  --ink-3: #6b7464;
+  --line: #dde5d3;
+  --accent: #436617;
+  --accent-ink: #ffffff;
+  --accent-soft: #eaf5da;
+  --lime: #96e635;
+  --laranja: #f98a32;
+  --demo: #fff1d6;
+  --demo-ink: #5c3a00;
+  --series-1: #018ac0;
+  --series-2: #f98a32;
+  --s1:#018ac0;--s2:#f98a32;--s3:#089850;--s4:#1d6a9e;--s5:#c9a400;--s6:#c9a400;--s7:#c9a400;--s8:#939393;
+  --good: #0a8a3e; --warning: #fab219; --critical: #d03b3b;
+  --font-display: "Montserrat", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Montserrat", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #121611; --surface: #1c211b; --ink: #eef3e8; --ink-2: #c3ccbb; --ink-3: #97a08f; --line: #2f372b;
+    --accent: #96e635; --accent-ink: #17210f; --accent-soft: #263619; --demo: #3d3210; --demo-ink: #f5dc93;
+    --series-1: #1890c8; --series-2: #db6a12;
+    --s1:#1890c8;--s2:#db6a12;--s3:#089850;--s4:#5b8fd0;--s5:#ad8c00;--s6:#ad8c00;--s7:#ad8c00;--s8:#6f6e69;
+    --good: #2fbf62;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #121611; --surface: #1c211b; --ink: #eef3e8; --ink-2: #c3ccbb; --ink-3: #97a08f; --line: #2f372b;
+  --accent: #96e635; --accent-ink: #17210f; --accent-soft: #263619; --demo: #3d3210; --demo-ink: #f5dc93;
+  --series-1: #1890c8; --series-2: #db6a12;
+  --s1:#1890c8;--s2:#db6a12;--s3:#089850;--s4:#5b8fd0;--s5:#ad8c00;--s6:#ad8c00;--s7:#ad8c00;--s8:#6f6e69;
+  --good: #2fbf62;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.55; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.15; }
+h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; letter-spacing: -.01em; }
+h3 { font-weight: 700; }
+h3 { font-size: 1.1rem; font-weight: 600; }
+p { margin: 0; }
+a { color: var(--accent); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.num { font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+.demo-bar { background: var(--demo); color: var(--demo-ink); font-size: .92rem; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.demo-bar strong { font-weight: 700; }
+
+header.top { background: #436617; color: #fff; border-bottom: 6px solid var(--lime); position: relative; overflow: hidden; }
+header.top::after { content: ""; position: absolute; right: -120px; top: -140px; width: 420px; height: 420px; border-radius: 50%; border: 38px solid rgba(150, 230, 53, .14); pointer-events: none; }
+.top-row { display: grid; grid-template-columns: 1fr auto; gap: 8px 24px; align-items: end; padding-top: 20px; position: relative; z-index: 1; }
+.marca-osb { grid-column: 1 / -1; display: flex; align-items: center; gap: 10px; font-size: .78rem; line-height: 1.25; letter-spacing: .02em; text-transform: uppercase; font-weight: 600; color: #e7f5d3; }
+.marca-osb img { width: 34px; height: auto; }
+.marca-osb b { display: block; font-weight: 800; color: #fff; }
+.marca-osb { justify-self: start; background: #fff; border-radius: 0 0 14px 14px; padding: 10px 16px 8px; margin-top: -20px; box-shadow: 0 2px 0 rgba(0,0,0,.08); }
+.marca-osb .logo-oficial { width: auto; height: 64px; display: block; }
+@media (max-width: 640px) { .marca-osb .logo-oficial { height: 40px; } }
+.top h1 { font-size: clamp(1.9rem, 4.6vw, 3rem); font-weight: 900; letter-spacing: -.02em; }
+.top h1 span { color: var(--lime); }
+.top .sub { opacity: .92; margin-top: 8px; max-width: 52ch; font-weight: 500; }
+.top-texto { padding-bottom: 26px; }
+.top-lado { display: flex; align-items: flex-end; gap: 14px; }
+.top-lado .lupa { width: 118px; height: auto; display: block; margin-bottom: -6px; }
+.ano-box { display: flex; flex-direction: column; gap: 4px; font-size: .85rem; font-weight: 600; padding-bottom: 26px; }
+.ano-box select { font: inherit; font-size: 1rem; font-weight: 700; padding: 8px 12px; border-radius: 10px; border: 2px solid var(--lime); background: #fff; color: #18210f; min-width: 160px; }
+@media (max-width: 640px) { .top-row { grid-template-columns: 1fr; } .top-lado { justify-content: space-between; } .top-texto { padding-bottom: 4px; } .top-lado .lupa { width: 84px; } }
+nav.secoes { position: sticky; top: 0; z-index: 10; background: var(--surface); border-bottom: 1px solid var(--line); }
+nav.secoes ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0 2px; }
+@media (max-width: 760px) { nav.secoes ul { flex-wrap: nowrap; overflow-x: auto; } }
+nav.secoes a { display: block; padding: 10px 11px; text-decoration: none; color: var(--ink-2); font-weight: 600; font-size: .92rem; white-space: nowrap; border-bottom: 3px solid transparent; }
+nav.secoes a:hover { color: var(--ink); border-bottom-color: var(--lime); }
+
+main.wrap { display: flex; flex-direction: column; gap: 56px; padding: 36px 20px 64px; }
+section { scroll-margin-top: 60px; display: flex; flex-direction: column; gap: 20px; }
+.intro { color: var(--ink-2); max-width: 68ch; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); gap: 20px; }
+.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 16px; }
+.fonte { font-size: .8rem; color: var(--ink-3); }
+
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; display: flex; flex-direction: column; gap: 4px; }
+.tile .rot { font-size: .88rem; color: var(--ink-2); font-weight: 600; }
+.tile .val { font-family: var(--font-display); font-size: 2rem; font-weight: 800; line-height: 1.1; }
+.tile .det { font-size: .85rem; color: var(--ink-3); }
+.tile.dest { border-top: 4px solid var(--accent); }
+.marca { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: 0; }
+
+/* barras horizontais */
+.barras { display: flex; flex-direction: column; gap: 10px; }
+.barra { display: grid; grid-template-columns: minmax(120px, 210px) 1fr auto; gap: 12px; align-items: center; padding: 3px 4px; border-radius: 6px; cursor: default; }
+.barra:hover { background: var(--accent-soft); }
+.barra .nome { font-size: .92rem; overflow-wrap: anywhere; }
+.barra .trilho { height: 14px; position: relative; }
+.barra .preench { height: 100%; border-radius: 0 4px 4px 0; background: var(--series-1); min-width: 2px; }
+.barra .valor { font-size: .9rem; font-weight: 600; text-align: right; min-width: 92px; }
+.barra .valor small { display: block; font-weight: 400; color: var(--ink-3); font-size: .78rem; }
+@media (max-width: 560px) {
+  .barra { grid-template-columns: 1fr auto; }
+  .barra .trilho { grid-column: 1 / -1; order: 3; }
+}
+
+/* receitas agrupadas */
+details.grupo { border-top: 1px solid var(--line); padding: 10px 0; }
+details.grupo:first-of-type { border-top: 0; }
+details.grupo summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: baseline; }
+details.grupo summary::-webkit-details-marker { display: none; }
+details.grupo summary .g-nome { font-weight: 700; }
+details.grupo summary .g-nome::before { content: "+"; display: inline-block; width: 1.2em; color: var(--accent); font-weight: 800; }
+details.grupo[open] summary .g-nome::before { content: "−"; }
+details.grupo summary .g-val { font-weight: 700; text-align: right; }
+details.grupo summary .g-trilho { grid-column: 1 / -1; height: 12px; background: var(--line); border-radius: 0 4px 4px 0; overflow: hidden; }
+details.grupo summary .g-trilho div { height: 100%; background: var(--series-1); border-radius: 0 4px 4px 0; }
+details.grupo .g-ex { color: var(--ink-2); font-size: .9rem; margin: 8px 0 4px 1.2em; }
+details.grupo ul { list-style: none; margin: 6px 0 0 1.2em; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+details.grupo li { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; font-size: .92rem; }
+details.grupo li .i-ex { grid-column: 1 / -1; color: var(--ink-3); font-size: .84rem; }
+
+/* faixa "de cada R$ 100" */
+.faixa { display: flex; gap: 2px; height: 46px; border-radius: 8px; overflow: hidden; }
+.faixa div { height: 100%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: .85rem; min-width: 2px; }
+.legenda { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: .88rem; color: var(--ink-2); }
+.legenda span { white-space: nowrap; }
+
+/* linha mensal */
+.graf-linha { position: relative; width: 100%; }
+.graf-linha svg { width: 100%; height: auto; display: block; overflow: visible; }
+.graf-linha text { fill: var(--ink-3); font-size: 12px; font-family: var(--font-body); }
+.tip { position: fixed; pointer-events: none; background: var(--ink); color: var(--bg); padding: 8px 10px; border-radius: 8px; font-size: .84rem; line-height: 1.4; z-index: 50; max-width: 260px; opacity: 0; transition: opacity .1s; }
+.tip.on { opacity: 1; }
+
+/* funil de estágios */
+.estagios { display: flex; flex-direction: column; gap: 14px; }
+.estagio { display: grid; grid-template-columns: 150px 1fr; gap: 12px; align-items: center; }
+.estagio .e-nome { font-weight: 700; }
+.estagio .e-nome small { display: block; font-weight: 400; color: var(--ink-3); font-size: .8rem; }
+tr.cred-linha { cursor: pointer; }
+tr.cred-linha:hover td { background: var(--accent-soft); }
+tr.cred-det td { background: var(--bg); color: var(--ink-2); font-size: .88rem; }
+.aviso { border-left: 4px solid var(--critical); background: var(--surface); padding: 12px 14px; border-radius: 0 10px 10px 0; color: var(--ink-2); font-size: .92rem; }
+.vazio { color: var(--ink-3); font-style: italic; }
+.estagio .e-barra { height: 34px; border-radius: 0 6px 6px 0; display: flex; align-items: center; padding: 0 10px; color: #fff; font-weight: 700; font-size: .9rem; white-space: nowrap; }
+@media (max-width: 560px) { .estagio { grid-template-columns: 1fr; gap: 4px; } }
+
+/* indicadores */
+.ind { display: flex; flex-direction: column; gap: 10px; }
+.ind-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.pill { display: inline-flex; align-items: center; gap: 6px; font-size: .8rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; border: 1.5px solid currentColor; }
+.pill.ok { color: var(--good); } .pill.alerta { color: #b07a00; } .pill.ruim { color: var(--critical); }
+:root[data-theme="dark"] .pill.alerta { color: var(--warning); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .pill.alerta { color: var(--warning); } }
+.bullet { position: relative; height: 18px; background: var(--line); border-radius: 0 4px 4px 0; }
+.bullet .b-val { height: 100%; background: var(--series-1); border-radius: 0 4px 4px 0; }
+.bullet .b-lim { position: absolute; top: -5px; bottom: -5px; width: 3px; background: var(--ink); border-radius: 2px; }
+.bullet-esc { display: flex; justify-content: space-between; font-size: .78rem; color: var(--ink-3); }
+
+/* tabela credores */
+.filtros { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; }
+.filtros label { display: flex; flex-direction: column; gap: 4px; font-size: .85rem; color: var(--ink-2); font-weight: 600; }
+.filtros input, .filtros select { font: inherit; font-size: .95rem; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); min-width: 200px; }
+.tabela-box { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-3); font-weight: 700; }
+th button { all: unset; cursor: pointer; }
+th button:focus-visible { outline: 3px solid var(--accent); }
+td.dir, th.dir { text-align: right; white-space: nowrap; }
+td .doc { display: block; font-size: .8rem; color: var(--ink-3); }
+td .barrinha { height: 6px; background: var(--series-2); border-radius: 0 3px 3px 0; margin-top: 6px; }
+.tag { display: inline-block; font-size: .75rem; font-weight: 700; padding: 1px 7px; border-radius: 4px; background: var(--accent-soft); color: var(--ink); }
+.btn { font: inherit; font-weight: 600; padding: 9px 16px; border-radius: 8px; border: 1.5px solid var(--accent); background: transparent; color: var(--accent); cursor: pointer; align-self: flex-start; }
+.btn:hover { background: var(--accent-soft); }
+
+/* glossário */
+dl.glos { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; margin: 0; }
+dl.glos div { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+dl.glos dt { font-weight: 700; font-family: var(--font-display); font-size: 1.05rem; }
+dl.glos dd { margin: 4px 0 0; color: var(--ink-2); font-size: .93rem; }
+
+.sec-head { display: flex; gap: 20px; align-items: flex-end; justify-content: space-between; }
+.sec-head > div { display: flex; flex-direction: column; gap: 6px; }
+.sec-head h2::after { content: ""; display: block; width: 56px; height: 5px; border-radius: 3px; background: var(--lime); margin-top: 8px; }
+.sec-head .lupa { width: 92px; height: auto; flex: none; margin-bottom: -4px; }
+@media (max-width: 640px) { .sec-head .lupa { width: 64px; } }
+.dica { display: flex; gap: 12px; align-items: center; background: var(--accent-soft); border-radius: 14px; padding: 10px 16px; color: var(--ink-2); font-size: .92rem; }
+.dica img { width: 38px; height: auto; flex: none; }
+.dica strong { color: var(--ink); }
+footer .osb { display: flex; gap: 14px; align-items: center; }
+footer .osb img { width: 56px; height: auto; }
+footer .lema { font-weight: 700; color: var(--accent); }
+nav.secoes li.sep { width: 1px; background: var(--line); margin: 10px 6px; flex: none; }
+nav.secoes a.esp { color: var(--accent); }
+nav.secoes a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--lime); }
+.sankey-box { overflow-x: auto; }
+.sankey-box svg { min-width: 760px; width: 100%; height: auto; display: block; }
+.sankey-box text { font-family: var(--font-body); font-size: 12.5px; fill: var(--ink); }
+.sankey-box text .v { fill: var(--ink-3); font-weight: 400; }
+.sankey-box path.lk { transition: opacity .12s; }
+.sankey-box path.lk:hover, .sankey-box path.lk.on { opacity: .62 !important; }
+.cards-esp { grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); }
+.card-esp { display: flex; flex-direction: column; gap: 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; text-decoration: none; color: var(--ink); border-bottom: 4px solid var(--lime); transition: transform .12s; }
+.card-esp:hover { transform: translateY(-2px); }
+.card-esp img { width: 64px; height: 80px; object-fit: contain; object-position: left bottom; }
+.card-esp strong { font-size: 1.05rem; }
+.card-esp span { color: var(--ink-2); font-size: .9rem; }
+#especial-conteudo { display: flex; flex-direction: column; gap: 22px; }
+.voltar { display: inline-block; font-weight: 700; text-decoration: none; margin-bottom: -24px; }
+.esp-topo { display: flex; gap: 20px; align-items: flex-end; justify-content: space-between; background: var(--accent-soft); border-radius: 18px; padding: 24px 24px 0; }
+.esp-topo > div { display: flex; flex-direction: column; gap: 8px; padding-bottom: 24px; }
+.esp-topo h2 { font-size: clamp(1.7rem, 3.6vw, 2.4rem); }
+.esp-topo .lupa { width: 120px; height: auto; flex: none; }
+@media (max-width: 640px) { .esp-topo .lupa { width: 76px; } }
+.colunas svg { width: 100%; height: auto; display: block; }
+.colunas text { font-family: var(--font-body); font-size: 12px; fill: var(--ink-3); }
+.nota { background: var(--surface); border-left: 4px solid var(--laranja); border-radius: 0 10px 10px 0; padding: 12px 14px; color: var(--ink-2); font-size: .92rem; }
+.tabela-esp td { font-size: .88rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font: inherit; font-size: .85rem; font-weight: 600; padding: 6px 12px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--surface); color: var(--ink-2); cursor: pointer; }
+.chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); }
+footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--ink-2); font-size: .9rem; }
+footer .wrap { display: flex; flex-direction: column; gap: 10px; }
+
+/* ---------- barra superior estilo OSB ---------- */
+.topo-barra { display: block; background: #fff; color: #18210f; position: sticky; top: 0; z-index: 30; box-shadow: 0 1px 0 #dde5d3, 0 4px 16px rgba(24,33,15,.06); }
+.barra-in { display: flex; align-items: center; gap: 12px; min-height: 76px; max-width: 1240px; }
+.logo img { height: 56px; width: auto; display: block; }
+.menu { flex: 1; }
+.menu-lista { list-style: none; margin: 0; padding: 0; display: flex; gap: 2px; align-items: center; justify-content: center; flex-wrap: wrap; }
+.menu-lista > li { position: relative; }
+.menu-lista > li > a, .menu-lista > li > button { font: inherit; font-size: .78rem; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; color: #3b4436; background: none; border: 0; padding: 10px 9px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; border-radius: 8px; white-space: nowrap; }
+.menu-lista > li > button::after { content: ""; border: 4px solid transparent; border-top-color: currentColor; margin-top: 4px; }
+.menu-lista > li > a:hover, .menu-lista > li > button:hover, .menu-lista > li > button[aria-expanded="true"] { background: #eaf5da; color: #18210f; }
+.sub { list-style: none; margin: 0; padding: 8px; position: absolute; top: calc(100% + 4px); left: 0; min-width: 250px; background: #fff; border: 1px solid #dde5d3; border-radius: 12px; box-shadow: 0 12px 32px rgba(24,33,15,.14); display: none; z-index: 40; }
+.tem-sub:hover > .sub, .tem-sub > button[aria-expanded="true"] + .sub { display: block; }
+.sub a { display: block; padding: 9px 12px; border-radius: 8px; color: #18210f; text-decoration: none; font-weight: 600; font-size: .92rem; }
+.sub a:hover, .sub a[aria-current="page"] { background: #eaf5da; }
+.ano-mini { display: flex; align-items: center; gap: 6px; font-size: .78rem; font-weight: 700; text-transform: uppercase; color: #4a5444; }
+.ano-mini select { font: inherit; font-size: .9rem; text-transform: none; font-weight: 700; padding: 7px 8px; border-radius: 8px; border: 1.5px solid #c9d6bb; background: #fff; color: #18210f; }
+.doe { background: #2e9e2e; color: #fff; font-weight: 800; letter-spacing: .03em; text-decoration: none; padding: 13px 26px; border-radius: 999px; white-space: nowrap; box-shadow: 0 2px 0 #1f7a1f; }
+.doe:hover { background: #268a26; }
+.menu-btn { display: none; font: inherit; font-weight: 700; border: 1.5px solid #c9d6bb; background: #fff; border-radius: 8px; padding: 8px 12px; color: #18210f; }
+@media (max-width: 1100px) {
+  .barra-in { flex-wrap: wrap; gap: 10px 14px; padding-top: 8px; padding-bottom: 8px; }
+  .menu-btn { display: inline-block; margin-left: auto; order: 3; }
+  .doe { order: 2; }
+  .logo { order: 1; }
+  .menu { order: 10; flex-basis: 100%; display: none; }
+  .menu.aberto { display: block; }
+  .menu-lista { flex-direction: column; align-items: stretch; }
+  .menu-lista > li > a, .menu-lista > li > button { width: 100%; justify-content: space-between; }
+  .sub { position: static; box-shadow: none; border: 0; padding: 0 0 6px 12px; min-width: 0; }
+  .tem-sub:hover > .sub { display: none; }
+  .tem-sub > button[aria-expanded="true"] + .sub { display: block; }
+  .logo img { height: 44px; }
+  .doe { padding: 10px 18px; }
+}
+@media (max-width: 520px) { .ano-mini span { display: none; } .doe { padding: 9px 14px; font-size: .85rem; } }
+
+/* ---------- slider de destaques ---------- */
+.slider { background: #436617; color: #fff; position: relative; overflow: hidden; border-bottom: 6px solid var(--lime); }
+.slider::after { content: ""; position: absolute; right: -140px; top: -160px; width: 460px; height: 460px; border-radius: 50%; border: 40px solid rgba(150,230,53,.13); pointer-events: none; }
+.slider-in { position: relative; z-index: 1; padding-top: 26px; padding-bottom: 16px; }
+.slides { position: relative; min-height: 230px; }
+.slide { display: none; grid-template-columns: 1fr auto; gap: 24px; align-items: end; }
+.slide.ativo { display: grid; animation: entra .45s ease; }
+@keyframes entra { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .slide.ativo { animation: none; } }
+.slide .sl-tag { font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--lime); }
+.slide .sl-num { font-family: var(--font-display); font-weight: 900; font-size: clamp(2.6rem, 7vw, 4.6rem); line-height: 1; color: #ffd23f; letter-spacing: -.02em; margin: 6px 0 4px; }
+.slide .sl-txt { font-size: clamp(1.1rem, 2.4vw, 1.6rem); font-weight: 700; max-width: 30ch; line-height: 1.25; text-wrap: balance; }
+.slide .sl-det { margin-top: 8px; opacity: .9; max-width: 60ch; font-size: .95rem; }
+.slide .sl-cta { display: inline-block; margin-top: 14px; background: #fff; color: #18210f; font-weight: 800; text-decoration: none; padding: 10px 18px; border-radius: 10px; }
+.slide .sl-cta:hover { background: var(--lime); }
+.slide img { width: 150px; height: auto; margin-bottom: -16px; }
+@media (max-width: 640px) { .slide img { width: 84px; } .slides { min-height: 260px; } }
+.slider-ctrl { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
+.sl-btn { font: inherit; font-weight: 800; width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.5); background: transparent; color: #fff; cursor: pointer; }
+.sl-btn:hover { background: rgba(255,255,255,.14); }
+.sl-pausa { font-size: .7rem; }
+.sl-dots { display: flex; gap: 6px; }
+.sl-dots button { width: 10px; height: 10px; border-radius: 50%; border: 0; background: rgba(255,255,255,.4); padding: 0; cursor: pointer; }
+.sl-dots button[aria-selected="true"] { background: var(--lime); width: 26px; border-radius: 6px; }
+.pagina-titulo { background: #436617; border-bottom: 6px solid var(--lime); color: #e7f5d3; font-size: .85rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 10px 0; }
+
+.sankey-box text.meio { paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
+.osb-mapa { flex-direction: row; align-items: center; justify-content: space-between; gap: 20px; border-left: 6px solid var(--lime); }
+.osb-mapa img { width: 110px; height: auto; flex: none; }
+.osb-mapa .btn { display: inline-block; text-decoration: none; margin-top: 8px; }
+.vazio-osb { flex-direction: row; align-items: center; gap: 22px; border-style: dashed; }
+.vazio-osb img { width: 140px; height: auto; flex: none; }
+.vazio-osb code { font-size: .82rem; background: var(--accent-soft); padding: 1px 5px; border-radius: 4px; }
+@media (max-width: 640px) { .osb-mapa, .vazio-osb { flex-direction: column; align-items: flex-start; } }
+td .pill { display: inline-flex; }
+section { scroll-margin-top: 96px; }
+
+.foco-obra { display: flex; align-items: center; justify-content: space-between; gap: 20px; background: #436617; color: #fff; border-radius: 18px; padding: 26px 28px 0; text-decoration: none; border-bottom: 6px solid var(--lime); position: relative; overflow: hidden; }
+.foco-obra::after { content: ""; position: absolute; right: -90px; top: -110px; width: 300px; height: 300px; border-radius: 50%; border: 30px solid rgba(150,230,53,.15); }
+.foco-obra > div { display: flex; flex-direction: column; gap: 8px; padding-bottom: 26px; position: relative; z-index: 1; }
+.fo-tag { font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--lime); }
+.fo-tit { font-family: var(--font-display); font-size: clamp(1.9rem, 4.6vw, 2.8rem); font-weight: 900; letter-spacing: -.01em; color: #ffd23f; line-height: 1; }
+.fo-txt { max-width: 56ch; opacity: .95; }
+.fo-btn { align-self: flex-start; margin-top: 6px; background: #ffd23f; color: #18210f; font-weight: 900; padding: 14px 24px; border-radius: 999px; font-size: 1.05rem; box-shadow: 0 3px 0 #b8930f; }
+.foco-obra:hover .fo-btn { background: #fff; }
+.foco-obra img { width: 130px; height: auto; flex: none; position: relative; z-index: 1; }
+@media (max-width: 640px) { .foco-obra img { width: 80px; } }
+#ob-mapa svg, #cm-disp svg, #tr-disp svg { width: 100%; height: auto; display: block; }
+#ob-mapa text, #cm-disp text, #tr-disp text { font-family: var(--font-body); font-size: 12px; fill: var(--ink-3); }
+
+.prog { height: 6px; background: var(--line); border-radius: 3px; margin-top: 6px; max-width: 140px; overflow: hidden; }
+.prog div { height: 100%; background: var(--series-2); border-radius: 3px; }
+.fo-form { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; background: var(--accent-soft); border: 2px solid var(--lime); border-radius: 14px; padding: 14px 18px; text-decoration: none; color: var(--ink); }
+.fo-form img { width: 56px; height: auto; }
+.fo-form span:nth-of-type(1) { flex: 1; min-width: 220px; }
+.fo-form .fo-btn { margin: 0; }
+td a { font-size: .82rem; font-weight: 700; }
+
+/* ---------- celular ---------- */
+.dica-deslize { display: none; font-size: .8rem; font-weight: 700; color: var(--ink-3); }
+@media (max-width: 760px) {
+  .dica-deslize { display: block; }
+  .sankey-box::before, .tabela-box::before { content: "↔ Deslize para o lado para ver tudo"; display: block; position: sticky; left: 0; font-size: .78rem; font-weight: 700; color: var(--ink-3); margin-bottom: 6px; }
+  .sankey-box svg { min-width: 1000px; }
+  .tabela-box { margin: 0 -4px; }
+  .tabela-box table { min-width: 640px; }
+  .tabela-esp td, .tabela-esp th { padding: 8px 6px; }
+}
+@media (max-width: 640px) {
+  body { font-size: 15px; }
+  .wrap { padding: 0 14px; }
+  main.wrap { gap: 40px; padding: 24px 14px 48px; }
+  .card { padding: 16px; border-radius: 12px; }
+  .grid-2, .grid-4 { gap: 12px; }
+  .tile { padding: 14px 16px; }
+  .tile .val { font-size: 1.6rem; }
+  h2 { font-size: 1.45rem; }
+  .sec-head .lupa, .esp-topo .lupa { width: 56px; }
+  .esp-topo { padding: 18px 16px 0; border-radius: 14px; }
+  .esp-topo > div { padding-bottom: 18px; }
+  .legenda span { white-space: normal; }
+  .filtros { flex-direction: column; align-items: stretch; }
+  .filtros label, .filtros input, .filtros select { min-width: 0; width: 100%; max-width: 100%; }
+  .chips { gap: 6px; }
+  .barra { gap: 4px 10px; }
+  .barra .valor { min-width: 0; }
+  .slide { grid-template-columns: 1fr 72px; gap: 10px; }
+  .slide .sl-txt { font-size: 1.05rem; }
+  .slide .sl-det { font-size: .88rem; }
+  .slides { min-height: 250px; }
+  .slider-in { padding-top: 18px; }
+  .foco-obra { padding: 18px 16px 0; }
+  .fo-btn { padding: 12px 18px; font-size: .95rem; }
+  .estagio .e-barra { font-size: .82rem; }
+  .card-esp img { width: 48px; height: 60px; }
+  footer .osb { flex-direction: column; align-items: flex-start; }
+  .voltar { margin-bottom: -12px; }
+  /* barra superior compacta: logo, DOE e Menu numa linha; ano aparece dentro do menu aberto */
+  .barra-in { min-height: 60px; }
+  .logo img { height: 38px; }
+  .doe { padding: 8px 14px; font-size: .8rem; margin-left: auto; }
+  .menu-btn { margin-left: 0; padding: 7px 10px; }
+  .ano-mini { display: none; order: 11; flex-basis: 100%; padding: 4px 0 10px; }
+  .barra-in:has(.menu.aberto) .ano-mini { display: flex; }
+  .ano-mini span { display: inline; }
+  .menu.aberto { max-height: calc(100vh - 70px); overflow-y: auto; }
+}
+.faixa-validacao { background: #ffd23f; color: #2b2300; font-size: .88rem; padding: 8px 0; text-align: center; }
+</style>
+</head>
+<body>
+<div class="faixa-validacao" role="note"><div class="wrap"><strong>Versão em validação.</strong> Este site ainda está sendo revisado pelo Observatório Social de Foz do Iguaçu e pode conter erros. Encontrou algum problema? Avise o OSB.</div></div>
+<div class="demo-bar" id="demo-bar" role="note"><div class="wrap"><strong>Versão de demonstração.</strong> Os números e nomes desta página são fictícios e servem só para mostrar como o site vai funcionar. Os dados oficiais entram na próxima etapa.</div></div>
+
+<header class="topo-barra" id="topo">
+  <div class="wrap barra-in">
+    <a class="logo" href="#inicio" aria-label="Contas Abertas de Foz: início"><img src="img/logo-osb.webp" alt="Observatório Social do Brasil – Foz do Iguaçu | PR"></a>
+    <button type="button" class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="menu-principal"><span aria-hidden="true">☰</span> Menu</button>
+    <nav class="menu" id="menu-principal" aria-label="Menu principal">
+      <ul class="menu-lista">
+        <li class="tem-sub"><button type="button" aria-expanded="false">Painel</button>
+          <ul class="sub">
+            <li><a href="#resumo">Resumo</a></li>
+            <li><a href="#caminho">Caminho do dinheiro (resumo)</a></li>
+            <li><a href="#receitas">De onde vem o dinheiro</a></li>
+            <li><a href="#despesas">Para onde vai o dinheiro</a></li>
+            <li><a href="#credores">Quem recebe</a></li>
+            <li><a href="#limites">Limites da lei</a></li>
+          </ul></li>
+        <li><a class="topo-link" href="#caminho-do-dinheiro">O caminho do dinheiro</a></li>
+        <li class="tem-sub"><button type="button" aria-expanded="false">Temas</button>
+          <ul class="sub">
+            <li><a href="#camara">Câmara de Vereadores</a></li>
+            <li><a href="#transporte">Transporte coletivo</a></li>
+            <li><a href="#obras">Obras</a></li>
+            <li><a href="#alugueis">Aluguéis de imóveis</a></li>
+            <li><a href="#sem-licitacao">Contratações sem licitação</a></li>
+            <li><a href="#diarias">Diárias e passagens</a></li>
+            <li><a href="#gratificacoes">Gratificações</a></li>
+            <li><a href="#horas-extras">Horas extras</a></li>
+            <li><a href="#remuneracao">Remuneração dos servidores</a></li>
+          </ul></li>
+        <li class="tem-sub"><button type="button" aria-expanded="false">Atuação do OSB</button>
+          <ul class="sub">
+            <li><a href="#licitacoes-monitoradas">Licitações monitoradas</a></li>
+            <li><a href="#oficios">Ofícios enviados</a></li>
+          </ul></li>
+        <li class="tem-sub"><button type="button" aria-expanded="false">Sobre</button>
+          <ul class="sub">
+            <li><a href="#glossario">Glossário</a></li>
+            <li><a href="#sobre">Sobre os dados</a></li>
+            <li><a href="https://fozdoiguacu.osbrasil.org.br">Site do OSB Foz do Iguaçu ↗</a></li>
+          </ul></li>
+      </ul>
+    </nav>
+    <label class="ano-mini" for="ano"><span>Ano</span><select id="ano"></select></label>
+    <a class="doe" id="doe" href="https://fozdoiguacu.osbrasil.org.br">DOE AQUI</a>
+  </div>
+</header>
+
+<section class="slider" id="slider" aria-roledescription="carrossel" aria-label="Destaques dos dados">
+  <div class="wrap slider-in">
+    <div class="slides" id="slides" aria-live="polite"></div>
+    <div class="slider-ctrl">
+      <button type="button" class="sl-btn" id="sl-ant" aria-label="Destaque anterior">‹</button>
+      <div class="sl-dots" id="sl-dots" role="tablist"></div>
+      <button type="button" class="sl-btn" id="sl-prox" aria-label="Próximo destaque">›</button>
+      <button type="button" class="sl-btn sl-pausa" id="sl-pausa" aria-label="Pausar destaques">❚❚</button>
+    </div>
+  </div>
+</section>
+
+<div class="pagina-titulo" id="pagina-titulo" hidden><div class="wrap"><span id="pt-trilha">Contas Abertas de Foz</span></div></div>
+
+<main class="wrap" id="pagina-principal">
+  <span id="inicio"></span>
+  <section id="resumo" aria-labelledby="t-resumo">
+    <div>
+      <h2 id="t-resumo">Resumo de <span data-ano></span></h2>
+      <p class="intro" id="resumo-periodo"></p>
+    </div>
+    <div class="grid-4" id="tiles"></div>
+    <p class="dica"><img src="img/lupa-icone.webp" alt=""><span><strong>Dica do Luposo:</strong> passe o mouse ou toque nos gráficos e barras para ver os valores e o que cada item significa.</span></p>
+    <div class="card">
+      <h3>Dinheiro que entrou e que saiu, mês a mês</h3>
+      <div class="legenda" id="leg-mensal"></div>
+      <div class="graf-linha" id="graf-mensal"></div>
+      <p class="intro" id="nota-mensal" style="font-size:.88rem"></p>
+      <p class="fonte" id="fonte-mensal"></p>
+    </div>
+  </section>
+
+  <section id="caminho" aria-labelledby="t-caminho">
+    <div class="sec-head"><div>
+      <h2 id="t-caminho">O caminho do dinheiro</h2>
+      <p class="intro" id="caminho-intro">À esquerda, de onde veio cada real. À direita, para onde ele foi. A espessura de cada faixa é proporcional ao valor.</p>
+    </div><img class="lupa" src="img/lupa-acenando.webp" alt="Luposo acenando"></div>
+    <div class="card">
+      <div class="sankey-box" id="sankey"></div>
+      <p class="intro" id="caminho-nota" style="font-size:.88rem"></p>
+      <p class="fonte" id="fonte-caminho"></p>
+      <a class="btn" href="#caminho-do-dinheiro" style="text-decoration:none">Ver todos os diagramas do caminho do dinheiro →</a>
+    </div>
+  </section>
+
+  <section id="receitas" aria-labelledby="t-rec">
+    <div class="sec-head">
+    <div>
+      <h2 id="t-rec">De onde vem o dinheiro</h2>
+      <p class="intro">A Prefeitura tem duas grandes fontes: os impostos que ela mesma cobra e os repasses do Estado e da União. Toque em cada grupo para ver os detalhes.</p>
+    </div>
+    <img class="lupa" src="img/lupa-prancheta.webp" alt="Luposo conferindo uma prancheta">
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Receitas por origem</h3>
+        <div id="rec-grupos"></div>
+        <p class="intro" id="rec-nota" style="font-size:.88rem"></p>
+        <p class="fonte" data-fonte></p>
+      </div>
+      <div class="card">
+        <h3>Quanto depende de fora</h3>
+        <p class="intro" id="rec-autonomia"></p>
+        <div class="faixa" id="faixa-autonomia" aria-hidden="true"></div>
+        <div class="legenda" id="leg-autonomia"></div>
+        <h3 style="margin-top:12px">Previsto x arrecadado</h3>
+        <p class="intro" id="rec-previsto"></p>
+        <div class="barras" id="rec-prev-barras"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="despesas" aria-labelledby="t-desp">
+    <div class="sec-head">
+    <div>
+      <h2 id="t-desp">Para onde vai o dinheiro</h2>
+      <p class="intro" id="desp-intro"></p>
+    </div>
+    <img class="lupa" src="img/lupa-anotando.webp" alt="Luposo anotando">
+    </div>
+    <div class="card">
+      <h3 id="t-faixa">De cada R$ 100 pagos pela Prefeitura</h3>
+      <div class="faixa" id="faixa-100"></div>
+      <div class="legenda" id="leg-100"></div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <h3 id="t-funcao">Despesa paga por área</h3>
+        <div class="barras" id="desp-funcao"></div>
+        <p class="fonte" id="fonte-funcao"></p>
+      </div>
+      <div class="card">
+        <h3>Com o que o dinheiro é gasto</h3>
+        <div class="barras" id="desp-natureza"></div>
+        <h3 style="margin-top:12px">Do compromisso ao pagamento</h3>
+        <p class="intro">Toda despesa pública passa por três etapas. A diferença entre elas mostra o que já foi contratado mas ainda não foi entregue ou pago.</p>
+        <div class="estagios" id="estagios"></div>
+        <p class="fonte" id="fonte-natureza"></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="credores" aria-labelledby="t-cred">
+    <div class="sec-head">
+    <div>
+      <h2 id="t-cred">Quem recebe da Prefeitura</h2>
+      <p class="intro">Empresas, entidades e pessoas que receberam pagamentos da Prefeitura no período, do maior para o menor. Salários, aposentadorias e pensões de servidores não entram nesta lista. O CPF de pessoas físicas aparece mascarado, como publicado pelo Tribunal de Contas. Toque em um credor para ver a descrição do maior empenho.</p>
+    </div>
+    <img class="lupa" src="img/lupa-notebook.webp" alt="Luposo pesquisando no notebook">
+    </div>
+    <div class="grid-4" id="cred-tiles"></div>
+    <p class="card vazio" id="cred-vazio" hidden></p>
+    <div class="card" id="cred-conteudo">
+      <div class="filtros">
+        <label for="busca">Buscar por nome, CNPJ ou objeto<input id="busca" type="search" placeholder="Ex.: merenda, coleta, viação"></label>
+        <label for="f-area">Área<select id="f-area"><option value="">Todas as áreas</option></select></label>
+        <label for="f-tipo">Tipo<select id="f-tipo"><option value="">Todos os tipos</option></select></label>
+      </div>
+      <div class="tabela-box">
+        <table>
+          <thead><tr>
+            <th>#</th><th>Credor</th><th>Principal gasto</th><th>Área</th>
+            <th class="dir"><button type="button" id="ord-emp">Empenhos</button></th>
+            <th class="dir"><button type="button" id="ord-pago">Total pago ▼</button></th>
+          </tr></thead>
+          <tbody id="cred-corpo"></tbody>
+        </table>
+      </div>
+      <p class="intro" id="cred-resumo" style="font-size:.88rem"></p>
+      <button type="button" class="btn" id="mais">Mostrar mais</button>
+      <p class="fonte" id="fonte-cred"></p>
+    </div>
+  </section>
+
+  <section id="limites" aria-labelledby="t-lim">
+    <div class="sec-head">
+    <div>
+      <h2 id="t-lim">A Prefeitura está cumprindo a lei?</h2>
+      <p class="intro">A Constituição e a Lei de Responsabilidade Fiscal fixam mínimos para saúde e educação e um teto para gastos com pessoal. Os percentuais de saúde e educação são calculados sobre a receita de impostos; o de pessoal, sobre a receita corrente líquida dos últimos 12 meses.</p>
+    </div>
+    <img class="lupa" src="img/lupa-pensando.webp" alt="Luposo pensativo">
+    </div>
+    <div class="grid-4" id="indicadores" style="grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));"></div>
+  </section>
+
+  <section id="especiais-chamada" aria-labelledby="t-esp">
+    <div class="sec-head"><div>
+      <h2 id="t-esp">Páginas especiais</h2>
+      <p class="intro">Temas que costumam gerar dúvidas, explicados em detalhe.</p>
+    </div></div>
+    <div class="grid-4 cards-esp">
+      <a class="card-esp" href="#caminho-do-dinheiro"><img src="img/lupa-acenando.webp" alt=""><strong>O caminho do dinheiro</strong><span>Diagramas que seguem cada real da origem até o gasto.</span></a>
+      <a class="card-esp" href="#camara"><img src="img/lupa-pensando.webp" alt=""><strong>Câmara de Vereadores</strong><span>Quanto custa o Legislativo e como Foz se compara a 24 cidades.</span></a>
+      <a class="card-esp" href="#transporte"><img src="img/lupa-anotando.webp" alt=""><strong>Transporte coletivo</strong><span>Custo, subsídio, passageiros e o novo edital.</span></a>
+      <a class="card-esp" href="#obras"><img src="img/lupa-notebook.webp" alt=""><strong>Obras</strong><span>Obras em andamento, prazos e pagamentos às construtoras.</span></a>
+      <a class="card-esp" href="#alugueis"><img src="img/lupa-prancheta.webp" alt=""><strong>Aluguéis de imóveis</strong><span>Prédios alugados pela Prefeitura e quem recebe.</span></a>
+      <a class="card-esp" href="#sem-licitacao"><img src="img/lupa-pensando.webp" alt=""><strong>Sem licitação</strong><span>Dispensas e inexigibilidades: o que foi comprado e de quem.</span></a>
+      <a class="card-esp" href="#diarias"><img src="img/lupa-anotando.webp" alt=""><strong>Diárias e passagens</strong><span>Quem viajou, para onde, por quê e quanto custou.</span></a>
+      <a class="card-esp" href="#gratificacoes"><img src="img/lupa-prancheta.webp" alt=""><strong>Gratificações</strong><span>Valores pagos além do salário-base.</span></a>
+      <a class="card-esp" href="#horas-extras"><img src="img/lupa-pensando.webp" alt=""><strong>Horas extras</strong><span>Serviço extraordinário, mês a mês.</span></a>
+      <a class="card-esp" href="#remuneracao"><img src="img/lupa-notebook.webp" alt=""><strong>Remuneração</strong><span>Salários por cargo, vínculo e lotação.</span></a>
+      <a class="card-esp" href="#licitacoes-monitoradas"><img src="img/lupa-notebook.webp" alt=""><strong>Licitações monitoradas</strong><span>O trabalho do OSB e a economia gerada.</span></a>
+      <a class="card-esp" href="#oficios"><img src="img/lupa-anotando.webp" alt=""><strong>Ofícios do OSB</strong><span>Pedidos de informação e tempo de resposta.</span></a>
+    </div>
+  </section>
+
+  <section id="glossario" aria-labelledby="t-glos">
+    <div class="sec-head"><div><h2 id="t-glos">Glossário</h2></div><img class="lupa" src="img/lupa-sentado.webp" alt="Luposo sentado"></div>
+    <dl class="glos">
+      <div><dt>Empenho</dt><dd>É a reserva do dinheiro para uma despesa. A Prefeitura se compromete a pagar, mas o serviço ainda não foi entregue.</dd></div>
+      <div><dt>Liquidação</dt><dd>A Prefeitura confere que o produto ou serviço foi entregue como combinado. A partir daí, ela deve o valor.</dd></div>
+      <div><dt>Pagamento</dt><dd>O dinheiro sai da conta da Prefeitura e chega ao fornecedor. É o número usado na maior parte desta página.</dd></div>
+      <div><dt>Credor</dt><dd>Empresa ou pessoa que tem valores a receber da Prefeitura por um produto ou serviço.</dd></div>
+      <div><dt>Função</dt><dd>A grande área de governo a que a despesa pertence, como saúde, educação ou urbanismo. É um padrão nacional.</dd></div>
+      <div><dt>Receita corrente líquida (RCL)</dt><dd>Tudo o que o município arrecada de forma regular, menos algumas deduções. É a base para os limites da Lei de Responsabilidade Fiscal.</dd></div>
+      <div><dt>Restos a pagar</dt><dd>Despesas empenhadas em um ano que só são pagas no ano seguinte.</dd></div>
+      <div><dt>Royalties de Itaipu</dt><dd>Compensação financeira que a Itaipu Binacional paga a Foz e a outros municípios pelas áreas alagadas pelo reservatório.</dd></div>
+    </dl>
+  </section>
+
+  <section id="sobre" aria-labelledby="t-sobre">
+    <div class="sec-head"><div><h2 id="t-sobre">Sobre os dados</h2></div><img class="lupa" src="img/lupa-deitado.webp" alt="Luposo descansando"></div>
+    <div class="card">
+      <p id="sobre-texto"></p>
+      <ul id="sobre-fontes" style="margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px"></ul>
+      <p>Os totais de receita e despesa vêm do Relatório Resumido da Execução Orçamentária (RREO) enviado pela Prefeitura ao Tesouro Nacional e consideram todos os órgãos do município (Prefeitura, Câmara, autarquias e fundações), sem contar duas vezes os repasses entre eles. A lista de credores e a despesa paga por área e por mês vêm dos empenhos e pagamentos enviados ao Tribunal de Contas do Paraná. Os dois conjuntos foram conferidos e batem. Valores nominais, sem correção pela inflação.</p>
+      <p>Encontrou algo errado? Fale com o Observatório Social do Brasil – Foz do Iguaçu pelo site <a href="https://fozdoiguacu.osbrasil.org.br">fozdoiguacu.osbrasil.org.br</a>.</p>
+    </div>
+  </section>
+</main>
+
+<main class="wrap" id="pagina-especial" hidden>
+  <a class="voltar" href="#inicio">← Voltar ao painel principal</a>
+  <div id="especial-conteudo"></div>
+</main>
+
+<footer><div class="wrap">
+  <div class="osb"><img src="img/lupa-acenando.webp" alt="Luposo, o mascote do Observatório Social"><div><span style="display:inline-block;background:#fff;border-radius:12px;padding:8px 12px;margin-bottom:10px"><img src="img/logo-osb.webp" alt="Observatório Social do Brasil – Foz do Iguaçu | PR" style="width:auto;height:56px;display:block"></span><p class="lema">Pela transparência e qualidade na aplicação dos recursos públicos.</p><p>Uma iniciativa do Observatório Social do Brasil – Foz do Iguaçu. <a href="https://fozdoiguacu.osbrasil.org.br">fozdoiguacu.osbrasil.org.br</a></p></div></div>
+  <p class="fonte" id="rodape-atual"></p>
+</div></footer>
+
+<div class="tip" id="tip" role="tooltip"></div>
+
+<script id="dados-embutidos" type="application/json">null</script>
+<script>
+(function () {
+  "use strict";
+  const $ = (s) => document.querySelector(s);
+  const MESES = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+  const MESES_LONGO = ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+  const CORES = ["--s1","--s2","--s3","--s4","--s5","--s8"].map((v) => `var(${v})`);
+  const nf1 = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 1, minimumFractionDigits: 1 });
+  const nf0 = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 0 });
+  const brl = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
+  const brl2 = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
+  function reais(v) {
+    const a = Math.abs(v);
+    if (a >= 1e9) return "R$ " + nf1.format(v / 1e9) + " bi";
+    if (a >= 1e6) return "R$ " + nf1.format(v / 1e6) + " mi";
+    if (a >= 1e3) return "R$ " + nf0.format(v / 1e3) + " mil";
+    return brl.format(v);
+  }
+  const pct = (v) => nf1.format(v) + "%";
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const semAcento = (s) => String(s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+
+  const FUNCOES = {
+    "Saúde": "Hospitais, UPAs, unidades básicas, medicamentos, exames e vigilância em saúde.",
+    "Educação": "Escolas e CMEIs municipais, professores, merenda e transporte escolar.",
+    "Previdência Social": "Aposentadorias e pensões pagas pelo fundo de previdência dos servidores (FozPrev).",
+    "Urbanismo": "Ruas, pavimentação, iluminação pública, transporte coletivo e manutenção da cidade.",
+    "Administração": "Funcionamento geral da Prefeitura: pessoal administrativo, sistemas, prédios.",
+    "Encargos Especiais": "Pagamento de dívidas, PIS/Pasep, precatórios e outras obrigações financeiras.",
+    "Gestão Ambiental": "Coleta e destinação do lixo, limpeza urbana, parques e meio ambiente.",
+    "Segurança Pública": "Guarda Municipal, defesa civil e trânsito.",
+    "Assistência Social": "CRAS, CREAS, abrigos e apoio a famílias em situação de vulnerabilidade.",
+    "Legislativa": "Funcionamento da Câmara de Vereadores.",
+    "Transporte": "Trânsito, sinalização e transporte (Foztrans).",
+    "Desporto e Lazer": "Esporte, eventos esportivos e espaços de lazer.",
+    "Comércio e Serviços": "Turismo e apoio a atividades econômicas.",
+    "Essencial à Justiça": "Procuradoria do município, que defende a Prefeitura na Justiça.",
+    "Cultura": "Fundação Cultural, eventos e equipamentos culturais.",
+    "Habitação": "Programas de moradia (FozHabita).",
+  };
+
+  const tip = $("#tip");
+  function mostraTip(e, html) {
+    tip.innerHTML = html; tip.classList.add("on");
+    const r = tip.getBoundingClientRect();
+    let x = e.clientX + 14, y = e.clientY + 14;
+    if (x + r.width > innerWidth - 8) x = e.clientX - r.width - 14;
+    if (y + r.height > innerHeight - 8) y = e.clientY - r.height - 14;
+    tip.style.left = x + "px"; tip.style.top = y + "px";
+  }
+  const escondeTip = () => tip.classList.remove("on");
+  function ligaTip(el, html) {
+    el.addEventListener("mousemove", (e) => mostraTip(e, html));
+    el.addEventListener("mouseleave", escondeTip);
+  }
+
+  let DADOS, A, POP, anoAtual;
+  const ateMes = () => (A.meses < 12 ? ` (até ${MESES_LONGO[A.meses - 1]})` : "");
+  const fonteSiconfi = () => `Fonte: Siconfi/Tesouro Nacional, ${A.fontes.siconfi}.`;
+  const fonteTce = () => (A.fontes.tce ? `Fonte: ${A.fontes.tce}.` : fonteSiconfi());
+
+  function barras(alvo, itens, cor, total, opts) {
+    const porHab = !(opts && opts.porHab === false);
+    const max = Math.max(...itens.map((i) => i.valor), 1);
+    alvo.innerHTML = "";
+    itens.forEach((i) => {
+      const row = document.createElement("div");
+      row.className = "barra";
+      const parte = total ? `<small>${pct(i.valor / total * 100)}</small>` : "";
+      row.innerHTML = `<span class="nome">${esc(i.nome)}</span><span class="trilho"><span class="preench" style="display:block;width:${Math.max(0, i.valor / max * 100).toFixed(2)}%;background:${i.cor || cor}"></span></span><span class="valor num">${reais(i.valor)}${parte}</span>`;
+      ligaTip(row, `<strong>${esc(i.nome)}</strong><br>${brl.format(i.valor)}${total ? "<br>" + pct(i.valor / total * 100) + " do total" : ""}${POP && porHab ? "<br>" + brl2.format(i.valor / POP) + " por habitante" : ""}${i.explicacao ? "<br><span style='opacity:.85'>" + esc(i.explicacao) + "</span>" : ""}`);
+      alvo.appendChild(row);
+    });
+  }
+
+  function tiles() {
+    const r = A.receitas, d = A.despesas;
+    const saldo = r.arrecadado - d.pago;
+    const t = [
+      { rot: "Receita arrecadada", val: reais(r.arrecadado), det: `${brl.format(r.arrecadado / POP)} por habitante`, cor: "var(--series-1)" },
+      { rot: "Despesa paga", val: reais(d.pago), det: `${brl.format(d.pago / POP)} por habitante`, cor: "var(--series-2)" },
+      { rot: saldo >= 0 ? "Sobrou no período" : "Faltou no período", val: reais(Math.abs(saldo)), det: "Arrecadado menos pago. Parte desse valor já está comprometida com despesas empenhadas." },
+      { rot: "Compromissos ainda não pagos", val: reais(d.empenhado - d.pago), det: "Despesas empenhadas no ano que ainda não foram pagas." },
+    ];
+    $("#tiles").innerHTML = t.map((x) => `<div class="tile${x.cor ? " dest" : ""}"${x.cor ? ` style="border-top-color:${x.cor}"` : ""}><span class="rot">${x.rot}</span><span class="val num">${x.val}</span><span class="det">${x.det}</span></div>`).join("");
+  }
+
+  function linhaMensal() {
+    const box = $("#graf-mensal");
+    const rec = A.receitas.mensal, des = A.despesas.mensal_pago;
+    const n = rec.length;
+    $("#leg-mensal").innerHTML = `<span><i class="marca" style="background:var(--series-1)"></i>Receitas correntes arrecadadas</span>` + (des ? `<span><i class="marca" style="background:var(--series-2)"></i>Despesa paga</span>` : "");
+    $("#nota-mensal").textContent = (des ? "" : `A despesa mês a mês de ${anoAtual} aparece quando os arquivos de ${anoAtual} do Tribunal de Contas forem carregados. `) +
+      "As receitas mensais não incluem receitas de capital, como empréstimos e transferências para obras, e já descontam a parte retida para o Fundeb.";
+    const W = Math.max(320, Math.round(box.clientWidth) || 900), H = W < 500 ? 240 : 300, m = { t: 16, r: W < 500 ? 92 : 120, b: 30, l: W < 500 ? 52 : 64 };
+    const iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const maxV = Math.max(...rec, ...(des || []));
+    const passo = [20e6, 25e6, 50e6, 100e6, 200e6, 250e6, 500e6].find((p) => maxV / p <= 5) || 1e9;
+    const topo = Math.ceil(maxV / passo) * passo;
+    const x = (i) => m.l + (i / 11) * iw;
+    const y = (v) => m.t + ih - (v / topo) * ih;
+    let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Receitas e despesas por mês em ${anoAtual}">`;
+    for (let v = 0; v <= topo + 1; v += passo) {
+      s += `<line x1="${m.l}" x2="${m.l + iw}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/>`;
+      s += `<text x="${m.l - 8}" y="${y(v) + 4}" text-anchor="end">${v === 0 ? "0" : reais(v).replace("R$ ", "")}</text>`;
+    }
+    MESES.forEach((mm, i) => { if (W >= 500 || i % 2 === 0) s += `<text x="${x(i)}" y="${H - 8}" text-anchor="middle">${mm}</text>`; });
+    const caminho = (arr) => arr.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join("");
+    const series = [[rec, "var(--series-1)", "Receitas"]].concat(des ? [[des, "var(--series-2)", "Despesa paga"]] : []);
+    series.forEach(([arr, cor]) => {
+      s += `<path d="${caminho(arr)}" fill="none" stroke="${cor}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+      const ul = arr.length - 1;
+      s += `<circle cx="${x(ul)}" cy="${y(arr[ul])}" r="4.5" fill="${cor}" stroke="var(--surface)" stroke-width="2"/>`;
+    });
+    const ul = n - 1;
+    let ly = series.map(([arr]) => y(arr[arr.length - 1]));
+    if (ly.length === 2 && Math.abs(ly[0] - ly[1]) < 16) { const mid = (ly[0] + ly[1]) / 2, up = ly[0] < ly[1]; ly = up ? [mid - 8, mid + 8] : [mid + 8, mid - 8]; }
+    series.forEach(([, , nome], k) => { s += `<text x="${x(ul) + 10}" y="${ly[k] + 4}" style="fill:var(--ink-2);font-weight:600">${nome}</text>`; });
+    s += `<line id="cruz" x1="0" x2="0" y1="${m.t}" y2="${m.t + ih}" stroke="var(--ink-3)" stroke-width="1" stroke-dasharray="3 3" style="display:none"/>`;
+    s += `<rect id="hit" x="${m.l - 20}" y="${m.t}" width="${iw + 40}" height="${ih}" fill="transparent"/></svg>`;
+    box.innerHTML = s;
+    const svg = box.querySelector("svg"), hit = box.querySelector("#hit"), cruz = box.querySelector("#cruz");
+    hit.addEventListener("mousemove", (e) => {
+      const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+      const p = pt.matrixTransform(svg.getScreenCTM().inverse());
+      const i = Math.round(((p.x - m.l) / iw) * 11);
+      if (i < 0 || i >= n) { cruz.style.display = "none"; escondeTip(); return; }
+      cruz.setAttribute("x1", x(i)); cruz.setAttribute("x2", x(i)); cruz.style.display = "";
+      mostraTip(e, `<strong>${MESES_LONGO[i]} de ${anoAtual}</strong><br><span class="marca" style="background:var(--series-1)"></span>Receitas: ${reais(rec[i])}` + (des ? `<br><span class="marca" style="background:var(--series-2)"></span>Despesa paga: ${reais(des[i])}` : ""));
+    });
+    hit.addEventListener("mouseleave", () => { cruz.style.display = "none"; escondeTip(); });
+  }
+
+  function receitas() {
+    const r = A.receitas;
+    const base = r.bruto;
+    const grupos = r.grupos.map((g) => ({ ...g, total: g.itens.reduce((s, i) => s + i.valor, 0) })).sort((a, b) => b.total - a.total);
+    const max = grupos[0].total;
+    $("#rec-grupos").innerHTML = grupos.map((g) => `
+      <details class="grupo">
+        <summary><span class="g-nome">${esc(g.grupo)}</span><span class="g-val num">${reais(g.total)} <small style="color:var(--ink-3);font-weight:400">${pct(g.total / base * 100)}</small></span><span class="g-trilho"><div style="width:${(g.total / max * 100).toFixed(2)}%"></div></span></summary>
+        <p class="g-ex">${esc(g.explicacao)}</p>
+        <ul>${g.itens.slice().sort((a, b) => b.valor - a.valor).map((i) => `<li><strong>${esc(i.nome)}</strong><span class="num">${reais(i.valor)}</span><span class="i-ex">${esc(i.explicacao)}</span></li>`).join("")}</ul>
+      </details>`).join("");
+    $("#rec-nota").textContent = `Valores brutos, que somam ${reais(base)}. Desse total, ${reais(r.deducao_fundeb)} foram retidos automaticamente para formar o Fundeb, que volta ao município como verba de educação. Por isso, a receita arrecadada é de ${reais(r.arrecadado)}.`;
+
+    const soma = (filtro) => grupos.filter((g) => filtro.test(g.grupo)).reduce((s, g) => s + g.total, 0);
+    const proprio = soma(/^Impostos/);
+    const transf = soma(/^Repasses|^Fundeb|^Verbas/);
+    const outras = base - proprio - transf;
+    const partes = [["Impostos e taxas do município", proprio, "var(--s1)"], ["Repasses do Estado e da União, Fundeb e verbas vinculadas", transf, "var(--s2)"], ["Royalties, rendimentos e outras", outras, "var(--s8)"]];
+    $("#rec-autonomia").textContent = `De cada R$ 100 que entraram, R$ ${nf0.format(proprio / base * 100)} vieram de impostos e taxas cobrados pela própria Prefeitura e R$ ${nf0.format(transf / base * 100)} vieram de repasses de outros governos.`;
+    $("#faixa-autonomia").innerHTML = partes.map(([n, v, c]) => `<div style="flex:${v};background:${c}">${v / base * $("#faixa-autonomia").clientWidth >= 40 ? nf0.format(v / base * 100) + "%" : ""}</div>`).join("");
+    $("#leg-autonomia").innerHTML = partes.map(([n, v, c]) => `<span><i class="marca" style="background:${c}"></i>${n}: ${pct(v / base * 100)}</span>`).join("");
+
+    $("#rec-previsto").textContent = A.meses < 12
+      ? `O orçamento atualizado prevê ${reais(r.previsto)} para o ano inteiro. Até ${MESES_LONGO[A.meses - 1]}, entraram ${reais(r.arrecadado)}, ou ${pct(r.arrecadado / r.previsto * 100)} do previsto. Em ${A.meses} de 12 meses, o esperado seria cerca de ${pct(A.meses / 12 * 100)}.`
+      : `O orçamento atualizado previa ${reais(r.previsto)}. Entraram ${reais(r.arrecadado)}, ou ${pct(r.arrecadado / r.previsto * 100)} do previsto.`;
+    barras($("#rec-prev-barras"), [
+      { nome: "Previsto para o ano", valor: r.previsto, cor: "var(--s8)" },
+      { nome: A.meses < 12 ? "Arrecadado até agora" : "Arrecadado no ano", valor: r.arrecadado, cor: "var(--series-1)" },
+    ]);
+  }
+
+  function despesas() {
+    const d = A.despesas;
+    const medida = d.por_funcao_medida === "pago" ? "paga" : "liquidada";
+    const f = d.por_funcao.slice().sort((a, b) => b.valor - a.valor);
+    const base = f.reduce((s, x) => s + x.valor, 0);
+    const top = f.slice(0, 5), resto = f.slice(5).reduce((s, x) => s + x.valor, 0);
+    const fatias = top.map((x, i) => ({ nome: x.funcao, v: x.valor, cor: CORES[i] })).concat(resto > 0 ? [{ nome: "Outras áreas", v: resto, cor: CORES[5] }] : []);
+    $("#desp-intro").textContent = `Em ${anoAtual}${ateMes()}, a Prefeitura pagou ${reais(d.pago)}. ${f[0].funcao} e ${f[1].funcao} ficam com ${pct((f[0].valor + f[1].valor) / base * 100)} da despesa.`;
+    $("#t-faixa").textContent = d.por_funcao_medida === "pago" ? "De cada R$ 100 pagos pela Prefeitura" : "De cada R$ 100 gastos pela Prefeitura";
+    const faixa = $("#faixa-100");
+    faixa.innerHTML = "";
+    fatias.forEach((x) => {
+      const div = document.createElement("div");
+      const p = x.v / base * 100;
+      div.style.flex = x.v; div.style.background = x.cor;
+      div.textContent = p * faixa.clientWidth / 100 >= 46 ? "R$ " + nf0.format(p) : "";
+      ligaTip(div, `<strong>${esc(x.nome)}</strong><br>R$ ${nf1.format(p)} de cada R$ 100<br>${reais(x.v)} no total`);
+      faixa.appendChild(div);
+    });
+    $("#leg-100").innerHTML = fatias.map((x) => `<span><i class="marca" style="background:${x.cor}"></i>${esc(x.nome)}: R$ ${nf0.format(x.v / base * 100)}</span>`).join("");
+    $("#t-funcao").textContent = `Despesa ${medida} por área`;
+    barras($("#desp-funcao"), f.map((x) => ({ nome: x.funcao, valor: x.valor, explicacao: FUNCOES[x.funcao] })), "var(--series-2)", base);
+    $("#fonte-funcao").textContent = d.por_funcao_medida === "pago" ? fonteTce() : `${fonteSiconfi()} Para ${anoAtual}, a divisão por área usa a despesa liquidada (serviço entregue e conferido), porque os pagamentos detalhados ainda não foram carregados.`;
+    barras($("#desp-natureza"), d.por_natureza.map((x) => ({ nome: x.nome, valor: x.valor, explicacao: x.explicacao })), "var(--series-2)", d.pago);
+
+    const est = [["Empenhado", "reservado", d.empenhado], ["Liquidado", "entregue e conferido", d.liquidado], ["Pago", "dinheiro saiu", d.pago]];
+    $("#estagios").innerHTML = est.map(([n, sub, v], i) => `<div class="estagio"><span class="e-nome">${n}<small>${sub}</small></span><span class="e-barra num" style="width:${Math.max(30, v / d.empenhado * 100).toFixed(1)}%;background:${["#9fd3ea", "#018ac0", "#005080"][i]};color:${i === 0 ? "#0b0b0b" : "#fff"}">${reais(v)}</span></div>`).join("");
+    $("#fonte-natureza").textContent = fonteSiconfi();
+  }
+
+  let credOrdem = "pago", credLimite = 20, credAberto = null;
+  function credores() {
+    const c = A.credores;
+    const box = $("#cred-conteudo"), vazio = $("#cred-vazio");
+    if (!c) {
+      box.hidden = true; vazio.hidden = false; $("#cred-tiles").innerHTML = "";
+      vazio.textContent = `A lista de credores de ${anoAtual} aparece quando os arquivos de despesa de ${anoAtual} do Tribunal de Contas do Paraná forem carregados. Por enquanto, ela está disponível para os anos com esses arquivos.`;
+      return;
+    }
+    box.hidden = false; vazio.hidden = true;
+    const total = c.reduce((s, x) => s + x.pago, 0);
+    const top10 = c.slice(0, 10).reduce((s, x) => s + x.pago, 0);
+    const t = [
+      ["Credores com pagamentos", nf0.format(c.filter((x) => x.pago > 0).length), "Empresas, entidades e pessoas que receberam no período."],
+      ["Total pago a credores", reais(total), "Fornecedores, entidades e órgãos públicos. Não inclui a folha."],
+      ["Fatia dos 10 maiores", pct(top10 / total * 100), "Quanto do total pago a credores foi para os dez que mais receberam."],
+    ];
+    if (A.folha_pago) t.push(["Folha de pagamento", reais(A.folha_pago), "Salários, aposentadorias e pensões pagos diretamente a servidores. Fica fora do ranking."]);
+    $("#cred-tiles").innerHTML = t.map(([r, v, d]) => `<div class="tile"><span class="rot">${r}</span><span class="val num">${v}</span><span class="det">${d}</span></div>`).join("");
+    const preenche = (sel, valores, rotuloTodos) => {
+      const atual = sel.value;
+      sel.innerHTML = `<option value="">${rotuloTodos}</option>` + valores.map((a) => `<option${a === atual ? " selected" : ""}>${esc(a)}</option>`).join("");
+    };
+    preenche($("#f-area"), [...new Set(c.map((x) => x.area))].sort(), "Todas as áreas");
+    preenche($("#f-tipo"), [...new Set(c.map((x) => x.tipo))].sort(), "Todos os tipos");
+    c.forEach((x) => { if (!x._busca) x._busca = semAcento(x.nome + " " + x.documento + " " + x.objeto + " " + (x.historico || "")); });
+    tabelaCredores();
+  }
+  function tabelaCredores() {
+    if (!A.credores) return;
+    const q = semAcento($("#busca").value.trim()), area = $("#f-area").value, tipo = $("#f-tipo").value;
+    const lista = A.credores.filter((x) => (!area || x.area === area) && (!tipo || x.tipo === tipo) && (!q || x._busca.includes(q)));
+    lista.sort((a, b) => credOrdem === "pago" ? b.pago - a.pago : b.empenhos - a.empenhos);
+    const max = Math.max(1, A.credores[0].pago);
+    const linhasHtml = lista.slice(0, credLimite).map((x, i) => {
+      const id = x.documento + "|" + x.nome;
+      const aberto = credAberto === id;
+      return `<tr class="cred-linha" data-id="${esc(id)}" tabindex="0" aria-expanded="${aberto}">
+        <td class="num">${i + 1}</td>
+        <td><strong>${esc(x.nome)}</strong><span class="doc num">${esc(x.documento)} · ${esc(x.tipo)}</span></td>
+        <td>${esc(x.objeto)}</td>
+        <td><span class="tag">${esc(x.area)}</span></td>
+        <td class="dir num">${nf0.format(x.empenhos)}</td>
+        <td class="dir num"><strong>${reais(x.pago)}</strong><div class="barrinha" style="width:${Math.max(0, x.pago / max * 100).toFixed(1)}%;margin-left:auto"></div></td>
+      </tr>` + (aberto ? `<tr class="cred-det"><td></td><td colspan="5">Empenhado no período: <strong>${brl2.format(x.empenhado)}</strong> · Pago: <strong>${brl2.format(x.pago)}</strong>${x.historico ? `<br>Maior empenho: ${esc(x.historico)}` : ""}</td></tr>` : "");
+    }).join("");
+    $("#cred-corpo").innerHTML = lista.length ? linhasHtml : `<tr><td colspan="6">Nenhum credor encontrado com esses filtros. Tente outro termo ou limpe os filtros.</td></tr>`;
+    $("#cred-resumo").textContent = lista.length ? `${nf0.format(lista.length)} credores na lista, incluindo os que tiveram empenho mas ainda não receberam, somando ${reais(lista.reduce((s, x) => s + x.pago, 0))} pagos.` : "";
+    const btn = $("#mais");
+    btn.hidden = lista.length <= credLimite;
+    btn.textContent = `Mostrar mais (${nf0.format(Math.max(0, lista.length - credLimite))} restantes)`;
+    $("#ord-pago").textContent = "Total pago" + (credOrdem === "pago" ? " ▼" : "");
+    $("#ord-emp").textContent = "Empenhos" + (credOrdem === "emp" ? " ▼" : "");
+    $("#fonte-cred").textContent = fonteTce();
+  }
+
+  function indicadores() {
+    const i = A.indicadores;
+    const anterior = DADOS.anos[String(Number(anoAtual) - 1)];
+    const card = (titulo, val, lim, tipo, texto, escala, extra) => {
+      if (val == null) {
+        return `<div class="card ind"><div class="ind-top"><h3>${titulo}</h3><span class="pill" style="color:var(--ink-3)">Aguardando dados</span></div>
+          <p style="color:var(--ink-2);font-size:.92rem">${texto}</p>
+          <p class="vazio">Este percentual é declarado no ${titulo === "Saúde" ? "SIOPS, do Ministério da Saúde" : "SIOPE, do Ministério da Educação"}, e ainda não foi carregado no site.</p></div>`;
+      }
+      let cls, rot;
+      if (tipo === "min") {
+        const parcial = extra === "parcial";
+        if (val >= lim) { cls = "ok"; rot = parcial ? "✓ Acima do mínimo até agora" : "✓ Cumpriu o mínimo"; }
+        else { cls = parcial ? "alerta" : "ruim"; rot = parcial ? "! Abaixo do mínimo até agora" : "✕ Não cumpriu o mínimo"; }
+        extra = "";
+      }
+      else { cls = val > lim ? "ruim" : val > lim * 0.95 ? "alerta" : "ok"; rot = val > lim ? "✕ Acima do limite" : val > lim * 0.95 ? "! Acima do limite prudencial" : val > lim * 0.9 ? "! Acima do limite de alerta" : "✓ Dentro do limite"; if (val > lim * 0.9 && val <= lim * 0.95) cls = "alerta"; }
+      return `<div class="card ind">
+        <div class="ind-top"><h3>${titulo}</h3><span class="pill ${cls}">${rot}</span></div>
+        <div><span class="num" style="font-family:var(--font-display);font-size:2rem;font-weight:800">${pct(val)}</span> <span style="color:var(--ink-2)">${tipo === "min" ? "aplicado · mínimo " : "da receita corrente líquida · limite "}${pct(lim)}</span></div>
+        <div class="bullet" role="img" aria-label="${pct(val)}, limite ${pct(lim)}"><div class="b-val" style="width:${Math.min(100, val / escala * 100)}%;${cls === "ruim" ? "background:var(--critical)" : ""}"></div><div class="b-lim" style="left:${lim / escala * 100}%"></div></div>
+        <div class="bullet-esc"><span>0%</span><span>${pct(escala)}</span></div>
+        <p style="color:var(--ink-2);font-size:.92rem">${texto}</p>${extra || ""}</div>`;
+    };
+    let extraPessoal = i.pessoal_periodo ? `<p class="fonte">Fonte: Relatório de Gestão Fiscal (Siconfi), ${esc(i.pessoal_periodo)}. Poder Executivo.</p>` : "";
+    if (i.pessoal_rcl_pct > 54) {
+      let comp = "";
+      const ai = anterior && anterior.indicadores;
+      if (ai && ai.pessoal_inativos_deduzidos && i.pessoal_inativos_deduzidos < ai.pessoal_inativos_deduzidos * 0.7) {
+        comp = ` No relatório anterior (${esc(ai.pessoal_periodo)}), o percentual foi ${pct(ai.pessoal_rcl_pct)}. Entre um relatório e outro, o valor de aposentadorias e pensões pagas com recursos da previdência, que a lei permite descontar do cálculo, caiu de ${reais(ai.pessoal_inativos_deduzidos)} para ${reais(i.pessoal_inativos_deduzidos)}. Essa mudança pesa bastante no resultado e merece esclarecimento da Prefeitura.`;
+      }
+      extraPessoal = `<p class="aviso">Este é o percentual que a própria Prefeitura informou ao Tesouro Nacional.${comp}</p>` + extraPessoal;
+    }
+    const notaMin = (area, parcial, periodo, fonte, extraTxt) => {
+      if (!periodo) return "";
+      let s = parcial ? `<p style="color:var(--ink-2);font-size:.92rem">O mínimo vale para o ano inteiro e é conferido em dezembro. O percentual parcial mostra o ritmo de aplicação até ${esc(periodo.replace(/^até o /, "o "))}.</p>` : "";
+      return s + (extraTxt || "") + `<p class="fonte">Fonte: ${esc(fonte)}. Período: ${esc(periodo)}.</p>`;
+    };
+    const cardMin = (titulo, val, lim, texto, parcial, periodo, fonte, extraTxt) => {
+      const html = card(titulo, val, lim, "min", texto, 40, parcial ? "parcial" : "");
+      return val == null ? html : html.replace(/<\/div>$/, notaMin(titulo, parcial, periodo, fonte, extraTxt) + "</div>");
+    };
+    const fundeb = i.fundeb70_pct != null ? `<p style="color:var(--ink-2);font-size:.92rem">Do Fundeb, ${pct(i.fundeb70_pct)} foi para salários dos profissionais da educação. O mínimo exigido é 70%.</p>` : "";
+    $("#indicadores").innerHTML =
+      cardMin("Saúde", i.saude_pct, 15, "O município deve aplicar pelo menos 15% da receita de impostos e transferências constitucionais em saúde.", i.saude_parcial, i.saude_periodo, i.saude_fonte) +
+      cardMin("Educação", i.educacao_pct, 25, "O município deve aplicar pelo menos 25% da receita de impostos e transferências em manutenção e desenvolvimento do ensino.", i.educacao_parcial, i.educacao_periodo, i.educacao_fonte, fundeb) +
+      card("Gastos com pessoal", i.pessoal_rcl_pct, 54, "max", "O Poder Executivo pode gastar no máximo 54% da receita corrente líquida com pessoal. Acima de 48,6%, o Tribunal de Contas emite um alerta. Acima de 51,3%, a lei proíbe novas contratações e aumentos. Acima de 54%, o excesso precisa ser eliminado em até dois quadrimestres.", 70, extraPessoal);
+  }
+
+  // ------------------------------------------------------------ Sankey: de onde vem e para onde vai
+  const CURTO = {
+    "Impostos e taxas do município": "Impostos e taxas municipais",
+    "Verbas para saúde, assistência e outros programas": "Verbas vinculadas (SUS e outros)",
+    "Rendimentos e outras receitas": "Rendimentos e outras",
+    "Royalties de Itaipu": "Royalties de Itaipu",
+  };
+  const curto = (s, n = 36) => { s = CURTO[s] || s; return s.length > n ? s.slice(0, n - 1) + "…" : s; };
+
+  function sankey(box, notaEl, fonteEl) {
+    box = box || $("#sankey"); notaEl = notaEl || $("#caminho-nota"); fonteEl = fonteEl || $("#fonte-caminho");
+    const r = A.receitas, d = A.despesas;
+    const esq = r.grupos.map((g) => ({ nome: g.grupo, v: g.itens.reduce((s, i) => s + i.valor, 0), cor: "var(--series-1)" }))
+      .filter((x) => x.v > 0).sort((a, b) => b.v - a.v);
+    const f = d.por_funcao.slice().sort((a, b) => b.valor - a.valor);
+    const T = esq.reduce((s, x) => s + x.v, 0);
+    const corte = T * 0.025;
+    const dir = f.filter((x) => x.valor >= corte).slice(0, 8).map((x) => ({ nome: x.funcao, v: x.valor, cor: "var(--series-2)", exp: FUNCOES[x.funcao] }));
+    const resto = f.reduce((s, x) => s + x.valor, 0) - dir.reduce((s, x) => s + x.v, 0);
+    if (resto > 0) dir.push({ nome: "Outras áreas", v: resto, cor: "var(--series-2)", exp: "Soma das áreas menores: " + f.filter((x) => !dir.some((y) => y.nome === x.funcao)).map((x) => x.funcao).join(", ") + "." });
+    dir.push({ nome: "Retido para o Fundeb", v: r.deducao_fundeb, cor: "var(--s8)", exp: "Parte de alguns impostos e repasses vai automaticamente para o Fundeb e volta ao município como verba de educação (aparece à esquerda, em Fundeb)." });
+    const gasto = dir.reduce((s, x) => s + x.v, 0);
+    const saldo = T - gasto;
+    const medida = d.por_funcao_medida === "pago" ? "pago" : "liquidado";
+    const medidaF = medida === "pago" ? "paga" : "liquidada";
+    if (saldo >= 0) dir.push({ nome: "Ainda não gasto no período", v: saldo, cor: "var(--good)", exp: `Receita do período que ainda não foi ${medida === "pago" ? "paga" : "gasta"}. Parte já está comprometida com despesas empenhadas.` });
+    else esq.push({ nome: "Saldo de anos anteriores", v: -saldo, cor: "var(--s8)" });
+    const totalEsq = esq.reduce((s, x) => s + x.v, 0);
+
+    const W = 1120, H = 600, nodeW = 14, gap = 10, topo = 10;
+    const xL = 300, xC = 553, xR = 800;
+    const n = Math.max(esq.length, dir.length);
+    const k = (H - topo * 2 - gap * (n - 1)) / totalEsq;
+    const coluna = (lista) => {
+      const altura = lista.reduce((s, x) => s + Math.max(2, x.v * k), 0) + gap * (lista.length - 1);
+      let y = topo + (H - topo * 2 - altura) / 2;
+      lista.forEach((x) => { x.h = Math.max(2, x.v * k); x.y = y; y += x.h + gap; });
+    };
+    coluna(esq); coluna(dir);
+    const hC = totalEsq * k, yC = (H - hC) / 2;
+    const banda = (x0, y0, h0, x1, y1, h1) => {
+      const xm = (x0 + x1) / 2;
+      return `M${x0},${y0}C${xm},${y0} ${xm},${y1} ${x1},${y1}L${x1},${y1 + h1}C${xm},${y1 + h1} ${xm},${y0 + h0} ${x0},${y0 + h0}Z`;
+    };
+    let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Diagrama do caminho do dinheiro: receitas à esquerda, despesas à direita">`;
+    let yc = yC, links = [];
+    esq.forEach((x, i) => { const h = x.v * k; links.push({ d: banda(xL + nodeW, x.y, x.h, xC, yc, h), cor: x.cor, no: x, lado: "e", i }); yc += h; });
+    yc = yC;
+    dir.forEach((x, i) => { const h = x.v * k; links.push({ d: banda(xC + nodeW, yc, h, xR, x.y, x.h), cor: x.cor, no: x, lado: "d", i }); yc += h; });
+    links.forEach((l, j) => { s += `<path class="lk" data-j="${j}" d="${l.d}" fill="${l.cor}" opacity=".26"/>`; });
+    s += `<rect x="${xC}" y="${yC}" width="${nodeW}" height="${hC}" rx="3" fill="var(--accent)"/>`;
+    s += `<text x="${xC + nodeW / 2}" y="${yC - 8}" text-anchor="middle" style="font-weight:800">Cofre do município</text>`;
+    s += `<text x="${xC + nodeW / 2}" y="${yC + hC + 18}" text-anchor="middle" class="v" style="fill:var(--ink-3)">${reais(totalEsq)}</text>`;
+    esq.forEach((x) => {
+      s += `<rect x="${xL}" y="${x.y}" width="${nodeW}" height="${x.h}" rx="2" fill="${x.cor}"/>`;
+      s += `<text x="${xL - 8}" y="${x.y + x.h / 2 + 4}" text-anchor="end">${esc(curto(x.nome))} <tspan class="v">${reais(x.v)}</tspan></text>`;
+    });
+    dir.forEach((x) => {
+      s += `<rect x="${xR}" y="${x.y}" width="${nodeW}" height="${x.h}" rx="2" fill="${x.cor}"/>`;
+      s += `<text x="${xR + nodeW + 8}" y="${x.y + x.h / 2 + 4}">${esc(curto(x.nome))} <tspan class="v">${reais(x.v)}</tspan></text>`;
+    });
+    s += `</svg>`;
+    box.innerHTML = s;
+    box.querySelectorAll("path.lk").forEach((p) => {
+      const l = links[Number(p.dataset.j)];
+      const html = `<strong>${esc(l.no.nome)}</strong><br>${brl.format(l.no.v)} · ${pct(l.no.v / totalEsq * 100)} do total` + (l.no.exp ? `<br><span style="opacity:.85">${esc(l.no.exp)}</span>` : "");
+      ligaTip(p, html);
+    });
+    notaEl.textContent = `Receitas em valores brutos (${reais(T)}), de janeiro a ${MESES_LONGO[A.meses - 1]} de ${anoAtual}. As áreas mostram a despesa ${medidaF}. Áreas com menos de 2,5% do total foram somadas em "Outras áreas".`;
+    fonteEl.textContent = d.por_funcao_medida === "pago" ? `Receitas: ${fonteSiconfi().replace("Fonte: ", "")} Despesas: ${fonteTce().replace("Fonte: ", "")}` : fonteSiconfi();
+  }
+
+  // ------------------------------------------------------------ páginas especiais
+  const ESPECIAIS = { "diarias": paginaDiarias, "gratificacoes": paginaGratificacoes, "horas-extras": paginaHorasExtras, "remuneracao": paginaRemuneracao };
+
+  function topoEsp(titulo, intro, img) {
+    return `<div class="esp-topo"><div><span class="fonte" style="font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent)">Página especial</span><h2>${titulo}</h2><p class="intro">${intro}</p></div><img class="lupa" src="img/${img}.webp" alt="Luposo"></div>`;
+  }
+  const tilesHtml = (t) => `<div class="grid-4">${t.map(([r, v, d]) => `<div class="tile"><span class="rot">${r}</span><span class="val num">${v}</span><span class="det">${d}</span></div>`).join("")}</div>`;
+  const semDados = (txt) => `<p class="card vazio">${txt}</p>`;
+
+  function colunas(alvo, valores, rotulos, cor, fmt) {
+    const W = Math.max(320, Math.round(alvo.clientWidth) || 900), H = 240, m = { t: 22, r: 10, b: 28, l: 10 };
+    const n = valores.length, max = Math.max(...valores, 1);
+    const bw = (W - m.l - m.r) / n;
+    let s = `<svg viewBox="0 0 ${W} ${H}" role="img">`;
+    s += `<line x1="${m.l}" x2="${W - m.r}" y1="${H - m.b}" y2="${H - m.b}" stroke="var(--line)"/>`;
+    valores.forEach((v, i) => {
+      const h = (v / max) * (H - m.t - m.b), x = m.l + i * bw + bw * 0.18, w = bw * 0.64, y = H - m.b - h;
+      s += `<g class="col" data-i="${i}"><rect x="${m.l + i * bw}" y="${m.t}" width="${bw}" height="${H - m.t - m.b}" fill="transparent"/>`;
+      s += `<path d="M${x},${H - m.b}V${y + 4}Q${x},${y} ${x + 4},${y}H${x + w - 4}Q${x + w},${y} ${x + w},${y + 4}V${H - m.b}Z" fill="${cor}"/>`;
+      s += `<text x="${x + w / 2}" y="${y - 6}" text-anchor="middle" style="fill:var(--ink-2);font-weight:600">${fmt(v)}</text>`;
+      s += `<text x="${x + w / 2}" y="${H - 8}" text-anchor="middle">${esc(rotulos[i])}</text></g>`;
+    });
+    s += `</svg>`;
+    alvo.innerHTML = s;
+  }
+  const fmtCurto = (v) => reais(v).replace("R$ ", "");
+
+  function paginaDiarias(el) {
+    const di = A.diarias, ps = A.passagens;
+    el.innerHTML = topoEsp("Diárias e passagens", "Diárias pagam hospedagem e alimentação de quem viaja a serviço. Passagens são compradas de agências e empresas de ônibus. Aqui você vê quem viajou, para onde, por quê e quanto custou.", "lupa-anotando");
+    if (!di) { el.innerHTML += semDados(`Os dados de diárias de ${anoAtual} aparecem quando o arquivo de diárias do Tribunal de Contas desse ano for carregado.`); return; }
+    const v = di.viagens, total = v.reduce((s, x) => s + x.valor, 0);
+    const pessoas = new Map();
+    v.forEach((x) => { const p = pessoas.get(x.nome) || { nome: x.nome, cargo: x.cargo, valor: 0, viagens: 0 }; p.valor += x.valor; p.viagens++; pessoas.set(x.nome, p); });
+    const nDiarias = v.reduce((s, x) => s + x.diarias, 0);
+    el.innerHTML += tilesHtml([
+      ["Pago em diárias", reais(total), `${nf0.format(v.length)} viagens de janeiro a ${MESES_LONGO[A.meses - 1]} de ${anoAtual}.`],
+      ["Pessoas que viajaram", nf0.format(pessoas.size), "Servidores, agentes políticos e conselheiros."],
+      ["Valor médio por diária", brl.format(total / Math.max(nDiarias, 1)), `${nf0.format(nDiarias)} diárias no total.`],
+      ["Pago em passagens", ps ? reais(ps.total) : "–", "Compradas de agências de viagem e empresas de ônibus."],
+    ]);
+    el.innerHTML += `<div class="card"><h3>Diárias por mês de início da viagem</h3><div class="colunas" id="d-mes"></div></div>
+      <div class="grid-2"><div class="card"><h3>Para que foram as viagens</h3><div class="barras" id="d-tipo"></div>
+        <p class="intro" style="font-size:.88rem">"Transporte de pacientes" são viagens de motoristas e equipes da saúde levando moradores para tratamento em outras cidades.</p></div>
+        <div class="card"><h3>Destinos que mais receberam diárias</h3><div class="barras" id="d-dest"></div></div></div>
+      <div class="grid-2"><div class="card"><h3>Quem mais recebeu diárias</h3><div class="barras" id="d-pess"></div></div>
+        <div class="card"><h3>Onde as passagens foram compradas</h3><div class="barras" id="d-pass"></div></div></div>
+      <div class="card"><h3>Todas as viagens</h3>
+        <div class="filtros"><label for="d-busca">Buscar por nome, cargo, destino ou motivo<input id="d-busca" type="search" placeholder="Ex.: Brasília, enfermeiro, congresso"></label></div>
+        <div class="tabela-box"><table class="tabela-esp"><thead><tr><th>Quem viajou</th><th>Destino e período</th><th>Motivo</th><th class="dir">Diárias</th><th class="dir">Valor</th></tr></thead><tbody id="d-corpo"></tbody></table></div>
+        <p class="intro" id="d-resumo" style="font-size:.88rem"></p><button type="button" class="btn" id="d-mais">Mostrar mais</button>
+        <p class="fonte">Fonte: ${esc(fonteTce().replace("Fonte: ", ""))}. ${di.canceladas ? di.canceladas + " diárias canceladas (pagamento estornado) foram retiradas. " : ""}O CPF aparece mascarado, como publicado pelo Tribunal de Contas.</p></div>`;
+    const porMes = Array(A.meses).fill(0); v.forEach((x) => { const m = Number(x.inicio.slice(5, 7)) - 1; if (m < A.meses) porMes[m] += x.valor; });
+    colunas($("#d-mes"), porMes, MESES.slice(0, A.meses), "var(--series-2)", fmtCurto);
+    const agrupa = (fn) => { const m = new Map(); v.forEach((x) => m.set(fn(x), (m.get(fn(x)) || 0) + x.valor)); return [...m.entries()].map(([nome, valor]) => ({ nome, valor })).sort((a, b) => b.valor - a.valor); };
+    barras($("#d-tipo"), agrupa((x) => x.tipo.replace(" não ligados ao TCE/PR", "").replace("Tribunal de Contas do Estado do Paraná  ", "TCE-PR: ")), "var(--series-2)", total);
+    barras($("#d-dest"), agrupa((x) => x.destino || "Não informado").slice(0, 10), "var(--series-2)", total);
+    barras($("#d-pess"), [...pessoas.values()].sort((a, b) => b.valor - a.valor).slice(0, 10).map((p) => ({ nome: p.nome + (p.cargo ? " (" + p.cargo + ")" : ""), valor: p.valor, explicacao: `${p.viagens} viagens` })), "var(--series-2)", null, { porHab: false });
+    if (ps && ps.fornecedores.length) barras($("#d-pass"), ps.fornecedores.map((x) => ({ nome: x.nome, valor: x.valor })), "var(--series-1)", ps.total);
+    let lim = 25;
+    const fmtData = (d) => d ? d.slice(8, 10) + "/" + d.slice(5, 7) : "";
+    const desenha = () => {
+      const q = semAcento($("#d-busca").value.trim());
+      const lista = q ? v.filter((x) => semAcento([x.nome, x.cargo, x.destino, x.objetivo, x.tipo].join(" ")).includes(q)) : v;
+      $("#d-corpo").innerHTML = lista.slice(0, lim).map((x) => `<tr><td><strong>${esc(x.nome)}</strong><span class="doc">${esc(x.cargo || x.entidade)}</span></td><td>${esc(x.destino)}<span class="doc num">${fmtData(x.inicio)} a ${fmtData(x.fim)}</span></td><td>${esc(x.objetivo || x.tipo)}</td><td class="dir num">${nf1.format(x.diarias)}</td><td class="dir num"><strong>${brl2.format(x.valor)}</strong></td></tr>`).join("") || `<tr><td colspan="5">Nenhuma viagem encontrada.</td></tr>`;
+      $("#d-resumo").textContent = `${nf0.format(lista.length)} viagens, somando ${brl2.format(lista.reduce((s, x) => s + x.valor, 0))}.`;
+      $("#d-mais").hidden = lista.length <= lim;
+    };
+    $("#d-busca").addEventListener("input", () => { lim = 25; desenha(); });
+    $("#d-mais").addEventListener("click", () => { lim += 50; desenha(); });
+    desenha();
+  }
+
+  const EXPLICA_FOLHA = {
+    "Gratificação por exercício de funções": "Valor extra para quem assume chefia, coordenação ou outra função de confiança.",
+    "Gratificação por tempo de serviço": "Acréscimo pago conforme os anos de serviço (anuênios, quinquênios).",
+    "Outros adicionais, vantagens e gratificações": "Outras vantagens previstas em lei que não se encaixam nas categorias anteriores.",
+    "Adicional de insalubridade": "Para quem trabalha exposto a agentes nocivos à saúde, comum em unidades de saúde.",
+    "Adicional de periculosidade": "Para atividades de risco, como as da Guarda Municipal.",
+    "Adicional de atividades penosas": "Para atividades desgastantes física ou emocionalmente.",
+    "Adicional noturno": "Acréscimo para quem trabalha entre 22h e 5h, como em UPAs e na Guarda.",
+    "Abono de permanência": "Devolução da contribuição previdenciária a quem já pode se aposentar e continua trabalhando.",
+    "Horas extras (serviços extraordinários)": "Pagamento por horas trabalhadas além da jornada normal.",
+  };
+  const GRATIF = ["Gratificação por exercício de funções", "Gratificação por tempo de serviço", "Outros adicionais, vantagens e gratificações"];
+  const ADIC = ["Adicional de insalubridade", "Adicional de periculosidade", "Adicional de atividades penosas", "Adicional noturno", "Abono de permanência"];
+
+  function blocoComponente(el, nomes, cor, idp) {
+    const C = A.componentes_folha;
+    const itens = nomes.filter((n) => C[n]).map((n) => ({ nome: n, ...C[n] }));
+    const total = itens.reduce((s, x) => s + x.total, 0);
+    const mensal = Array(A.meses).fill(0); itens.forEach((x) => x.mensal.forEach((v, i) => (mensal[i] += v)));
+    const orgao = new Map(); itens.forEach((x) => x.por_orgao.forEach((o) => orgao.set(o.nome, (orgao.get(o.nome) || 0) + o.valor)));
+    return { itens, total, mensal, orgao: [...orgao.entries()].map(([nome, valor]) => ({ nome, valor })).sort((a, b) => b.valor - a.valor) };
+  }
+
+  function paginaGratificacoes(el) {
+    el.innerHTML = topoEsp("Gratificações e adicionais", "Além do salário-base, a lei prevê valores extras para quem assume funções de chefia, trabalha em condições insalubres ou perigosas, à noite, ou continua trabalhando depois de poder se aposentar.", "lupa-prancheta");
+    if (!A.componentes_folha) { el.innerHTML += semDados(`Os dados de ${anoAtual} aparecem quando os arquivos de despesa desse ano do Tribunal de Contas forem carregados.`); return; }
+    const g = blocoComponente(el, GRATIF), a = blocoComponente(el, ADIC);
+    el.innerHTML += tilesHtml([
+      ["Gratificações pagas", reais(g.total), `De janeiro a ${MESES_LONGO[A.meses - 1]} de ${anoAtual}.`],
+      ["Adicionais e abono pagos", reais(a.total), "Insalubridade, periculosidade, noturno, penosidade e abono de permanência."],
+      ["Peso na folha", A.folha_pago ? pct((g.total + a.total) / A.folha_pago * 100) : "–", "Do total pago diretamente a servidores no período."],
+    ]);
+    el.innerHTML += `<div class="grid-2"><div class="card"><h3>Gratificações por tipo</h3><div class="barras" id="g-tipo"></div></div>
+      <div class="card"><h3>Adicionais por tipo</h3><div class="barras" id="a-tipo"></div></div></div>
+      <div class="card"><h3>Gratificações e adicionais por mês</h3><div class="colunas" id="g-mes"></div></div>
+      <div class="grid-2"><div class="card"><h3>Gratificações por secretaria</h3><div class="barras" id="g-org"></div></div>
+      <div class="card"><h3>Adicionais por secretaria</h3><div class="barras" id="a-org"></div></div></div>
+      <p class="nota">Os arquivos do Tribunal de Contas mostram o total pago em cada tipo de gratificação, mas não quanto cada servidor recebeu. Esse detalhe está no contracheque, publicado na folha de pagamento do Portal da Transparência da Prefeitura, e entra aqui quando esses dados forem carregados.</p>
+      <p class="fonte">Fonte: ${esc(fonteTce().replace("Fonte: ", ""))}. Valores pagos, classificados pela natureza da despesa (elemento 11).</p>`;
+    barras($("#g-tipo"), g.itens.map((x) => ({ nome: x.nome, valor: x.total, explicacao: EXPLICA_FOLHA[x.nome] })), "var(--series-2)", g.total);
+    barras($("#a-tipo"), a.itens.map((x) => ({ nome: x.nome, valor: x.total, explicacao: EXPLICA_FOLHA[x.nome] })), "var(--s3)", a.total);
+    colunas($("#g-mes"), g.mensal.map((v, i) => v + a.mensal[i]), MESES.slice(0, A.meses), "var(--series-2)", fmtCurto);
+    barras($("#g-org"), g.orgao.slice(0, 10), "var(--series-2)", g.total);
+    barras($("#a-org"), a.orgao.slice(0, 10), "var(--s3)", a.total);
+  }
+
+  function paginaHorasExtras(el) {
+    el.innerHTML = topoEsp("Horas extras", "Quando um servidor trabalha além da jornada, a Prefeitura paga serviço extraordinário. Horas extras frequentes podem indicar falta de pessoal ou má distribuição de escalas.", "lupa-pensando");
+    const C = A.componentes_folha && A.componentes_folha["Horas extras (serviços extraordinários)"];
+    if (!C) { el.innerHTML += semDados(`Os dados de ${anoAtual} aparecem quando os arquivos de despesa desse ano do Tribunal de Contas forem carregados.`); return; }
+    const m = C.mensal, ini = m.find((x) => x > 0) || 0, fim = m[m.length - 1];
+    const varia = ini ? (fim / ini - 1) * 100 : 0;
+    const saude = C.por_orgao.find((o) => /Sa[úu]de/.test(o.nome));
+    el.innerHTML += tilesHtml([
+      ["Pago em horas extras", reais(C.total), `De janeiro a ${MESES_LONGO[A.meses - 1]} de ${anoAtual}.`],
+      ["Média por mês", reais(C.total / A.meses), "Valor pago por mês, em média."],
+      [`${MESES_LONGO[A.meses - 1][0].toUpperCase() + MESES_LONGO[A.meses - 1].slice(1)} contra janeiro`, (varia >= 0 ? "+" : "") + nf0.format(varia) + "%", `De ${reais(ini)} para ${reais(fim)} no mês.`],
+      ["Fatia da Saúde", saude ? pct(saude.valor / C.total * 100) : "–", "Parte das horas extras paga pela Secretaria da Saúde."],
+    ]);
+    el.innerHTML += `<div class="card"><h3>Horas extras pagas por mês</h3><div class="colunas" id="h-mes"></div>
+        ${varia > 30 ? `<p class="nota">O valor mensal de horas extras ${varia >= 100 ? "mais que dobrou" : "cresceu " + nf0.format(varia) + "%"} entre janeiro e ${MESES_LONGO[A.meses - 1]}. Vale perguntar à Prefeitura o motivo do aumento.</p>` : ""}</div>
+      <div class="grid-2"><div class="card"><h3>Por secretaria</h3><div class="barras" id="h-org"></div></div>
+      <div class="card"><h3>Por área de governo</h3><div class="barras" id="h-ent"></div></div></div>
+      <p class="nota">Os arquivos do Tribunal de Contas trazem o total pago em horas extras, mas não quanto cada servidor recebeu nem quantas horas foram feitas. Esse detalhe está na folha de pagamento do Portal da Transparência da Prefeitura.</p>
+      <p class="fonte">Fonte: ${esc(fonteTce().replace("Fonte: ", ""))}. Elemento de despesa 16, serviços extraordinários.</p>`;
+    colunas($("#h-mes"), m, MESES.slice(0, A.meses), "var(--series-2)", fmtCurto);
+    barras($("#h-org"), C.por_orgao.slice(0, 10), "var(--series-2)", C.total);
+    barras($("#h-ent"), C.por_funcao.slice(0, 10).map((x) => ({ ...x, explicacao: FUNCOES[x.nome] })), "var(--series-1)", C.total);
+  }
+
+  function paginaRemuneracao(el) {
+    const S = DADOS.servidores;
+    el.innerHTML = topoEsp("Remuneração dos servidores", "Consulte quanto ganham os servidores da Prefeitura por cargo, vínculo e lotação. A remuneração de servidores públicos é informação pública, conforme a Lei de Acesso à Informação e decisão do Supremo Tribunal Federal.", "lupa-notebook");
+    if (!S) { el.innerHTML += semDados("A planilha de servidores ainda não foi carregada."); return; }
+    const L = S.lista.map((r) => ({ nome: r[0], cargo: r[1], vinculo: r[2], lotacao: r[4], situacao: r[5], carga: r[6], rem: r[7] || 0, adm: r[8], desl: r[9] }));
+    const ativos = L.filter((x) => !/^Desligado/i.test(x.situacao));
+    const comValor = ativos.filter((x) => x.rem > 0).map((x) => x.rem).sort((a, b) => a - b);
+    const soma = comValor.reduce((s, x) => s + x, 0);
+    const mediana = (arr) => { if (!arr.length) return 0; const s = arr.slice().sort((a, b) => a - b), k = Math.floor(s.length / 2); return s.length % 2 ? s[k] : (s[k - 1] + s[k]) / 2; };
+    const pessoas = new Set(ativos.map((x) => x.nome)).size;
+    const prefeito = L.find((x) => /^Prefeito Municipal/i.test(x.cargo) && !/^Desligado/i.test(x.situacao));
+    const acima = prefeito ? ativos.filter((x) => x.rem > prefeito.rem) : [];
+    el.innerHTML += tilesHtml([
+      ["Vínculos em atividade", nf0.format(ativos.length), `${nf0.format(pessoas)} pessoas. Quem tem dois cargos (como professores com duas matrículas) conta duas vezes.`],
+      ["Soma das remunerações", reais(soma), "Total mensal informado para os vínculos em atividade."],
+      ["Remuneração mediana", brl.format(mediana(comValor)), "Metade ganha menos que isso, metade ganha mais."],
+      ["Remuneração média", brl.format(soma / Math.max(comValor.length, 1)), "A média é puxada para cima pelos salários mais altos."],
+    ]);
+    const faixas = [[0, 3000, "até 3 mil"], [3000, 5000, "3 a 5 mil"], [5000, 8000, "5 a 8 mil"], [8000, 12000, "8 a 12 mil"], [12000, 20000, "12 a 20 mil"], [20000, 30000, "20 a 30 mil"], [30000, 1e9, "mais de 30 mil"]];
+    el.innerHTML += `<div class="card"><h3>Quantos vínculos em cada faixa de remuneração</h3><div class="colunas" id="r-faixa"></div><p class="intro" style="font-size:.88rem">Valores mensais em reais. Considera só vínculos em atividade com remuneração informada.</p></div>
+      <div class="grid-2"><div class="card"><h3>Remuneração mediana por tipo de vínculo</h3><div class="barras" id="r-vinc"></div></div>
+      <div class="card"><h3>Cargos com mais servidores</h3><div class="tabela-box"><table class="tabela-esp"><thead><tr><th>Cargo</th><th class="dir">Vínculos</th><th class="dir">Mediana</th><th class="dir">Maior</th></tr></thead><tbody id="r-cargos"></tbody></table></div></div></div>
+      ${prefeito ? `<p class="nota">O subsídio do prefeito é ${brl2.format(prefeito.rem)}. ${nf0.format(acima.length)} vínculos têm remuneração informada acima desse valor, a maioria de ${esc(top3(acima))}. O subsídio do prefeito é o teto geral do município, mas há exceções: procuradores municipais seguem o teto dos desembargadores, por decisão do STF, e alguns valores, como férias, 13º e indenizações, ficam fora do teto. Só a análise do contracheque mostra se há irregularidade.</p>` : ""}
+      <div class="card"><h3>Consultar servidores</h3>
+        <div class="filtros"><label for="r-busca">Buscar por nome, cargo ou lotação<input id="r-busca" type="search" placeholder="Ex.: professor, UPA, guarda"></label>
+          <label for="r-vinculo">Vínculo<select id="r-vinculo"><option value="">Todos os vínculos</option>${[...new Set(L.map((x) => x.vinculo))].sort().map((v) => `<option>${esc(v)}</option>`).join("")}</select></label>
+          <label for="r-sit">Situação<select id="r-sit"><option value="ativos">Em atividade</option><option value="deslig">Desligados</option><option value="">Todos</option></select></label></div>
+        <div class="tabela-box"><table class="tabela-esp"><thead><tr><th>Servidor</th><th>Cargo e vínculo</th><th>Lotação</th><th>Situação</th><th class="dir">Remuneração</th></tr></thead><tbody id="r-corpo"></tbody></table></div>
+        <p class="intro" id="r-resumo" style="font-size:.88rem"></p><button type="button" class="btn" id="r-mais">Mostrar mais</button>
+        <p class="fonte">Fonte: Portal da Transparência da Prefeitura de Foz do Iguaçu, planilha "Servidores" gerada em ${esc(S.gerado_em)}. Mostra a remuneração informada para cada matrícula; não inclui CPF.</p></div>`;
+    colunas($("#r-faixa"), faixas.map(([a, b]) => comValor.filter((x) => x >= a && x < b).length), faixas.map((f) => f[2]), "var(--series-1)", (v) => nf0.format(v));
+    const porV = new Map(); ativos.forEach((x) => { if (x.rem > 0) { const a = porV.get(x.vinculo) || []; a.push(x.rem); porV.set(x.vinculo, a); } });
+    barras($("#r-vinc"), [...porV.entries()].map(([k, a]) => ({ nome: `${k} (${nf0.format(a.length)})`, valor: mediana(a), explicacao: `${nf0.format(a.length)} vínculos. Média: ${brl.format(a.reduce((s, x) => s + x, 0) / a.length)}.` })).sort((a, b) => b.valor - a.valor), "var(--series-1)", null, { porHab: false });
+    const porC = new Map(); ativos.forEach((x) => { if (x.rem > 0) { const a = porC.get(x.cargo) || []; a.push(x.rem); porC.set(x.cargo, a); } });
+    $("#r-cargos").innerHTML = [...porC.entries()].sort((a, b) => b[1].length - a[1].length).slice(0, 15).map(([c, a]) => `<tr><td>${esc(c)}</td><td class="dir num">${nf0.format(a.length)}</td><td class="dir num">${brl.format(mediana(a))}</td><td class="dir num">${brl.format(Math.max(...a))}</td></tr>`).join("");
+    let lim = 25;
+    const desenha = () => {
+      const q = semAcento($("#r-busca").value.trim()), vin = $("#r-vinculo").value, sit = $("#r-sit").value;
+      const lista = L.filter((x) => (!vin || x.vinculo === vin) && (sit === "" || (sit === "ativos" ? !/^Desligado/i.test(x.situacao) : /^Desligado/i.test(x.situacao))) &&
+        (!q || semAcento(x.nome + " " + x.cargo + " " + x.lotacao).includes(q))).sort((a, b) => b.rem - a.rem);
+      $("#r-corpo").innerHTML = lista.slice(0, lim).map((x) => `<tr><td><strong>${esc(x.nome)}</strong><span class="doc">Admissão: ${esc(x.adm)}${x.desl ? " · Desligamento: " + esc(x.desl) : ""}</span></td><td>${esc(x.cargo)}<span class="doc">${esc(x.vinculo)}${x.carga ? " · " + nf0.format(x.carga) + "h semanais" : ""}</span></td><td>${esc(x.lotacao)}</td><td>${esc(x.situacao)}</td><td class="dir num"><strong>${brl2.format(x.rem)}</strong></td></tr>`).join("") || `<tr><td colspan="5">Nenhum servidor encontrado.</td></tr>`;
+      $("#r-resumo").textContent = `${nf0.format(lista.length)} vínculos encontrados.`;
+      $("#r-mais").hidden = lista.length <= lim;
+    };
+    ["#r-busca", "#r-vinculo", "#r-sit"].forEach((id) => $(id).addEventListener(id === "#r-busca" ? "input" : "change", () => { lim = 25; desenha(); }));
+    $("#r-mais").addEventListener("click", () => { lim += 50; desenha(); });
+    desenha();
+  }
+  function top3(lista) {
+    const m = new Map(); lista.forEach((x) => { const c = x.cargo.replace(/\s*\(.*\)$/, "").replace(/ Consultor$/, ""); m.set(c, (m.get(c) || 0) + 1); });
+    const t = [...m.entries()].sort((a, b) => b[1] - a[1]).slice(0, 3).map(([c, n]) => `${c.toLowerCase()} (${n})`);
+    return t.length > 1 ? t.slice(0, -1).join(", ") + " e " + t[t.length - 1] : t.join("");
+  }
+
+  function rota() {
+    const h = location.hash.replace("#", "");
+    const mp = $("#menu-principal"); mp.classList.remove("aberto"); $("#menu-btn").setAttribute("aria-expanded", "false");
+    mp.querySelectorAll(".tem-sub > button").forEach((x) => x.setAttribute("aria-expanded", "false"));
+    const fn = ESPECIAIS[h];
+    document.querySelectorAll(".menu a").forEach((a) => a.removeAttribute("aria-current"));
+    const lk = document.querySelector(`.menu a[href="#${h}"]`); if (lk) lk.setAttribute("aria-current", "page");
+    if (fn) {
+      $("#pagina-principal").hidden = true; $("#pagina-especial").hidden = false;
+      $("#slider").hidden = true; $("#pagina-titulo").hidden = false;
+      $("#pt-trilha").textContent = "Contas Abertas de Foz · " + (TITULOS[h] || "");
+      clearInterval(slTimer);
+      fn($("#especial-conteudo"));
+      document.title = (TITULOS[h] || "").replace(/^.*· /, "") + " · Contas Abertas de Foz";
+      window.scrollTo(0, 0);
+    } else {
+      const estava = $("#pagina-principal").hidden;
+      $("#pagina-principal").hidden = false; $("#pagina-especial").hidden = true;
+      $("#slider").hidden = false; $("#pagina-titulo").hidden = true;
+      document.title = "Contas Abertas de Foz do Iguaçu";
+      if (estava) slAuto();
+      const alvo = h && h !== "inicio" && document.getElementById(h);
+      if (alvo) alvo.scrollIntoView(); else if (estava || h === "inicio") window.scrollTo(0, 0);
+    }
+  }
+
+
+  // ============================================================ utilidades novas
+  const T = () => (A && A.temas) || null;
+  const pctN = (a, b) => (b ? (a / b) * 100 : 0);
+  const fmtDataBR = (d) => (d && d.length >= 10 ? `${d.slice(8, 10)}/${d.slice(5, 7)}/${d.slice(0, 4)}` : "–");
+  const mesAno = (m) => { const [y, mm] = m.split("-"); return `${MESES[Number(mm) - 1]}/${y.slice(2)}`; };
+  const cardHtml = (titulo, corpo, extra) => `<div class="card"${extra || ""}><h3>${titulo}</h3>${corpo}</div>`;
+
+  // Gráfico de linhas genérico (uma escala só), com cruz e dica.
+  function linhas(alvo, rotulos, series, fmt, opts) {
+    opts = opts || {};
+    const W = Math.max(320, Math.round(alvo.clientWidth) || opts.largura || 900), H = opts.altura || 280, m = { t: 16, r: W < 500 ? 88 : W < 700 ? 110 : 130, b: 30, l: W < 500 ? 52 : 64 };
+    const iw = W - m.l - m.r, ih = H - m.t - m.b, n = rotulos.length;
+    const todos = series.flatMap((s) => s.valores.filter((v) => v != null));
+    const maxV = Math.max(...todos, 1), minV = opts.zero === false ? Math.min(...todos) : 0;
+    const passoBase = Math.pow(10, Math.floor(Math.log10((maxV - minV) / 4 || 1)));
+    const passo = [1, 2, 2.5, 5, 10].map((k) => k * passoBase).find((p) => (maxV - minV) / p <= 5) || passoBase * 10;
+    const base = opts.zero === false ? Math.floor(minV / passo) * passo : 0;
+    const topo = Math.ceil(maxV / passo) * passo;
+    const x = (i) => m.l + (n === 1 ? iw / 2 : (i / (n - 1)) * iw);
+    const y = (v) => m.t + ih - ((v - base) / (topo - base || 1)) * ih;
+    let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(opts.rotulo || "Gráfico de linhas")}">`;
+    for (let v = base; v <= topo + passo / 1000; v += passo) {
+      s += `<line x1="${m.l}" x2="${m.l + iw}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${m.l - 8}" y="${y(v) + 4}" text-anchor="end">${fmt(v)}</text>`;
+    }
+    const salto = Math.ceil(n / Math.max(3, Math.floor((W - 200) / 62)));
+    rotulos.forEach((r, i) => { if (i % salto === 0 || (i === n - 1 && (n - 1) % salto >= salto / 2)) s += `<text x="${x(i)}" y="${H - 8}" text-anchor="middle">${esc(r)}</text>`; });
+    const fim = [];
+    series.forEach((se) => {
+      let d = "", pen = false;
+      se.valores.forEach((v, i) => { if (v == null) { pen = false; return; } d += `${pen ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`; pen = true; });
+      s += `<path d="${d}" fill="none" stroke="${se.cor}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"${se.tracejado ? ' stroke-dasharray="6 5"' : ""}/>`;
+      let ul = se.valores.length - 1; while (ul > 0 && se.valores[ul] == null) ul--;
+      s += `<circle cx="${x(ul)}" cy="${y(se.valores[ul])}" r="4.5" fill="${se.cor}" stroke="var(--surface)" stroke-width="2"/>`;
+      fim.push({ y: y(se.valores[ul]), nome: se.nome, x: x(ul) });
+    });
+    fim.sort((a, b) => a.y - b.y);
+    for (let i = 1; i < fim.length; i++) if (fim[i].y - fim[i - 1].y < 15) fim[i].y = fim[i - 1].y + 15;
+    fim.forEach((f) => { s += `<text x="${f.x + 10}" y="${f.y + 4}" style="fill:var(--ink-2);font-weight:600">${esc(f.nome)}</text>`; });
+    s += `<line class="cz" x1="0" x2="0" y1="${m.t}" y2="${m.t + ih}" stroke="var(--ink-3)" stroke-dasharray="3 3" style="display:none"/>`;
+    s += `<rect class="hit" x="${m.l - 10}" y="${m.t}" width="${iw + 20}" height="${ih}" fill="transparent"/></svg>`;
+    alvo.innerHTML = s;
+    alvo.classList.add("graf-linha");
+    const svg = alvo.querySelector("svg"), hit = alvo.querySelector(".hit"), cz = alvo.querySelector(".cz");
+    hit.addEventListener("mousemove", (e) => {
+      const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY;
+      const p = pt.matrixTransform(svg.getScreenCTM().inverse());
+      const i = Math.max(0, Math.min(n - 1, Math.round(((p.x - m.l) / iw) * (n - 1))));
+      cz.setAttribute("x1", x(i)); cz.setAttribute("x2", x(i)); cz.style.display = "";
+      mostraTip(e, `<strong>${esc(rotulos[i])}</strong>` + series.map((se) => se.valores[i] == null ? "" : `<br><span class="marca" style="background:${se.cor}"></span>${esc(se.nome)}: ${(opts.fmtTip || fmt)(se.valores[i])}`).join(""));
+    });
+    hit.addEventListener("mouseleave", () => { cz.style.display = "none"; escondeTip(); });
+  }
+  const legenda = (series) => `<div class="legenda">${series.map((s) => `<span><i class="marca" style="background:${s.cor}"></i>${esc(s.nome)}</span>`).join("")}</div>`;
+
+  // Sankey genérico em colunas: fluxos = [{caminho: [n0, n1, n2], v}]
+  const PAL = ["var(--s1)", "var(--s2)", "var(--s3)", "var(--s4)", "var(--s5)"];
+  function sankeyMulti(box, fluxos, opts) {
+    opts = opts || {};
+    const nEt = fluxos[0] ? fluxos[0].caminho.length : 0;
+    const maxNos = opts.maxNos || [8, 8, 8];
+    // agrupa nós pequenos em "Outros" em cada etapa
+    for (let e = 0; e < nEt; e++) {
+      const tot = new Map(); fluxos.forEach((f) => tot.set(f.caminho[e], (tot.get(f.caminho[e]) || 0) + f.v));
+      const manter = new Set([...tot.entries()].sort((a, b) => b[1] - a[1]).slice(0, maxNos[e] || 8).map((x) => x[0]));
+      fluxos.forEach((f) => { if (!manter.has(f.caminho[e])) f.caminho[e] = (opts.outros && opts.outros[e]) || "Outros"; });
+    }
+    const etapas = [];
+    for (let e = 0; e < nEt; e++) {
+      const mp = new Map();
+      fluxos.forEach((f) => mp.set(f.caminho[e], (mp.get(f.caminho[e]) || 0) + f.v));
+      etapas.push([...mp.entries()].map(([nome, v]) => ({ nome, v, e })).sort((a, b) => (/^Outr/.test(a.nome) ? 1 : 0) - (/^Outr/.test(b.nome) ? 1 : 0) || b.v - a.v));
+    }
+    const total = etapas[0].reduce((s, x) => s + x.v, 0);
+    const W = 1120, gap = 10, topo = opts.titulos ? 30 : 12;
+    const maxN = Math.max(...etapas.map((e) => e.length));
+    const H = Math.max(opts.altura || 0, 120 + maxN * 40);
+    const nodeW = 14;
+    const xs = nEt === 2 ? [330, 780] : [290, 585, 862];
+    const k = (H - topo * 2 - gap * (maxN - 1)) / total;
+    etapas.forEach((lista, e) => {
+      lista.forEach((n, i) => { n.cor = e === 0 ? (/^Outr/.test(n.nome) ? "var(--s8)" : PAL[i % PAL.length]) : /^Diferen/.test(n.nome) ? "var(--s8)" : (e === nEt - 1 ? "var(--accent)" : "var(--ink-3)"); });
+      const alt = lista.reduce((s, x) => s + Math.max(2, x.v * k), 0) + gap * (lista.length - 1);
+      let y = topo + (H - topo * 2 - alt) / 2;
+      lista.forEach((n) => { n.h = Math.max(2, n.v * k); n.y = y; n.oOut = 0; n.oIn = 0; y += n.h + gap; });
+    });
+    const idx = etapas.map((l) => new Map(l.map((n) => [n.nome, n])));
+    // cor dos fluxos herdada da etapa 0
+    const links = [];
+    for (let e = 0; e < nEt - 1; e++) {
+      const mp = new Map();
+      fluxos.forEach((f) => {
+        const ch = f.caminho[e] + "\u0001" + f.caminho[e + 1] + "\u0001" + (e === 0 ? "" : f.caminho[0]);
+        mp.set(ch, (mp.get(ch) || 0) + f.v);
+      });
+      const ls = [...mp.entries()].map(([ch, v]) => { const [a, b, o] = ch.split("\u0001"); return { a: idx[e].get(a), b: idx[e + 1].get(b), o: o ? idx[0].get(o) : idx[e].get(a), v }; });
+      ls.sort((p, q) => p.a.y - q.a.y || p.b.y - q.b.y || p.o.y - q.o.y);
+      ls.forEach((l) => { l.y0 = l.a.y + l.a.oOut; l.a.oOut += l.v * k; });
+      ls.slice().sort((p, q) => p.b.y - q.b.y || p.a.y - q.a.y || p.o.y - q.o.y).forEach((l) => { l.y1 = l.b.y + l.b.oIn; l.b.oIn += l.v * k; });
+      ls.forEach((l) => { l.x0 = xs[e] + nodeW; l.x1 = xs[e + 1]; l.h = l.v * k; links.push(l); });
+    }
+    let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(opts.rotulo || "Diagrama de fluxo")}">`;
+    links.forEach((l, j) => {
+      const xm = (l.x0 + l.x1) / 2;
+      s += `<path class="lk" data-j="${j}" d="M${l.x0},${l.y0}C${xm},${l.y0} ${xm},${l.y1} ${l.x1},${l.y1}L${l.x1},${l.y1 + l.h}C${xm},${l.y1 + l.h} ${xm},${l.y0 + l.h} ${l.x0},${l.y0 + l.h}Z" fill="${l.o.cor}" opacity=".3"/>`;
+    });
+    etapas.forEach((lista, e) => lista.forEach((n) => {
+      s += `<rect x="${xs[e]}" y="${n.y}" width="${nodeW}" height="${n.h}" rx="2" fill="${n.cor}"/>`;
+      const txt = `${esc(curto(n.nome, e === 0 ? 30 : e === nEt - 1 ? 32 : 24))} <tspan class="v">${reais(n.v)}</tspan>`;
+      if (e === 0) s += `<text x="${xs[e] - 8}" y="${n.y + n.h / 2 + 4}" text-anchor="end">${txt}</text>`;
+      else s += `<text x="${xs[e] + nodeW + 8}" y="${n.y + n.h / 2 + 4}"${e < nEt - 1 ? ' class="meio"' : ""}>${txt}</text>`;
+    }));
+    if (opts.titulos) opts.titulos.forEach((t, e) => { s += `<text x="${xs[e] + nodeW / 2}" y="14" text-anchor="middle" style="font-weight:800;fill:var(--ink-3);font-size:11px;text-transform:uppercase;letter-spacing:.06em">${esc(t)}</text>`; });
+    s += `</svg>`;
+    box.innerHTML = s;
+    box.classList.add("sankey-box");
+    box.querySelectorAll("path.lk").forEach((p) => {
+      const l = links[Number(p.dataset.j)];
+      ligaTip(p, `<strong>${esc(l.a.nome)} → ${esc(l.b.nome)}</strong><br>${brl.format(l.v)} · ${pct(l.v / total * 100)} do total` + (nEt > 2 && l.o !== l.a ? `<br><span style="opacity:.85">Origem: ${esc(l.o.nome)}</span>` : ""));
+    });
+  }
+  const fluxosDe = (linhasF, cols, filtro) => linhasF.filter((r) => !filtro || filtro(r)).map((r) => ({ caminho: cols.map((c) => r[c]), v: r[4] }));
+  const COL = { fonte: 0, funcao: 1, subfuncao: 2, natureza: 3 };
+
+  // ============================================================ página: o caminho do dinheiro
+  function paginaCaminho(el) {
+    el.innerHTML = topoEsp("O caminho do dinheiro", "Cada diagrama segue o dinheiro de uma origem até onde ele foi gasto. A espessura das faixas é proporcional ao valor. Passe o mouse ou toque nas faixas para ver os valores.", "lupa-acenando");
+    el.innerHTML += `<div class="card"><h3>1. Visão geral: de onde vem e para onde vai</h3><p class="intro">Todas as receitas do período à esquerda; as áreas de governo que receberam os pagamentos à direita.</p><div id="cd-geral" class="sankey-box"></div><p class="intro" id="cd-geral-nota" style="font-size:.88rem"></p><p class="fonte" id="cd-geral-fonte"></p></div>`;
+    sankey($("#cd-geral"), $("#cd-geral-nota"), $("#cd-geral-fonte"));
+    const t = T();
+    if (!t) { el.innerHTML += semDados(`Os demais diagramas usam os empenhos e pagamentos do Tribunal de Contas, ainda não carregados para ${anoAtual}.`); return; }
+    const L = t.fluxos.linhas;
+    const fonteTxt = `<p class="fonte">${esc(fonteTce())} A fonte de recurso é a que a Prefeitura informou em cada empenho.</p>`;
+    const blocos = [
+      ["2. Fonte do recurso → área → tipo de gasto", "A Prefeitura identifica em cada despesa de qual \"conta\" saiu o dinheiro: recursos livres, verbas da saúde, Fundeb, royalties e outras. Aqui você vê como cada fonte foi usada.", "cd-fonte", () => fluxosDe(L, [COL.fonte, COL.funcao, COL.natureza]), { titulos: ["Fonte", "Área", "Tipo de gasto"], maxNos: [9, 8, 7] }],
+      ["3. Saúde: de onde vem e como é gasto", "As fontes que pagaram as despesas da área de Saúde, as ações (atenção básica, hospitais, vigilância) e o tipo de gasto.", "cd-saude", () => fluxosDe(L, [COL.fonte, COL.subfuncao, COL.natureza], (r) => r[1] === "Saúde"), { titulos: ["Fonte", "Ação", "Tipo de gasto"], maxNos: [6, 7, 7] }],
+      ["4. Educação: de onde vem e como é gasto", "Fundeb, impostos vinculados à educação e repasses federais, e onde foram usados.", "cd-educ", () => fluxosDe(L, [COL.fonte, COL.subfuncao, COL.natureza], (r) => r[1] === "Educação"), { titulos: ["Fonte", "Ação", "Tipo de gasto"], maxNos: [6, 7, 7] }],
+      ["5. Royalties de Itaipu: para onde foram", "Os royalties pagos pela Itaipu Binacional são uma das principais receitas próprias de Foz. Veja as áreas e quem recebeu.", "cd-roy", () => t.royalties_credores.map((r) => ({ caminho: [r[0], r[1]], v: r[2] })), { titulos: ["Área", "Quem recebeu"], maxNos: [7, 10] }],
+      ["6. Recursos livres: as escolhas da Prefeitura", "Os recursos livres (e os desvinculados pela DRM) não têm destino obrigatório. Mostram as prioridades da gestão.", "cd-livres", () => fluxosDe(L, [COL.fonte, COL.funcao, COL.natureza], (r) => /livres|desvinculados/i.test(r[0])), { titulos: ["Fonte", "Área", "Tipo de gasto"], maxNos: [2, 9, 7] }],
+    ];
+    blocos.forEach(([tit, txt, id]) => { el.innerHTML += `<div class="card"><h3>${tit}</h3><p class="intro">${txt}</p><div id="${id}"></div>${fonteTxt}</div>`; });
+    blocos.forEach(([, , id, gera, o]) => { const f = gera(); if (f.length) sankeyMulti($("#" + id), f, o); else $("#" + id).innerHTML = semDados("Sem dados para este diagrama."); });
+  }
+
+  // ============================================================ página: Câmara
+  function paginaCamara(el) {
+    const C = DADOS.camara;
+    el.innerHTML = topoEsp("Câmara de Vereadores", "Quanto custa o Poder Legislativo de Foz do Iguaçu, como o dinheiro é usado e como Foz se compara às 24 maiores cidades do Paraná.", "lupa-pensando");
+    if (!C) { el.innerHTML += semDados("Os dados da Câmara ainda não foram carregados."); return; }
+    const comp = C.comparativo.map((c) => ({ ...c, cad_mes: c.despesa / c.cadeiras / C.meses_comparacao, hab: c.despesa / c.populacao }));
+    const med = (arr) => { const s = arr.slice().sort((a, b) => a - b), k = Math.floor(s.length / 2); return s.length % 2 ? s[k] : (s[k - 1] + s[k]) / 2; };
+    const foz = comp.find((c) => /Foz/.test(c.municipio));
+    const rank = (campo) => comp.slice().sort((a, b) => b[campo] - a[campo]).findIndex((c) => c === foz) + 1;
+    const ult = C.anual[C.anual.length - 1];
+    el.innerHTML += tilesHtml([
+      ["Custo por cadeira, por mês", brl.format(foz.cad_mes), `${rank("cad_mes")}º maior entre ${comp.length} câmaras do Paraná. Mediana: ${brl.format(med(comp.map((c) => c.cad_mes)))}.`],
+      ["Custo por habitante", brl2.format(foz.hab), `Em ${C.periodo_comparacao}. ${rank("hab")}º maior entre ${comp.length}.`],
+      [`Repasses recebidos em ${ult.ano}`, reais(ult.repasses), `${ult.periodo}. Dinheiro que a Prefeitura transfere à Câmara.`],
+      [`Despesa paga em ${ult.ano}`, reais(ult.pago), `${pct(pctN(ult.pago, ult.repasses))} dos repasses do período.`],
+    ]);
+    el.innerHTML += `<div class="card"><h3>Repasses recebidos e despesas pagas, ano a ano</h3><div id="cm-anual"></div>
+        <p class="intro" style="font-size:.88rem">A diferença entre repasses e despesas não é, por si só, sobra de caixa: parte é devolvida à Prefeitura no fim do ano e parte cobre restos a pagar. ${ult.ano} vai só até ${ult.periodo.replace(/^Jan–/, "")}.</p><p class="fonte">Fonte: ${esc(C.fonte_anual)}.</p></div>
+      <div class="card"><h3>Para onde vão os recursos (${esc(C.periodo_comparacao)})</h3><div id="cm-sankey"></div><p class="intro" style="font-size:.88rem">O ramo cinza é a diferença entre o que a Câmara recebeu e o que gastou. Não é saldo de caixa nem economia: não considera saldos iniciais, restos a pagar e devoluções.</p></div>
+      <div class="card"><h3>Composição da despesa liquidada</h3><div class="barras" id="cm-grupos"></div><p class="intro" style="font-size:.88rem">Os subsídios dos 15 vereadores são uma parte pequena. A maior fatia é a folha dos servidores da Câmara.</p></div>
+      <div class="card"><h3>Comparação com as 24 maiores cidades do Paraná</h3>
+        <div class="chips" role="group" aria-label="Indicador"><button type="button" class="chip" data-ind="cad_mes" aria-pressed="true">Custo por cadeira/mês</button><button type="button" class="chip" data-ind="hab" aria-pressed="false">Custo por habitante</button><button type="button" class="chip" data-ind="despesa" aria-pressed="false">Despesa total</button></div>
+        <div class="barras" id="cm-comp"></div>
+        <p class="nota">O custo por cadeira divide toda a despesa da Câmara pelas vagas de vereador. Não é o salário de um vereador nem o gasto de um gabinete. Os rankings, sozinhos, não medem produtividade, qualidade nem irregularidade.</p>
+        <p class="fonte">Fonte: ${esc(C.fonte_comparativo)}</p></div>
+      <div class="card"><h3>Quanto custa cada cadeira nas câmaras do Paraná</h3><p class="intro">Cada bolha é uma cidade. Mais à direita, maior o custo mensal por cadeira; mais acima, mais vereadores. O tamanho da bolha acompanha o custo por cadeira.</p><div id="cm-disp"></div><p class="fonte">Custo por cadeira = despesa liquidada de ${esc(C.periodo_comparacao)} ÷ número de vereadores ÷ ${C.meses_comparacao} meses. Fonte: ${esc(C.fonte_comparativo)}</p></div>
+      <div class="card"><h3>Repasses e despesas por mês em ${esc(C.periodo_comparacao)}</h3>${legenda([{ nome: "Repasses recebidos", cor: "var(--series-1)" }, { nome: "Despesa liquidada", cor: "var(--series-2)" }])}<div id="cm-mensal"></div></div>
+      <div class="card"><h3>Principais despesas por natureza em <span id="cm-nat-ano"></span></h3><div class="barras" id="cm-nat"></div></div>`;
+    linhas($("#cm-anual"), C.anual.map((a) => String(a.ano) + (a.periodo !== "Jan–dez" ? "*" : "")), [
+      { nome: "Repasses", valores: C.anual.map((a) => a.repasses), cor: "var(--series-1)" },
+      { nome: "Despesa paga", valores: C.anual.map((a) => a.pago), cor: "var(--series-2)" },
+    ], fmtCurto, { rotulo: "Repasses e despesas da Câmara por ano" });
+    const E = C.foz_estagios, totG = C.foz_grupos.reduce((s, g) => s + g[1], 0);
+    sankeyMulti($("#cm-sankey"), C.foz_grupos.map((g) => ({ caminho: ["Repasses da Prefeitura", g[0]], v: g[1] })).concat([{ caminho: ["Repasses da Prefeitura", "Diferença (não é saldo de caixa)"], v: E.repasses - totG }]), { maxNos: [1, 9], titulos: ["Recebido", "Usado"] });
+    barras($("#cm-grupos"), C.foz_grupos.map((g) => ({ nome: g[0], valor: g[1] })), "var(--series-2)", totG, { porHab: false });
+    const desenhaComp = (campo) => {
+      const fm = campo === "hab" ? (v) => brl2.format(v) : (v) => reais(v);
+      const lista = comp.slice().sort((a, b) => b[campo] - a[campo]);
+      const max = lista[0][campo];
+      $("#cm-comp").innerHTML = lista.map((c, i) => `<div class="barra"${/Foz/.test(c.municipio) ? ' style="background:var(--accent-soft)"' : ""}><span class="nome">${i + 1}. ${esc(c.municipio)}${/Foz/.test(c.municipio) ? " <strong>◀</strong>" : ""}</span><span class="trilho"><span class="preench" style="display:block;width:${(c[campo] / max * 100).toFixed(1)}%;background:${/Foz/.test(c.municipio) ? "var(--series-2)" : "var(--s8)"}"></span></span><span class="valor num">${fm(c[campo])}<small>${c.cadeiras} cadeiras</small></span></div>`).join("");
+    };
+    desenhaComp("cad_mes");
+    const medCad = med(comp.map((c) => c.cad_mes));
+    dispersao($("#cm-disp"), comp.map((c) => ({ x: c.cad_mes / 1000, y: c.cadeiras, r: c.cad_mes, rotulo: c.municipio + (/Foz/.test(c.municipio) && $("#cm-disp").clientWidth > 600 ? ` · ${reais(c.cad_mes)}/mês` : ""), destaque: /Foz/.test(c.municipio),
+      tip: `<strong>${esc(c.municipio)}</strong><br>${brl.format(c.cad_mes)} por cadeira, por mês<br>${c.cadeiras} vereadores · ${nf0.format(c.populacao)} habitantes<br>${brl2.format(c.hab)} por habitante no período` })),
+      { xZero: true, yMin: 6, yMax: 40, tituloX: "Custo médio por cadeira, por mês (R$ mil)", tituloY: "Número de vereadores", fmtX: (v) => nf0.format(v), fmtY: (v) => nf0.format(v), altura: 480, rMax: 20,
+        linhas: [{ x: medCad / 1000, rotulo: $("#cm-disp").clientWidth > 600 ? `Mediana das ${comp.length} cidades: ${reais(medCad)}/mês` : `Mediana: ${reais(medCad)}` }], rotulo: "Custo por cadeira e número de vereadores nas câmaras do Paraná" });
+    el.querySelectorAll(".chip[data-ind]").forEach((b) => b.addEventListener("click", () => { el.querySelectorAll(".chip[data-ind]").forEach((x) => x.setAttribute("aria-pressed", String(x === b))); desenhaComp(b.dataset.ind); }));
+    linhas($("#cm-mensal"), MESES.slice(0, C.foz_mensal.liquidado.length), [
+      { nome: "Repasses", valores: C.foz_mensal.repasses, cor: "var(--series-1)" },
+      { nome: "Despesa liquidada", valores: C.foz_mensal.liquidado, cor: "var(--series-2)" },
+    ], fmtCurto);
+    const anosNat = Object.keys(C.natureza_anual).sort();
+    const an = anosNat[anosNat.length - 1];
+    $("#cm-nat-ano").textContent = an;
+    const nat = C.natureza_anual[an], totN = nat.reduce((s, x) => s + x[1], 0);
+    barras($("#cm-nat"), nat.slice(0, 10).map((x) => ({ nome: capitalizaTxt(x[0]), valor: x[1] })), "var(--series-2)", totN, { porHab: false });
+  }
+  function capitalizaTxt(s) { s = String(s).toLowerCase(); return s.charAt(0).toUpperCase() + s.slice(1); }
+
+  // ============================================================ página: transporte coletivo
+  function paginaTransporte(el) {
+    const R = DADOS.transporte;
+    el.innerHTML = topoEsp("Transporte coletivo", "Quanto custa o ônibus em Foz, quem paga a conta e como o sistema vem mudando. Os dados vêm das prestações de contas mensais do sistema e da análise do OSB sobre o novo edital de concessão.", "lupa-anotando");
+    if (!R) { el.innerHTML += semDados("Os dados do transporte coletivo ainda não foram carregados."); return; }
+    const M = R.mensal, ult = M[M.length - 1], anoU = ult.mes.slice(0, 4);
+    const doAno = (a) => M.filter((m) => m.mes.startsWith(a));
+    const soma = (lista, c) => lista.reduce((s, m) => s + m[c], 0);
+    const A1 = doAno(anoU), A0 = doAno(String(Number(anoU) - 1)).slice(0, A1.length);
+    const varPct = (c) => pctN(soma(A1, c) - soma(A0, c), soma(A0, c));
+    const sinal = (v) => (v >= 0 ? "+" : "") + nf1.format(v) + "%";
+    el.innerHTML += tilesHtml([
+      [`Custo do sistema em ${anoU}`, reais(soma(A1, "custo_total")), `${A1.length} meses. ${sinal(varPct("custo_total"))} sobre o mesmo período de ${Number(anoU) - 1}.`],
+      [`Aporte da Prefeitura em ${anoU}`, reais(soma(A1, "aporte_municipio")), `${pct(pctN(soma(A1, "aporte_municipio"), soma(A1, "custo_total")))} do custo. ${sinal(varPct("aporte_municipio"))} sobre ${Number(anoU) - 1}.`],
+      ["Passageiros por mês", nf0.format(soma(A1, "passageiros") / A1.length), `Média de ${anoU}. ${sinal(varPct("passageiros"))} sobre ${Number(anoU) - 1}.`],
+      ["Tarifa técnica", brl2.format(ult.tarifa_tecnica), `Custo por passageiro pagante em ${mesAno(ult.mes)}. A tarifa paga pelo usuário é R$ 5,00.`],
+    ]);
+    const rot = M.map((m) => mesAno(m.mes));
+    el.innerHTML += `<div class="card"><h3>Quem paga a conta, mês a mês</h3>${legenda([{ nome: "Custo total do sistema", cor: "var(--s4)" }, { nome: "Receita das tarifas", cor: "var(--series-1)" }, { nome: "Aporte da Prefeitura", cor: "var(--series-2)" }])}<div id="tr-custo"></div>
+        <p class="intro" style="font-size:.88rem">O custo do sistema é coberto pelas tarifas pagas pelos passageiros e pelo dinheiro da Prefeitura (subsídio). Desde 2023, a parte paga pela Prefeitura cresceu.</p></div>
+      ${R.comparativo_tarifas ? `<div class="card"><h3>Tarifa técnica e tarifa paga pelo usuário em outras cidades do Paraná</h3><p class="intro">Quanto mais acima da linha tracejada, maior a parte da passagem paga com subsídio. Foz tem a menor tarifa ao usuário e a maior tarifa técnica da comparação.</p><div id="tr-disp"></div><div class="tabela-box"><table class="tabela-esp"><thead><tr><th>Cidade</th><th class="dir">Tarifa ao usuário</th><th class="dir">Tarifa técnica</th><th class="dir">Subsídio</th></tr></thead><tbody>${R.comparativo_tarifas.cidades.map((c) => `<tr${/Foz/.test(c[0]) ? ' style="background:var(--accent-soft)"' : ""}><td><strong>${esc(c[0])}</strong></td><td class="dir num">${brl2.format(c[1])}</td><td class="dir num">${brl2.format(c[2])}</td><td class="dir num"><strong>${pct(c[3])}</strong></td></tr>`).join("")}</tbody></table></div><p class="fonte">${esc(R.comparativo_tarifas.nota)} Fonte: ${esc(R.comparativo_tarifas.fonte)}.</p></div>` : ""}
+      <div class="grid-2"><div class="card"><h3>Passageiros por mês</h3><div id="tr-pass"></div></div>
+        <div class="card"><h3>Tarifa técnica (custo por passageiro pagante)</h3><div id="tr-tarifa"></div></div></div>
+      <div class="grid-2"><div class="card"><h3>Passageiros por ano, em milhões</h3><div class="colunas" id="tr-hist"></div><p class="intro" style="font-size:.88rem">O sistema perdeu passageiros antes da pandemia e ainda não voltou ao nível de 2019.</p></div>
+        <div class="card"><h3>Gratuidades</h3><div id="tr-grat"></div><p class="intro" style="font-size:.88rem">Parte dos passageiros que não paga tarifa (idosos, pessoas com deficiência, estudantes com passe livre e outros). Quanto maior essa parte, maior o custo por passageiro pagante.</p></div></div>
+      <div class="card"><h3>O novo edital de concessão</h3><p class="intro">Comparação entre o sistema atual, o estudo técnico contratado pela Prefeitura e a proposta de edital.</p>
+        <div class="tabela-box"><table class="tabela-esp"><thead><tr>${R.comparativo_edital.colunas.map((c, i) => `<th${i ? ' class="dir"' : ""}>${esc(c)}</th>`).join("")}</tr></thead><tbody>${R.comparativo_edital.linhas.map((l) => `<tr>${l.map((c, i) => `<td${i ? ' class="dir"' : ""}>${i ? esc(c) : "<strong>" + esc(c) + "</strong>"}</td>`).join("")}</tr>`).join("")}</tbody></table></div></div>
+      <div class="grid-2"><div class="card"><h3>Pontos de atenção apontados pelo OSB</h3><ol style="margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:8px">${R.pontos_atencao.map((p) => `<li>${esc(p)}</li>`).join("")}</ol></div>
+        <div class="card"><h3>Recomendações do Tribunal de Contas</h3><p class="intro">Das ${R.recomendacoes_tce.total} recomendações do TCE-PR sobre o edital:</p><div class="barras" id="tr-tce"></div></div></div>
+      <div class="card"><h3>Pagamentos à concessionária registrados no Tribunal de Contas</h3><div id="tr-tcepag"></div></div>
+      ${M.some((m, i) => i && M.slice(0, i).some((n) => n.passageiros === m.passageiros && n.custo_total === m.custo_total)) ? `<p class="nota">Na planilha de prestação de contas, os valores de julho/2025 são idênticos aos de maio/2025, o que sugere erro de preenchimento. Os gráficos mostram os valores como estão na planilha.</p>` : ""}
+      <p class="fonte">Fontes: ${esc(R.fonte_mensal)}; ${esc(R.fonte_estudo)}.</p>`;
+    linhas($("#tr-custo"), rot, [
+      { nome: "Custo total", valores: M.map((m) => m.custo_total), cor: "var(--s4)" },
+      { nome: "Tarifas", valores: M.map((m) => m.receita_total), cor: "var(--series-1)" },
+      { nome: "Aporte", valores: M.map((m) => m.aporte_municipio), cor: "var(--series-2)" },
+    ], fmtCurto, { rotulo: "Custo, receita e aporte mensais do transporte coletivo" });
+    if (R.comparativo_tarifas) dispersao($("#tr-disp"), R.comparativo_tarifas.cidades.map((c) => ({ x: c[1], y: c[2], r: c[3], rotulo: `${c[0]} · ${nf0.format(c[3])}%`, destaque: /Foz/.test(c[0]),
+      tip: `<strong>${esc(c[0])}</strong><br>Tarifa ao usuário: ${brl2.format(c[1])}<br>Tarifa técnica: ${brl2.format(c[2])}<br>Subsídio: ${pct(c[3])} da tarifa técnica` })),
+      { xMin: 4, xMax: 7, yMin: 4, yMax: 15, tituloX: "Tarifa paga pelo usuário (R$)", tituloY: "Tarifa técnica (R$)", fmtX: (v) => "R$ " + nf1.format(v), fmtY: (v) => "R$ " + nf0.format(v), altura: 420, rMax: 18,
+        linhas: [{ diag: true, rotulo: "Sem subsídio: técnica = usuário" }], rotulo: "Tarifa técnica e tarifa ao usuário por cidade" });
+    linhas($("#tr-pass"), rot, [{ nome: "Passageiros", valores: M.map((m) => m.passageiros), cor: "var(--series-1)" }], (v) => nf1.format(v / 1e6) + " mi", { zero: false, altura: 240, fmtTip: (v) => nf0.format(v), largura: 560 });
+    linhas($("#tr-tarifa"), rot, [{ nome: "Tarifa técnica", valores: M.map((m) => m.tarifa_tecnica), cor: "var(--series-2)" }, { nome: "Tarifa pública", valores: M.map(() => 5), cor: "var(--s8)", tracejado: true }], (v) => "R$ " + nf0.format(v), { altura: 240, fmtTip: (v) => brl2.format(v), largura: 560 });
+    colunas($("#tr-hist"), R.historico_passageiros.milhoes, R.historico_passageiros.anos.map(String), "var(--series-1)", (v) => nf1.format(v));
+    linhas($("#tr-grat"), rot, [{ nome: "Gratuidades", valores: M.map((m) => m.gratuidades_pct * 100), cor: "var(--s3)" }], (v) => nf0.format(v) + "%", { zero: false, altura: 240, fmtTip: (v) => pct(v), largura: 560 });
+    const rt = R.recomendacoes_tce;
+    barras($("#tr-tce"), [{ nome: "Atendidas com ressalvas", valor: rt.atendidas_com_ressalvas, cor: "var(--warning)" }, { nome: "Atendidas parcialmente", valor: rt.parcialmente, cor: "var(--series-2)" }, { nome: "Não atendidas", valor: rt.nao_atendidas, cor: "var(--critical)" }].map((x) => ({ ...x, valor: x.valor })), "", null, { porHab: false });
+    $("#tr-tce").querySelectorAll(".valor").forEach((v, i) => { v.textContent = [rt.atendidas_com_ressalvas, rt.parcialmente, rt.nao_atendidas][i]; });
+    const tp = T() && T().transporte_pagamentos;
+    if (tp && tp.credores.length) {
+      const tot = tp.credores.reduce((s, x) => s + x.valor, 0);
+      const custoPer = doAno(anoAtual).slice(0, A.meses).reduce((s, m) => s + m.custo_total, 0);
+      $("#tr-tcepag").innerHTML = `<p class="intro">Em ${anoAtual}, até ${MESES_LONGO[A.meses - 1]}, a Foztrans pagou ${brl.format(tot)} a ${esc(tp.credores.map((c) => c.nome).join(", "))} pela operação do sistema. Na prestação de contas, o custo do sistema nesses meses soma ${brl.format(custoPer)}. A diferença pode vir de medições de meses anteriores pagas neste período.</p><div class="colunas" id="tr-tcem"></div><p class="fonte">${esc(fonteTce())}</p>`;
+      colunas($("#tr-tcem"), tp.mensal, MESES.slice(0, tp.mensal.length), "var(--series-2)", fmtCurto);
+    } else $("#tr-tcepag").innerHTML = semDados(`Pagamentos de ${anoAtual} ainda não carregados.`);
+  }
+
+  // ============================================================ página: aluguéis
+  function paginaAlugueis(el) {
+    el.innerHTML = topoEsp("Aluguéis de imóveis", "Quanto a Prefeitura gasta alugando prédios para escolas, unidades de saúde, conselhos tutelares e secretarias, e quem são os proprietários.", "lupa-prancheta");
+    const t = T();
+    if (!t) { el.innerHTML += semDados(`Os dados de ${anoAtual} ainda não foram carregados.`); return; }
+    const Al = t.alugueis, cr = Al.credores, tot = cr.reduce((s, x) => s + x.pago, 0);
+    const pf = cr.filter((x) => x.tipo === "Pessoa física");
+    el.innerHTML += tilesHtml([
+      ["Pago em aluguéis", reais(tot), `De janeiro a ${MESES_LONGO[A.meses - 1]} de ${anoAtual}.`],
+      ["Média por mês", reais(tot / A.meses), "Valor mensal médio pago em aluguéis."],
+      ["Locadores", nf0.format(cr.length), `${nf0.format(pf.length)} pessoas físicas e ${nf0.format(cr.length - pf.length)} empresas ou entidades.`],
+      ["Maior locador", cr[0] ? pct(pctN(cr[0].pago, tot)) : "–", cr[0] ? `${esc(cr[0].nome)} recebeu ${reais(cr[0].pago)}.` : ""],
+    ]);
+    el.innerHTML += `<div class="grid-2"><div class="card"><h3>Aluguéis pagos por mês</h3><div class="colunas" id="al-mes"></div></div>
+      <div class="card"><h3>Por secretaria</h3><div class="barras" id="al-org"></div></div></div>
+      <div class="card"><h3>Quem recebe e quais imóveis</h3><div class="tabela-box"><table class="tabela-esp"><thead><tr><th>Locador</th><th>Imóvel e finalidade</th><th>Secretaria</th><th class="dir">Pago</th></tr></thead><tbody>${cr.map((x) => `<tr><td><strong>${esc(x.nome)}</strong><span class="doc">${esc(x.documento)}</span></td><td>${x.imoveis.map((i) => esc(i)).join("<br><br>")}</td><td>${esc(x.orgao)}</td><td class="dir num"><strong>${brl2.format(x.pago)}</strong></td></tr>`).join("")}</tbody></table></div>
+      <p class="fonte">${esc(fonteTce())} Despesas classificadas como "locação de imóveis". A descrição do imóvel é o histórico do empenho.</p></div>
+      ${Al.contratos.length ? `<div class="card"><h3>Contratos de locação assinados em ${anoAtual}</h3><div class="tabela-box"><table class="tabela-esp"><thead><tr><th>Contratado</th><th>Objeto</th><th>Vigência</th><th class="dir">Valor</th></tr></thead><tbody>${Al.contratos.map((c) => `<tr><td><strong>${esc(c.contratado)}</strong><span class="doc">Contrato ${esc(c.numero)} · ${esc(c.entidade)}</span></td><td>${esc(c.objeto)}</td><td class="num">${fmtDataBR(c.inicio)} a ${fmtDataBR(c.fim)}</td><td class="dir num">${brl2.format(c.valor)}</td></tr>`).join("")}</tbody></table></div></div>` : ""}`;
+    colunas($("#al-mes"), Al.mensal, MESES.slice(0, Al.mensal.length), "var(--series-2)", fmtCurto);
+    const org = new Map(); cr.forEach((x) => org.set(x.orgao, (org.get(x.orgao) || 0) + x.pago));
+    barras($("#al-org"), [...org.entries()].map(([nome, valor]) => ({ nome, valor })).sort((a, b) => b.valor - a.valor).slice(0, 8), "var(--series-2)", tot, { porHab: false });
+  }
+
+  // ============================================================ página: obras
+  const MAPA_OBRAS = "https://www.google.com/maps/d/u/0/viewer?mid=1CcneuVsY_H58_SAMOfGdbJXzmjDgwRk&ll=-25.50866069360419%2C-54.558194320410145&z=12";
+  function paginaObras(el) {
+    el.innerHTML = topoEsp("Obras", "As obras registradas pela Prefeitura no Tribunal de Contas, quanto custam, em que pé estão e quanto já foi pago às construtoras.", "lupa-notebook");
+    el.innerHTML += `<a class="foco-obra" href="${MAPA_OBRAS}"><div><span class="fo-tag">Ferramenta do OSB Foz do Iguaçu</span><strong class="fo-tit">FOCO NA OBRA</strong><span class="fo-txt">${DADOS.foco_na_obra ? DADOS.foco_na_obra.obras.length : 27} obras públicas monitoradas pelos voluntários do Observatório, com localização, situação e informações de cada uma.</span><span class="fo-btn">Abrir o mapa Foco na Obra ↗</span></div><img src="img/lupa-notebook.webp" alt=""></a>`;
+    const F = DADOS.foco_na_obra, FO = F ? F.obras : [];
+    const ivTce = (T() && T().obras && T().obras.intervencoes) || [];
+    if (FO.length) {
+      const cont = FO.reduce((s, o) => s + (o.valor_contratado || 0), 0), cnt = (g) => FO.filter((o) => o.grupo === g).length;
+      el.innerHTML += tilesHtml([
+        ["Obras monitoradas pelo OSB", nf0.format(FO.length), "Acompanhadas pelos voluntários no Foco na Obra."],
+        ["Valor contratado", reais(cont), `Soma das ${FO.filter((o) => o.valor_contratado).length} obras com contrato assinado.`],
+        ["Em andamento", nf0.format(cnt("Em andamento")), `${nf0.format(cnt("Em licitação"))} ainda em licitação e ${nf0.format(cnt("Não iniciada"))} contratadas e não iniciadas.`],
+        ["Paralisadas ou suspensas", nf0.format(cnt("Paralisada")), FO.filter((o) => o.grupo === "Paralisada").map((o) => o.nome).join("; ")],
+      ]);
+    }
+    el.innerHTML += `<div class="card"><h3>Mapa das obras</h3><p class="intro">Obras monitoradas pelo OSB (círculos) e obras iniciadas em ${anoAtual} cadastradas pela Prefeitura no Tribunal de Contas (quadrados). A cor indica a situação; o tamanho, o valor. Toque em um ponto para abrir o local no Google Maps.</p>
+      <div class="chips" role="group" aria-label="Camadas do mapa"><button type="button" class="chip" data-cam="osb" aria-pressed="true">● Foco na Obra (OSB)</button><button type="button" class="chip" data-cam="tce" aria-pressed="true">■ Cadastro no TCE-PR</button></div>
+      <div class="legenda">${Object.entries(COR_SIT).map(([n, c]) => `<span><i class="marca" style="background:${c}"></i>${n}</span>`).join("")}<span><i class="marca" style="background:var(--ink-3);transform:rotate(45deg);border-radius:1px"></i>Ponto de referência</span></div>
+      <div id="ob-mapa"></div><p class="fonte">Mapa esquemático: os pontos estão nas coordenadas informadas, sem o desenho das ruas. Fontes: mapa Foco na Obra (OSB Foz do Iguaçu) e cadastro de obras do SIM-AM (TCE-PR).</p></div>`;
+    if (FO.length) {
+      el.innerHTML += `<div class="card"><h3>Obras monitoradas pelo OSB</h3>
+        <div class="filtros"><label for="fo-cat">Área<select id="fo-cat"><option value="">Todas as áreas</option>${[...new Set(FO.map((o) => o.categoria))].sort().map((c) => `<option>${esc(c)}</option>`).join("")}</select></label>
+          <label for="fo-sit">Situação<select id="fo-sit"><option value="">Todas as situações</option>${Object.keys(COR_SIT).filter((g) => FO.some((o) => o.grupo === g)).map((g) => `<option>${g}</option>`).join("")}</select></label></div>
+        <div class="tabela-box"><table class="tabela-esp"><thead><tr><th>Obra</th><th>Empresa e contrato</th><th>Situação</th><th>Prazo</th><th class="dir">Valores</th></tr></thead><tbody id="fo-corpo"></tbody></table></div>
+        ${F.formulario ? `<a class="fo-form" href="${esc(F.formulario)}"><img src="img/lupa-anotando.webp" alt=""><span><strong>Viu algo numa dessas obras?</strong> Mande sua sugestão, dúvida, denúncia ou foto para o Observatório.</span><span class="fo-btn">Enviar pelo formulário ↗</span></a>` : ""}
+        <p class="fonte">Fonte: mapa Foco na Obra, mantido pelos voluntários do OSB Foz do Iguaçu. Percentuais de execução e datas como informados no mapa.</p></div>`;
+      const desenhaFO = () => {
+        const c = $("#fo-cat").value, g = $("#fo-sit").value;
+        $("#fo-corpo").innerHTML = FO.filter((o) => (!c || o.categoria === c) && (!g || o.grupo === g)).sort((a, b) => (b.valor_contratado || b.valor_edital || 0) - (a.valor_contratado || a.valor_edital || 0)).map((o) => `<tr>
+          <td><strong>${esc(o.nome)}</strong><span class="doc">${esc(o.categoria)} · ${esc(o.processo)}</span>${o.lat != null ? `<a href="https://www.google.com/maps?q=${o.lat},${o.lon}" target="_blank" rel="noopener">Ver no mapa ↗</a>` : ""}</td>
+          <td>${o.empresa ? esc(o.empresa) : '<span class="doc">Sem contrato</span>'}${o.contrato ? `<span class="doc">Contrato ${esc(o.contrato)}</span>` : ""}</td>
+          <td><span class="pill" style="color:${COR_SIT[o.grupo]}">${esc(o.situacao)}</span>${o.pct_executado != null ? `<div class="prog" title="${nf1.format(o.pct_executado)}% executado"><div style="width:${Math.min(100, o.pct_executado)}%"></div></div><span class="doc">${nf1.format(o.pct_executado)}% executado</span>` : ""}${o.ultima_medicao ? `<span class="doc">Última medição: ${esc(o.ultima_medicao)}</span>` : ""}</td>
+          <td class="num">${o.inicio ? "Início " + esc(o.inicio) : "–"}${o.termino ? `<span class="doc">Término previsto: ${esc(o.termino)}</span>` : ""}</td>
+          <td class="dir num">${o.valor_contratado ? `<strong>${brl.format(o.valor_contratado)}</strong><span class="doc">contratado</span>` : ""}${o.valor_edital ? `<span class="doc">Edital: ${brl.format(o.valor_edital)}</span>` : ""}${o.valor_executado ? `<span class="doc">Executado: ${brl.format(o.valor_executado)}</span>` : ""}</td></tr>`).join("");
+      };
+      $("#fo-cat").addEventListener("change", desenhaFO); $("#fo-sit").addEventListener("change", desenhaFO);
+      desenhaFO();
+    }
+    const camadas = { osb: true, tce: true };
+    const vmax = Math.max(1, ...FO.map((o) => o.valor_contratado || o.valor_edital || 0), ...ivTce.map((o) => o.valor));
+    const raio = (v) => Math.max(6, Math.sqrt((v || 0) / vmax) * 18);
+    function desenhaMapaObras() {
+      const pts = [];
+      if (camadas.osb) FO.forEach((o) => { if (o.lat != null) pts.push({ lat: o.lat, lon: o.lon, cor: COR_SIT[o.grupo], forma: "c", r: raio(o.valor_contratado || o.valor_edital), camada: "osb", link: `https://www.google.com/maps?q=${o.lat},${o.lon}`, tip: `<strong>${esc(o.nome)}</strong><br>Foco na Obra · ${esc(o.situacao)}${o.pct_executado != null ? ` (${nf1.format(o.pct_executado)}%)` : ""}<br>${o.valor_contratado ? brl.format(o.valor_contratado) + " contratado" : o.valor_edital ? brl.format(o.valor_edital) + " no edital" : ""}${o.empresa ? "<br>" + esc(o.empresa) : ""}` }); });
+      if (camadas.tce) ivTce.forEach((o) => o.locais.forEach((l) => { if (l.lat != null) pts.push({ lat: l.lat, lon: l.lon, cor: COR_SIT[grupoSit(o.situacao)], forma: "q", r: raio(o.valor) * 0.85, camada: "tce", link: `https://www.google.com/maps?q=${l.lat},${l.lon}`, tip: `<strong>${esc(o.nome)}</strong><br>Cadastro TCE-PR · ${esc(o.situacao)}<br>${brl.format(o.valor)}<br>${esc(l.endereco)}` }); }));
+      mapaPontos($("#ob-mapa"), pts);
+    }
+    el.querySelectorAll(".chip[data-cam]").forEach((b) => b.addEventListener("click", () => { camadas[b.dataset.cam] = !camadas[b.dataset.cam]; b.setAttribute("aria-pressed", String(camadas[b.dataset.cam])); desenhaMapaObras(); }));
+    desenhaMapaObras();
+    const t = T();
+    if (!t) { el.innerHTML += semDados(`Os dados de obras de ${anoAtual} ainda não foram carregados.`); return; }
+    const O = t.obras, iv = O.intervencoes, pg = O.pagamentos;
+    const totIv = iv.reduce((s, x) => s + x.valor, 0), totPg = pg.reduce((s, x) => s + x.pago, 0);
+    const ref = new Date(DADOS.meta.atualizado_em + "T12:00:00");
+    el.innerHTML += tilesHtml([
+      [`Obras cadastradas em ${anoAtual}`, nf0.format(iv.length), "Intervenções iniciadas no ano e informadas ao Tribunal de Contas."],
+      ["Valor dessas obras", reais(totIv), "Soma do valor previsto de cada obra."],
+      ["Pago em obras", reais(totPg), `Todas as obras e instalações, inclusive de anos anteriores, de janeiro a ${MESES_LONGO[A.meses - 1]}.`],
+      ["Empresas que receberam", nf0.format(pg.filter((x) => x.pago > 0).length), "Construtoras e prestadores pagos por obras no período."],
+    ]);
+    el.innerHTML += `<div class="card"><h3>Obras iniciadas em ${anoAtual}</h3><div class="tabela-box"><table class="tabela-esp"><thead><tr><th>Obra</th><th>Local</th><th>Situação</th><th>Prazo</th><th class="dir">Valor</th></tr></thead><tbody>${iv.map((o) => {
+      const ini = new Date(o.inicio + "T12:00:00"), dias = Math.round((ref - ini) / 864e5), p = o.prazo_dias ? Math.min(999, dias / o.prazo_dias * 100) : null;
+      const fimPrev = o.prazo_dias ? new Date(ini.getTime() + o.prazo_dias * 864e5).toISOString().slice(0, 10) : "";
+      const cls = p == null ? "" : p > 100 ? "ruim" : p > 80 ? "alerta" : "ok";
+      return `<tr><td><strong>${esc(o.nome)}</strong><span class="doc">${esc(o.entidade)} · execução ${esc(o.regime.toLowerCase())}</span></td><td>${o.locais.map((l) => esc(l.endereco || l.bem) + (l.lat != null ? `<br><a href="https://www.google.com/maps?q=${l.lat},${l.lon}" target="_blank" rel="noopener">Ver no mapa ↗</a>` : "")).join("<br>") || "–"}</td><td>${esc(o.situacao)}<span class="doc">Última medição: ${fmtDataBR(o.ultima_medicao)}</span></td><td class="num">Início ${fmtDataBR(o.inicio)}<span class="doc">${o.prazo_dias} dias, até ${fmtDataBR(fimPrev)}</span>${p != null ? `<span class="pill ${cls}" style="margin-top:4px">${nf0.format(p)}% do prazo</span>` : ""}</td><td class="dir num"><strong>${brl2.format(o.valor)}</strong></td></tr>`;
+    }).join("")}</tbody></table></div><p class="fonte">${esc(fonteTce().replace(/pagamentos até.*$/, ""))} Cadastro de obras (intervenções) do SIM-AM. O percentual do prazo compara o tempo decorrido até ${fmtDataBR(DADOS.meta.atualizado_em)} com o prazo de execução.</p></div>
+      <div class="card"><h3>Quem recebeu por obras em ${anoAtual}</h3><div class="tabela-box"><table class="tabela-esp"><thead><tr><th>Empresa</th><th>O que foi pago</th><th>Secretaria</th><th class="dir">Pago</th></tr></thead><tbody>${pg.map((x) => `<tr><td><strong>${esc(x.nome)}</strong><span class="doc">${esc(x.documento)}</span></td><td>${x.historicos.map(esc).join("<br><br>")}</td><td>${esc(x.orgao)}</td><td class="dir num"><strong>${brl2.format(x.pago)}</strong><span class="doc">Empenhado: ${brl.format(x.empenhado)}</span></td></tr>`).join("")}</tbody></table></div>
+      <p class="fonte">${esc(fonteTce())} Despesas classificadas como "obras e instalações".</p></div>`;
+  }
+
+  // ============================================================ página: sem licitação
+  function paginaSemLicitacao(el) {
+    el.innerHTML = topoEsp("Contratações sem licitação", "A lei permite comprar sem licitação em alguns casos: quando o valor é pequeno ou há emergência (dispensa) ou quando não há como haver competição, como um artista exclusivo ou um credenciamento aberto a todos (inexigibilidade). São exceções e merecem atenção.", "lupa-pensando");
+    const t = T();
+    if (!t) { el.innerHTML += semDados(`Os processos de ${anoAtual} ainda não foram carregados.`); return; }
+    const S = t.sem_licitacao, P = S.processos, R = S.resumo;
+    const qtdTot = Object.values(R).reduce((s, x) => s + x.qtd, 0), valTot = Object.values(R).reduce((s, x) => s + x.valor, 0);
+    const d = R["Dispensa"] || { qtd: 0, valor: 0 }, ix = R["Inexigibilidade"] || { qtd: 0, valor: 0 };
+    el.innerHTML += tilesHtml([
+      ["Processos sem licitação", nf0.format(d.qtd + ix.qtd), `${pct(pctN(d.qtd + ix.qtd, qtdTot))} de todos os ${nf0.format(qtdTot)} processos de compra abertos em ${anoAtual}.`],
+      ["Valor previsto sem licitação", reais(d.valor + ix.valor), `${pct(pctN(d.valor + ix.valor, valTot))} do valor de todos os processos.`],
+      ["Inexigibilidades", nf0.format(ix.qtd), `${reais(ix.valor)}. Inclui credenciamentos e contratações de artistas.`],
+      ["Dispensas", nf0.format(d.qtd), `${reais(d.valor)}. Compras de pequeno valor e emergências.`],
+    ]);
+    el.innerHTML += `<div class="grid-2"><div class="card"><h3>Processos por modalidade</h3><div class="barras" id="sl-qtd"></div></div>
+        <div class="card"><h3>Valor previsto por modalidade</h3><div class="barras" id="sl-val"></div></div></div>
+      <div class="grid-2"><div class="card"><h3>Sem licitação, por órgão</h3><div class="barras" id="sl-ent"></div></div>
+        <div class="card"><h3>Fornecedores em mais processos sem licitação</h3><div class="barras" id="sl-forn"></div></div></div>
+      <div class="card"><h3>Todos os processos de dispensa e inexigibilidade</h3>
+        <div class="filtros"><label for="sl-busca">Buscar por objeto ou fornecedor<input id="sl-busca" type="search" placeholder="Ex.: show, médicos, emergencial"></label>
+          <label for="sl-mod">Modalidade<select id="sl-mod"><option value="">Dispensa e inexigibilidade</option><option>Dispensa</option><option>Inexigibilidade</option></select></label>
+          <label for="sl-org">Órgão<select id="sl-org"><option value="">Todos os órgãos</option>${[...new Set(P.map((p) => p.entidade))].sort().map((e) => `<option>${esc(e)}</option>`).join("")}</select></label></div>
+        <div class="tabela-box"><table class="tabela-esp"><thead><tr><th>Processo</th><th>Objeto</th><th>Fornecedores</th><th class="dir">Valor previsto</th><th class="dir">Pago até agora</th></tr></thead><tbody id="sl-corpo"></tbody></table></div>
+        <p class="intro" id="sl-resumo" style="font-size:.88rem"></p><button type="button" class="btn" id="sl-mais">Mostrar mais</button>
+        <p class="fonte">${esc(fonteTce().replace(/pagamentos até.*$/, ""))} Processos de compra informados ao SIM-AM em ${anoAtual} (inclui a Fundação Municipal de Saúde). "Pago até agora" soma os pagamentos dos empenhos ligados ao processo até ${MESES_LONGO[A.meses - 1]}.</p></div>`;
+    const ordem = ["Pregão", "Concorrência", "Inexigibilidade", "Dispensa"];
+    const cores = { "Pregão": "var(--series-1)", "Concorrência": "var(--s4)", "Inexigibilidade": "var(--series-2)", "Dispensa": "var(--s5)" };
+    const mods = Object.keys(R).sort((a, b) => (ordem.indexOf(a) + 1 || 9) - (ordem.indexOf(b) + 1 || 9));
+    barras($("#sl-qtd"), mods.map((k) => ({ nome: k, valor: R[k].qtd, cor: cores[k] })), "", qtdTot, { porHab: false });
+    $("#sl-qtd").querySelectorAll(".valor").forEach((v, i) => { v.innerHTML = `${nf0.format(R[mods[i]].qtd)}<small>${pct(pctN(R[mods[i]].qtd, qtdTot))}</small>`; });
+    barras($("#sl-val"), mods.map((k) => ({ nome: k, valor: R[k].valor, cor: cores[k] })), "", valTot, { porHab: false });
+    const ent = new Map(); P.forEach((p) => ent.set(p.entidade, (ent.get(p.entidade) || 0) + p.valor));
+    barras($("#sl-ent"), [...ent.entries()].map(([nome, valor]) => ({ nome, valor })).sort((a, b) => b.valor - a.valor), "var(--series-2)", d.valor + ix.valor, { porHab: false });
+    const fo = new Map(); P.forEach((p) => p.fornecedores.forEach((f) => fo.set(f.nome, (fo.get(f.nome) || 0) + 1)));
+    const topF = [...fo.entries()].map(([nome, valor]) => ({ nome, valor })).sort((a, b) => b.valor - a.valor).slice(0, 10);
+    barras($("#sl-forn"), topF, "var(--series-2)", null, { porHab: false });
+    $("#sl-forn").querySelectorAll(".valor").forEach((v, i) => { v.textContent = topF[i].valor + (topF[i].valor > 1 ? " processos" : " processo"); });
+    let lim = 25;
+    const desenha = () => {
+      const q = semAcento($("#sl-busca").value.trim()), md = $("#sl-mod").value, og = $("#sl-org").value;
+      const lista = P.filter((p) => (!md || p.modalidade === md) && (!og || p.entidade === og) && (!q || semAcento(p.objeto + " " + p.fornecedores.map((f) => f.nome).join(" ")).includes(q)));
+      $("#sl-corpo").innerHTML = lista.slice(0, lim).map((p) => `<tr><td><strong>${esc(p.modalidade)} ${esc(p.numero)}</strong><span class="doc">${esc(p.entidade)} · ${fmtDataBR(p.data)}</span></td><td>${esc(p.objeto)}</td><td>${p.fornecedores.length ? p.fornecedores.map((f) => esc(f.nome)).join("<br>") : '<span class="doc">Não informado</span>'}</td><td class="dir num"><strong>${brl2.format(p.valor)}</strong></td><td class="dir num">${brl2.format(p.pago)}</td></tr>`).join("") || `<tr><td colspan="5">Nenhum processo encontrado.</td></tr>`;
+      $("#sl-resumo").textContent = `${nf0.format(lista.length)} processos, com valor previsto de ${brl.format(lista.reduce((s, p) => s + p.valor, 0))}.`;
+      $("#sl-mais").hidden = lista.length <= lim;
+    };
+    ["#sl-busca", "#sl-mod", "#sl-org"].forEach((id) => $(id).addEventListener(id === "#sl-busca" ? "input" : "change", () => { lim = 25; desenha(); }));
+    $("#sl-mais").addEventListener("click", () => { lim += 50; desenha(); });
+    desenha();
+  }
+
+  // ============================================================ páginas do OSB (estrutura pronta para os dados)
+  const numBR = (s) => { const v = parseFloat(String(s || "").replace(/\./g, "").replace(",", ".").replace(/[^\d.-]/g, "")); return isNaN(v) ? 0 : v; };
+  const dataBR = (s) => { const m = String(s || "").match(/(\d{2})\/(\d{2})\/(\d{4})/); if (m) return new Date(`${m[3]}-${m[2]}-${m[1]}T12:00:00`); const d = new Date(String(s) + "T12:00:00"); return isNaN(d) ? null : d; };
+  const aguardando = (campos) => `<div class="card vazio-osb"><img src="img/lupa-deitado.webp" alt=""><div><h3>Aguardando os dados do OSB</h3><p class="intro">Esta página já está pronta. Assim que a planilha for preenchida, os números, gráficos e a tabela aparecem aqui automaticamente.</p><p class="intro" style="font-size:.88rem">Colunas da planilha: ${campos.map((c) => `<code>${c}</code>`).join(", ")}.</p></div></div>`;
+
+  function paginaLicitacoesOSB(el) {
+    const L = (DADOS.osb && DADOS.osb.licitacoes) || [];
+    el.innerHTML = topoEsp("Licitações monitoradas pelo OSB", "Os voluntários do Observatório acompanham licitações da Prefeitura e da Câmara, analisam editais, apontam problemas e acompanham as sessões. Aqui está o resultado desse trabalho e a economia gerada para a cidade.", "lupa-notebook");
+    const lic = L.map((l) => ({ ...l, est: numBR(l.valor_estimado), con: numBR(l.valor_contratado), eco: numBR(l.economia) || Math.max(0, numBR(l.valor_estimado) - numBR(l.valor_contratado)), dt: dataBR(l.data_sessao) }));
+    const tot = (c) => lic.reduce((s, x) => s + x[c], 0);
+    el.innerHTML += tilesHtml([
+      ["Licitações monitoradas", nf0.format(lic.length), "Processos acompanhados pelos voluntários."],
+      ["Valor estimado", lic.length ? reais(tot("est")) : "–", "Soma do valor previsto nos editais."],
+      ["Valor contratado", lic.length ? reais(tot("con")) : "–", "Soma do valor final das contratações."],
+      ["Economia gerada", lic.length ? reais(tot("eco")) : "–", lic.length ? `${pct(pctN(tot("eco"), tot("est")))} do valor estimado.` : "Diferença entre o estimado e o contratado."],
+    ]);
+    if (!lic.length) { el.innerHTML += aguardando(["processo", "orgao", "objeto", "modalidade", "data_sessao", "valor_estimado", "valor_contratado", "economia", "situacao", "observacao", "link"]); return; }
+    el.innerHTML += `<div class="grid-2"><div class="card"><h3>Economia por ano</h3><div class="colunas" id="lm-ano"></div></div><div class="card"><h3>Por situação</h3><div class="barras" id="lm-sit"></div></div></div>
+      <div class="card"><h3>Licitações acompanhadas</h3><div class="tabela-box"><table class="tabela-esp"><thead><tr><th>Processo</th><th>Objeto</th><th>Situação</th><th class="dir">Estimado</th><th class="dir">Contratado</th><th class="dir">Economia</th></tr></thead><tbody>${lic.sort((a, b) => b.eco - a.eco).map((l) => `<tr><td><strong>${l.link ? `<a href="${esc(l.link)}">${esc(l.processo)}</a>` : esc(l.processo)}</strong><span class="doc">${esc(l.orgao)} · ${esc(l.modalidade)} · ${l.dt ? l.dt.toLocaleDateString("pt-BR") : ""}</span></td><td>${esc(l.objeto)}${l.observacao ? `<span class="doc">${esc(l.observacao)}</span>` : ""}</td><td>${esc(l.situacao)}</td><td class="dir num">${brl.format(l.est)}</td><td class="dir num">${brl.format(l.con)}</td><td class="dir num"><strong>${brl.format(l.eco)}</strong></td></tr>`).join("")}</tbody></table></div></div>`;
+    const porAno = new Map(); lic.forEach((l) => { const a = l.dt ? l.dt.getFullYear() : "s/d"; porAno.set(a, (porAno.get(a) || 0) + l.eco); });
+    const anos = [...porAno.keys()].sort();
+    colunas($("#lm-ano"), anos.map((a) => porAno.get(a)), anos.map(String), "var(--good)", fmtCurto);
+    const sit = new Map(); lic.forEach((l) => sit.set(l.situacao || "Não informada", (sit.get(l.situacao || "Não informada") || 0) + 1));
+    barras($("#lm-sit"), [...sit.entries()].map(([nome, valor]) => ({ nome, valor })), "var(--series-1)", null, { porHab: false });
+    $("#lm-sit").querySelectorAll(".valor").forEach((v, i) => { v.textContent = [...sit.values()][i]; });
+  }
+
+  function paginaOficios(el) {
+    const O = (DADOS.osb && DADOS.osb.oficios) || [];
+    el.innerHTML = topoEsp("Ofícios enviados pelo OSB", "O Observatório envia ofícios à Prefeitura e à Câmara pedindo informações e documentos. Este painel mostra cada pedido, quando foi protocolado e há quanto tempo espera resposta.", "lupa-anotando");
+    const hoje = new Date();
+    const of = O.map((o) => { const p = dataBR(o.data_protocolo), r = dataBR(o.data_resposta); return { ...o, p, r, dias: p ? Math.round(((r || hoje) - p) / 864e5) : null, respondido: !!r }; });
+    const resp = of.filter((o) => o.respondido && o.dias != null), pend = of.filter((o) => !o.respondido);
+    const media = (l) => (l.length ? l.reduce((s, o) => s + o.dias, 0) / l.length : null);
+    el.innerHTML += tilesHtml([
+      ["Ofícios enviados", nf0.format(of.length), "Prefeitura e Câmara de Vereadores."],
+      ["Respondidos", nf0.format(resp.length), of.length ? `${pct(pctN(resp.length, of.length))} do total.` : "–"],
+      ["Aguardando resposta", nf0.format(pend.length), pend.length ? `O mais antigo espera há ${nf0.format(Math.max(...pend.map((o) => o.dias || 0)))} dias.` : "–"],
+      ["Tempo médio de resposta", media(resp) != null ? nf0.format(media(resp)) + " dias" : "–", "Entre o protocolo e a resposta. A Lei de Acesso à Informação prevê até 20 dias, prorrogáveis por mais 10."],
+    ]);
+    if (!of.length) { el.innerHTML += aguardando(["numero", "destinatario", "assunto", "data_protocolo", "data_resposta", "situacao", "link"]); return; }
+    el.innerHTML += `<div class="grid-2"><div class="card"><h3>Tempo médio de resposta por destinatário</h3><div class="barras" id="of-dest"></div></div><div class="card"><h3>Aguardando resposta há…</h3><div class="barras" id="of-faixa"></div></div></div>
+      <div class="card"><h3>Todos os ofícios</h3><div class="tabela-box"><table class="tabela-esp"><thead><tr><th>Ofício</th><th>Assunto</th><th>Protocolo</th><th>Situação</th><th class="dir">Dias</th></tr></thead><tbody>${of.sort((a, b) => (a.respondido - b.respondido) || (b.dias || 0) - (a.dias || 0)).map((o) => {
+        const cls = o.respondido ? (o.dias > 30 ? "alerta" : "ok") : o.dias > 30 ? "ruim" : o.dias > 20 ? "alerta" : "ok";
+        return `<tr><td><strong>${o.link ? `<a href="${esc(o.link)}">${esc(o.numero)}</a>` : esc(o.numero)}</strong><span class="doc">${esc(o.destinatario)}</span></td><td>${esc(o.assunto)}</td><td class="num">${o.p ? o.p.toLocaleDateString("pt-BR") : "–"}${o.r ? `<span class="doc">Resposta: ${o.r.toLocaleDateString("pt-BR")}</span>` : ""}</td><td><span class="pill ${cls}">${o.respondido ? "Respondido" : "Aguardando"}</span>${o.situacao ? `<span class="doc">${esc(o.situacao)}</span>` : ""}</td><td class="dir num"><strong>${o.dias != null ? nf0.format(o.dias) : "–"}</strong></td></tr>`;
+      }).join("")}</tbody></table></div><p class="fonte">Fonte: controle de ofícios do OSB Foz do Iguaçu. Para ofícios sem resposta, os dias são contados até hoje.</p></div>`;
+    const dest = new Map(); resp.forEach((o) => { const a = dest.get(o.destinatario) || []; a.push(o.dias); dest.set(o.destinatario, a); });
+    barras($("#of-dest"), [...dest.entries()].map(([nome, a]) => ({ nome, valor: a.reduce((s, x) => s + x, 0) / a.length })), "var(--series-1)", null, { porHab: false });
+    $("#of-dest").querySelectorAll(".valor").forEach((v, i) => { const a = [...dest.values()][i]; v.innerHTML = `${nf0.format(a.reduce((s, x) => s + x, 0) / a.length)} dias<small>${a.length} ofícios</small>`; });
+    const fx = [["até 20 dias", 0, 20], ["21 a 30 dias", 21, 30], ["31 a 60 dias", 31, 60], ["mais de 60 dias", 61, 1e9]].map(([n, a, b]) => ({ nome: n, valor: pend.filter((o) => o.dias >= a && o.dias <= b).length }));
+    barras($("#of-faixa"), fx.map((x, i) => ({ ...x, cor: ["var(--good)", "var(--warning)", "var(--series-2)", "var(--critical)"][i] })), "", null, { porHab: false });
+    $("#of-faixa").querySelectorAll(".valor").forEach((v, i) => { v.textContent = fx[i].valor; });
+  }
+
+  // ============================================================ dispersão genérica
+  // pontos: [{x, y, r (opcional, valor para a área), rotulo, destaque, tip}]
+  function dispersao(alvo, pontos, opts) {
+    opts = opts || {};
+    const W = Math.max(320, Math.round(alvo.clientWidth) || 900), H = W < 500 ? Math.round((opts.altura || 460) * 0.85) : (opts.altura || 460);
+    const m = { t: 20, r: 30, b: 52, l: 64 };
+    const iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const xs = pontos.map((p) => p.x), ys = pontos.map((p) => p.y);
+    const eixo = (min, max, zero) => {
+      if (zero) min = 0;
+      const span = (max - min) || 1, b = Math.pow(10, Math.floor(Math.log10(span / 5)));
+      const passo = [1, 2, 2.5, 5, 10].map((k) => k * b).find((p) => span / p <= 6) || b * 10;
+      return { min: Math.floor(min / passo) * passo, max: Math.ceil(max / passo) * passo, passo };
+    };
+    const ex = eixo(opts.xMin != null ? opts.xMin : Math.min(...xs), opts.xMax != null ? opts.xMax : Math.max(...xs) * 1.04, opts.xZero);
+    const ey = eixo(opts.yMin != null ? opts.yMin : Math.min(...ys), opts.yMax != null ? opts.yMax : Math.max(...ys) * 1.04, opts.yZero);
+    const X = (v) => m.l + ((v - ex.min) / (ex.max - ex.min)) * iw;
+    const Y = (v) => m.t + ih - ((v - ey.min) / (ey.max - ey.min)) * ih;
+    const rMax = opts.rMax || 22, vMax = Math.max(...pontos.map((p) => p.r || 0), 1);
+    const raio = (p) => (p.r ? Math.max(4, Math.sqrt(p.r / vMax) * rMax) : 7);
+    let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(opts.rotulo || "Gráfico de dispersão")}">`;
+    for (let v = ex.min; v <= ex.max + ex.passo / 1e3; v += ex.passo) s += `<line x1="${X(v)}" x2="${X(v)}" y1="${m.t}" y2="${m.t + ih}" stroke="var(--line)"/><text x="${X(v)}" y="${m.t + ih + 18}" text-anchor="middle">${(opts.fmtX || String)(v)}</text>`;
+    for (let v = ey.min; v <= ey.max + ey.passo / 1e3; v += ey.passo) s += `<line x1="${m.l}" x2="${m.l + iw}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${m.l - 8}" y="${Y(v) + 4}" text-anchor="end">${(opts.fmtY || String)(v)}</text>`;
+    s += `<text x="${m.l + iw / 2}" y="${H - 8}" text-anchor="middle" style="font-weight:700;fill:var(--ink-2)">${esc(opts.tituloX || "")}</text>`;
+    s += `<text transform="translate(16 ${m.t + ih / 2}) rotate(-90)" text-anchor="middle" style="font-weight:700;fill:var(--ink-2)">${esc(opts.tituloY || "")}</text>`;
+    (opts.linhas || []).forEach((l) => {
+      if (l.x != null) s += `<line x1="${X(l.x)}" x2="${X(l.x)}" y1="${m.t}" y2="${m.t + ih}" stroke="var(--s3)" stroke-width="2" stroke-dasharray="6 5"/><text x="${X(l.x) + 6}" y="${m.t + 14}" style="fill:var(--s3);font-weight:700">${esc(l.rotulo)}</text>`;
+      if (l.diag) { const a = Math.max(ex.min, ey.min), b = Math.min(ex.max, ey.max); s += `<line x1="${X(a)}" y1="${Y(a)}" x2="${X(b)}" y2="${Y(b)}" stroke="var(--ink-3)" stroke-width="1.5" stroke-dasharray="4 5"/><text x="${X(b) - 6}" y="${Y(b) - 8}" text-anchor="end" style="fill:var(--ink-3)">${esc(l.rotulo)}</text>`; }
+    });
+    const ord = pontos.map((p, i) => ({ ...p, i })).sort((a, b) => (raio(b) - raio(a)));
+    ord.forEach((p) => {
+      const cor = p.destaque ? "var(--series-2)" : "var(--series-1)";
+      s += `<circle class="pt" data-i="${p.i}" cx="${X(p.x)}" cy="${Y(p.y)}" r="${raio(p)}" fill="${cor}" fill-opacity="${p.destaque ? .85 : .35}" stroke="${cor}" stroke-width="2"/>`;
+    });
+    // rótulos sem sobreposição: Foz primeiro, depois os maiores
+    const caixas = pontos.map((p) => { const rr = raio(p), cx = X(p.x), cy = Y(p.y); return { x0: cx - rr, x1: cx + rr, y0: cy - rr, y1: cy + rr }; }), cw = 6.6;
+    const livre = (b) => b.x0 >= 0 && b.x1 <= W && b.y0 >= 0 && b.y1 <= H - 30 && !caixas.some((c) => !(b.x1 < c.x0 || b.x0 > c.x1 || b.y1 < c.y0 || b.y0 > c.y1));
+    const prio = pontos.map((p, i) => ({ ...p, i })).sort((a, b) => (b.destaque ? 1 : 0) - (a.destaque ? 1 : 0) || raio(b) - raio(a));
+    prio.forEach((p) => {
+      const cx = X(p.x), cy = Y(p.y), rr = raio(p), w = p.rotulo.length * cw * (p.destaque ? 1.12 : 1), h = 14;
+      const tent = [[cx + rr + 4, cy + 4, "start"], [cx - rr - 4, cy + 4, "end"], [cx, cy - rr - 5, "middle"], [cx, cy + rr + 14, "middle"]];
+      for (const [tx, ty, an] of tent) {
+        const x0 = an === "start" ? tx : an === "end" ? tx - w : tx - w / 2;
+        const b = { x0, x1: x0 + w, y0: ty - 11, y1: ty - 11 + h };
+        if (livre(b)) { caixas.push(b); s += `<text x="${tx}" y="${ty}" text-anchor="${an}" style="${p.destaque ? "font-weight:800;fill:var(--series-2);font-size:13.5px" : "fill:var(--ink-2)"}">${esc(p.rotulo)}</text>`; break; }
+      }
+    });
+    s += `</svg>`;
+    alvo.innerHTML = s;
+    alvo.querySelectorAll("circle.pt").forEach((c) => { const p = pontos[Number(c.dataset.i)]; ligaTip(c, p.tip || `<strong>${esc(p.rotulo)}</strong>`); });
+  }
+
+  // ============================================================ mapa esquemático das obras
+  const REFERENCIAS = [
+    ["Ponte da Amizade", -25.5093, -54.6013], ["Marco das Três Fronteiras", -25.5925, -54.5913], ["Centro (Av. Brasil)", -25.5420, -54.5838],
+    ["Aeroporto", -25.5963, -54.4872], ["Usina de Itaipu", -25.4079, -54.5888], ["Rodoviária", -25.5257, -54.5555],
+  ];
+  const COR_SIT = { "Em andamento": "var(--series-2)", "Paralisada": "var(--critical)", "Não iniciada": "var(--s8)", "Em licitação": "var(--series-1)", "Concluída": "var(--good)", "Sem informação": "var(--ink-3)" };
+  const grupoSit = (sit) => /parali|suspens/i.test(sit) ? "Paralisada" : /não inic|nao inic|iniciar/i.test(sit) ? "Não iniciada" : /conclu/i.test(sit) ? "Concluída" : /andamento/i.test(sit) ? "Em andamento" : /edital|licita/i.test(sit) ? "Em licitação" : "Sem informação";
+  // pontos: [{lat, lon, cor, forma: "c" | "q", r, tip, link, camada}]
+  function mapaPontos(alvo, pontos) {
+    if (!pontos.length) { alvo.innerHTML = semDados("Nenhuma obra com coordenadas para mostrar."); return; }
+    const W = Math.max(320, Math.round(alvo.clientWidth) || 900), H = Math.round(W * (W < 600 ? 1.3 : 0.7));
+    const lats = pontos.map((p) => p.lat).concat(REFERENCIAS.map((r) => r[1])), lons = pontos.map((p) => p.lon).concat(REFERENCIAS.map((r) => r[2]));
+    let la0 = Math.min(...lats), la1 = Math.max(...lats), lo0 = Math.min(...lons), lo1 = Math.max(...lons);
+    const k = Math.cos((la0 + la1) / 2 * Math.PI / 180);
+    const padX = (lo1 - lo0) * 0.07, padY = (la1 - la0) * 0.07;
+    lo0 -= padX; lo1 += padX; la0 -= padY; la1 += padY;
+    const escala = Math.min((W - 40) / ((lo1 - lo0) * k), (H - 40) / (la1 - la0));
+    const ox = (W - (lo1 - lo0) * k * escala) / 2, oy = (H - (la1 - la0) * escala) / 2;
+    const X = (lon) => ox + (lon - lo0) * k * escala, Y = (lat) => oy + (la1 - lat) * escala;
+    let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Mapa esquemático das obras">`;
+    s += `<rect x="0" y="0" width="${W}" height="${H}" rx="12" fill="var(--accent-soft)" opacity=".55"/>`;
+    for (let la = Math.ceil(la0 * 50) / 50; la < la1; la += 0.02) s += `<line x1="0" x2="${W}" y1="${Y(la)}" y2="${Y(la)}" stroke="var(--line)"/>`;
+    for (let lo = Math.ceil(lo0 * 50) / 50; lo < lo1; lo += 0.02) s += `<line y1="0" y2="${H}" x1="${X(lo)}" x2="${X(lo)}" stroke="var(--line)"/>`;
+    const km = 2, pxKm = escala / 111 * km;
+    s += `<g transform="translate(${W - pxKm - 24} ${H - 24})"><line x1="0" x2="${pxKm}" y1="0" y2="0" stroke="var(--ink-2)" stroke-width="3"/><text x="${pxKm / 2}" y="-6" text-anchor="middle">${km} km</text></g>`;
+    s += `<g transform="translate(26 30)"><path d="M0,-14 L7,6 L0,1 L-7,6 Z" fill="var(--ink-2)"/><text x="0" y="22" text-anchor="middle" style="font-weight:800">N</text></g>`;
+    REFERENCIAS.forEach(([n, la, lo]) => { s += `<g><rect x="${X(lo) - 4}" y="${Y(la) - 4}" width="8" height="8" transform="rotate(45 ${X(lo)} ${Y(la)})" fill="var(--ink-3)"/><text x="${X(lo) + 8}" y="${Y(la) + 4}" style="fill:var(--ink-3);font-style:italic">${esc(n)}</text></g>`; });
+    const ord = pontos.map((p, i) => ({ ...p, i })).sort((a, b) => b.r - a.r);
+    ord.forEach((p) => {
+      const x = X(p.lon), y = Y(p.lat), r = p.r;
+      const forma = p.forma === "q" ? `<rect class="pt" data-i="${p.i}" x="${x - r}" y="${y - r}" width="${2 * r}" height="${2 * r}" rx="3" fill="${p.cor}" fill-opacity=".85" stroke="#fff" stroke-width="2"/>`
+        : `<circle class="pt" data-i="${p.i}" cx="${x}" cy="${y}" r="${r}" fill="${p.cor}" fill-opacity=".85" stroke="#fff" stroke-width="2.5"/>`;
+      s += `<a class="cam-${p.camada}" href="${p.link}" target="_blank" rel="noopener">${forma}</a>`;
+    });
+    s += `</svg>`;
+    alvo.innerHTML = s;
+    alvo.querySelectorAll(".pt").forEach((c) => { ligaTip(c, pontos[Number(c.dataset.i)].tip + `<br><span style="opacity:.8">Clique para abrir no Google Maps</span>`); });
+  }
+
+
+  Object.assign(ESPECIAIS, {
+    "caminho-do-dinheiro": paginaCaminho, "camara": paginaCamara, "transporte": paginaTransporte, "alugueis": paginaAlugueis,
+    "obras": paginaObras, "sem-licitacao": paginaSemLicitacao, "licitacoes-monitoradas": paginaLicitacoesOSB, "oficios": paginaOficios,
+  });
+  const TITULOS = { "caminho-do-dinheiro": "O caminho do dinheiro", camara: "Temas · Câmara de Vereadores", transporte: "Temas · Transporte coletivo", alugueis: "Temas · Aluguéis de imóveis",
+    obras: "Temas · Obras", "sem-licitacao": "Temas · Contratações sem licitação", diarias: "Temas · Diárias e passagens", gratificacoes: "Temas · Gratificações",
+    "horas-extras": "Temas · Horas extras", remuneracao: "Temas · Remuneração dos servidores", "licitacoes-monitoradas": "Atuação do OSB · Licitações monitoradas", oficios: "Atuação do OSB · Ofícios enviados" };
+
+  // ============================================================ slider de destaques
+  let slAtual = 0, slTimer = null, slPausado = false;
+  function slides() {
+    const r = A.receitas, d = A.despesas, f = d.por_funcao.slice().sort((a, b) => b.valor - a.valor), baseF = f.reduce((s, x) => s + x.valor, 0);
+    const S = [];
+    S.push({ tag: `Receitas · ${anoAtual}${ateMes()}`, num: reais(r.arrecadado), txt: "entraram nos cofres do município", det: `Isso dá ${brl.format(r.arrecadado / POP)} por morador. Veja de onde vem cada real.`, link: "#receitas", cta: "De onde vem o dinheiro", img: "lupa-prancheta" });
+    S.push({ tag: "Para onde vai", num: `R$ ${nf0.format(f[0].valor / baseF * 100)}`, txt: `de cada R$ 100 gastos foram para ${f[0].funcao.toLowerCase()}`, det: `${f[1].funcao} vem em seguida, com R$ ${nf0.format(f[1].valor / baseF * 100)} de cada R$ 100.`, link: "#caminho-do-dinheiro", cta: "Siga o caminho do dinheiro", img: "lupa-acenando" });
+    const ip = A.indicadores;
+    if (ip.pessoal_rcl_pct) S.push({ tag: "Lei de Responsabilidade Fiscal", num: pct(ip.pessoal_rcl_pct), txt: ip.pessoal_rcl_pct > 54 ? "da receita vai para pessoal, acima do limite de 54%" : "da receita vai para gastos com pessoal", det: "Percentual informado pela Prefeitura no Relatório de Gestão Fiscal.", link: "#limites", cta: "Ver os limites da lei", img: "lupa-pensando" });
+    if (DADOS.camara) { const C = DADOS.camara, comp = C.comparativo.map((c) => ({ ...c, v: c.despesa / c.cadeiras })).sort((a, b) => b.v - a.v), pos = comp.findIndex((c) => /Foz/.test(c.municipio)) + 1; S.push({ tag: "Câmara de Vereadores", num: `${pos}º`, txt: `maior custo por cadeira entre ${comp.length} câmaras do Paraná`, det: `${brl.format(comp[pos - 1].v / C.meses_comparacao)} por cadeira, por mês, em ${C.periodo_comparacao}.`, link: "#camara", cta: "Ver as contas da Câmara", img: "lupa-notebook" }); }
+    if (DADOS.transporte) { const M = DADOS.transporte.mensal, a = M[M.length - 1].mes.slice(0, 4), l = M.filter((m) => m.mes.startsWith(a)); S.push({ tag: "Transporte coletivo", num: reais(l.reduce((s, m) => s + m.aporte_municipio, 0)), txt: `de dinheiro da Prefeitura para manter os ônibus em ${a}`, det: `Isso cobre ${pct(pctN(l.reduce((s, m) => s + m.aporte_municipio, 0), l.reduce((s, m) => s + m.custo_total, 0)))} do custo do sistema.`, link: "#transporte", cta: "Entenda o transporte", img: "lupa-anotando" }); }
+    const he = A.componentes_folha && A.componentes_folha["Horas extras (serviços extraordinários)"];
+    if (he && he.mensal.length > 1 && he.mensal[0] > 0) { const v = (he.mensal[he.mensal.length - 1] / he.mensal[0] - 1) * 100; S.push({ tag: "Horas extras", num: (v >= 0 ? "+" : "") + nf0.format(v) + "%", txt: `no gasto mensal com horas extras de janeiro a ${MESES_LONGO[he.mensal.length - 1]}`, det: `Foram ${reais(he.total)} no período.`, link: "#horas-extras", cta: "Ver horas extras", img: "lupa-pensando" }); }
+    const sl = T() && T().sem_licitacao;
+    if (sl) { const R = sl.resumo, n = (R.Dispensa ? R.Dispensa.qtd : 0) + (R.Inexigibilidade ? R.Inexigibilidade.qtd : 0), tot = Object.values(R).reduce((s, x) => s + x.qtd, 0); S.push({ tag: "Compras sem licitação", num: nf0.format(n), txt: `processos sem licitação em ${anoAtual}`, det: `${pct(pctN(n, tot))} de todos os processos de compra abertos no ano.`, link: "#sem-licitacao", cta: "Ver as contratações", img: "lupa-notebook" }); }
+    return S;
+  }
+  function montaSlider() {
+    const S = slides();
+    $("#slides").innerHTML = S.map((s, i) => `<article class="slide${i === slAtual % S.length ? " ativo" : ""}" role="group" aria-roledescription="destaque" aria-label="${i + 1} de ${S.length}"><div><span class="sl-tag">${esc(s.tag)}</span><div class="sl-num">${esc(s.num)}</div><p class="sl-txt">${esc(s.txt)}</p><p class="sl-det">${esc(s.det)}</p><a class="sl-cta" href="${s.link}">${esc(s.cta)} →</a></div><img src="img/${s.img}.webp" alt=""></article>`).join("");
+    $("#sl-dots").innerHTML = S.map((s, i) => `<button type="button" role="tab" aria-label="Destaque ${i + 1}" aria-selected="${i === slAtual % S.length}" data-i="${i}"></button>`).join("");
+    slAtual = slAtual % S.length;
+  }
+  function slIr(i) {
+    const els = document.querySelectorAll("#slides .slide"), dots = document.querySelectorAll("#sl-dots button");
+    if (!els.length) return;
+    slAtual = (i + els.length) % els.length;
+    els.forEach((e, k) => e.classList.toggle("ativo", k === slAtual));
+    dots.forEach((d, k) => d.setAttribute("aria-selected", String(k === slAtual)));
+  }
+  function slAuto() {
+    clearInterval(slTimer);
+    const reduz = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!slPausado && !reduz) slTimer = setInterval(() => slIr(slAtual + 1), 7000);
+    $("#sl-pausa").textContent = slPausado || reduz ? "▶" : "❚❚";
+    $("#sl-pausa").setAttribute("aria-label", slPausado || reduz ? "Retomar destaques" : "Pausar destaques");
+  }
+  function iniciaSlider() {
+    $("#sl-ant").addEventListener("click", () => { slIr(slAtual - 1); slAuto(); });
+    $("#sl-prox").addEventListener("click", () => { slIr(slAtual + 1); slAuto(); });
+    $("#sl-pausa").addEventListener("click", () => { slPausado = !slPausado; slAuto(); });
+    $("#sl-dots").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) { slIr(Number(b.dataset.i)); slAuto(); } });
+    const sl = $("#slider");
+    sl.addEventListener("mouseenter", () => clearInterval(slTimer));
+    sl.addEventListener("mouseleave", slAuto);
+    sl.addEventListener("focusin", () => clearInterval(slTimer));
+    sl.addEventListener("focusout", slAuto);
+  }
+
+  // ============================================================ menu
+  function iniciaMenu() {
+    const btn = $("#menu-btn"), menu = $("#menu-principal");
+    btn.addEventListener("click", () => { const ab = menu.classList.toggle("aberto"); btn.setAttribute("aria-expanded", String(ab)); });
+    menu.querySelectorAll(".tem-sub > button").forEach((b) => b.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const ab = b.getAttribute("aria-expanded") !== "true";
+      menu.querySelectorAll(".tem-sub > button").forEach((x) => x.setAttribute("aria-expanded", "false"));
+      b.setAttribute("aria-expanded", String(ab));
+    }));
+    document.addEventListener("click", (e) => { if (!e.target.closest(".menu")) menu.querySelectorAll(".tem-sub > button").forEach((x) => x.setAttribute("aria-expanded", "false")); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") menu.querySelectorAll(".tem-sub > button").forEach((x) => x.setAttribute("aria-expanded", "false")); });
+    menu.addEventListener("click", (e) => { if (e.target.closest("a")) { menu.classList.remove("aberto"); btn.setAttribute("aria-expanded", "false"); menu.querySelectorAll(".tem-sub > button").forEach((x) => x.setAttribute("aria-expanded", "false")); } });
+  }
+
+  function render() {
+    anoAtual = $("#ano").value;
+    A = DADOS.anos[anoAtual];
+    document.querySelectorAll("[data-ano]").forEach((e) => (e.textContent = anoAtual));
+    $("#resumo-periodo").textContent = A.meses < 12
+      ? `Valores de janeiro a ${MESES_LONGO[A.meses - 1]} de ${anoAtual}, o período mais recente publicado nos relatórios oficiais. Incluem Prefeitura, Câmara, autarquias e fundações do município.`
+      : `Valores do ano completo de ${anoAtual}. Incluem Prefeitura, Câmara, autarquias e fundações do município.`;
+    document.querySelectorAll("[data-fonte]").forEach((e) => (e.textContent = fonteSiconfi()));
+    $("#fonte-mensal").textContent = A.despesas.mensal_pago ? `Receitas: ${fonteSiconfi().replace("Fonte: ", "")} Despesas: ${fonteTce().replace("Fonte: ", "")}` : fonteSiconfi();
+    montaSlider(); tiles(); linhaMensal(); sankey(); receitas(); despesas(); credLimite = 20; credAberto = null; credores(); indicadores();
+    if (!$("#pagina-especial").hidden) rota();
+    $("#sobre-fontes").innerHTML = Object.keys(DADOS.anos).sort().reverse().map((a) => {
+      const f = DADOS.anos[a].fontes;
+      return `<li><strong>${a}:</strong> Siconfi/Tesouro Nacional, ${esc(f.siconfi)}${f.tce ? "; " + esc(f.tce) : "; dados do TCE-PR ainda não carregados"}.</li>`;
+    }).join("");
+  }
+
+  function iniciar(d) {
+    DADOS = d; POP = d.meta.populacao;
+    if (!d.meta.demonstracao) { const b = $("#demo-bar"); if (b) b.remove(); }
+    const anos = Object.keys(d.anos).sort().reverse();
+    $("#ano").innerHTML = anos.map((a) => `<option value="${a}">${a}${d.anos[a].meses < 12 ? " (até " + MESES[d.anos[a].meses - 1] + ")" : ""}</option>`).join("");
+    const dt = new Date(d.meta.atualizado_em + "T12:00:00").toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric" });
+    $("#rodape-atual").textContent = `Dados processados em ${dt}. Valores por habitante calculados com ${nf0.format(POP)} habitantes (${d.meta.populacao_fonte || "IBGE"}).`;
+    $("#sobre-texto").textContent = d.meta.demonstracao
+      ? "Esta é uma versão de demonstração. Todos os valores e nomes de fornecedores são fictícios."
+      : `Este site reúne dados oficiais publicados pela Prefeitura de Foz do Iguaçu ao Tesouro Nacional e ao Tribunal de Contas do Paraná. Dados processados em ${dt}.`;
+    $("#ano").addEventListener("change", render);
+    const refiltra = () => { credLimite = 20; credAberto = null; tabelaCredores(); };
+    $("#busca").addEventListener("input", refiltra);
+    $("#f-area").addEventListener("change", refiltra);
+    $("#f-tipo").addEventListener("change", refiltra);
+    $("#mais").addEventListener("click", () => { credLimite += 30; tabelaCredores(); });
+    $("#ord-pago").addEventListener("click", () => { credOrdem = "pago"; tabelaCredores(); });
+    $("#ord-emp").addEventListener("click", () => { credOrdem = "emp"; tabelaCredores(); });
+    const alterna = (tr) => { const id = tr.dataset.id; credAberto = credAberto === id ? null : id; tabelaCredores(); };
+    $("#cred-corpo").addEventListener("click", (e) => { const tr = e.target.closest("tr.cred-linha"); if (tr) alterna(tr); });
+    $("#cred-corpo").addEventListener("keydown", (e) => { const tr = e.target.closest("tr.cred-linha"); if (tr && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); alterna(tr); } });
+    render();
+    iniciaMenu(); iniciaSlider(); slAuto();
+    window.addEventListener("hashchange", rota);
+    let largura = innerWidth, tmr = null;
+    window.addEventListener("resize", () => { clearTimeout(tmr); tmr = setTimeout(() => { if (Math.abs(innerWidth - largura) > 60) { largura = innerWidth; render(); if (!$("#pagina-especial").hidden) rota(); } }, 250); });
+    rota();
+  }
+
+  const embutidos = () => { try { return JSON.parse(document.getElementById("dados-embutidos").textContent); } catch (e) { return null; } };
+  const falhou = () => { document.getElementById("pagina-principal").innerHTML = `<div class="card" style="margin-top:24px"><h2>Não foi possível carregar os dados</h2><p class="intro">Verifique sua conexão e recarregue a página. Se o problema continuar, avise o Observatório Social de Foz do Iguaçu.</p></div>`; };
+  const comDados = (d) => (d ? iniciar(d) : falhou());
+  // Hospedado (GitHub Pages etc.): lê dados.json ao lado da página. Sem ele, usa os dados embutidos.
+  fetch("dados.json", { cache: "no-cache" }).then((r) => (r.ok ? r.json() : Promise.reject())).then(comDados, () => comDados(embutidos()));
+})();
+
+</script>
+</body>
+</html>
