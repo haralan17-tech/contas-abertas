@@ -41,3 +41,7 @@ Se preferir, envie os arquivos para o Claude e peça o `dados.json` atualizado.
    ```
    python3 programas/montar.py --dados dados.json --saida index.html --sem-embutir
    ```
+
+## Emendas impositivas
+
+`programas/emendas.py` segue cada emenda dos vereadores: SAPL → dotação na LOA → empenho e pagamento (TCE-PR). Veja `programas/LEIAME_emendas.md`.
