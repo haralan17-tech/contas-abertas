@@ -1,0 +1,37 @@
+# .github/workflows/emendas.yml — caminho das emendas impositivas
+# Roda toda segunda às 6h (Brasília) ou manualmente pela aba Actions.
+name: Emendas impositivas
+on:
+  workflow_dispatch:
+    inputs:
+      ano_sapl: { description: "Ano de apresentação no SAPL (2025 = orçamento 2026)", default: "2025" }
+  schedule:
+    - cron: "0 9 * * 1"
+permissions:
+  contents: write
+jobs:
+  emendas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: sudo apt-get install -y poppler-utils && pip install requests
+      - name: Baixar emendas do SAPL
+        run: python programas/emendas.py baixar --ano-sapl "${{ inputs.ano_sapl || '2025' }}" --saida programas/fontes_osb/emendas
+      - name: Ler PDFs
+        run: python programas/emendas.py extrair --saida programas/fontes_osb/emendas
+      - name: Cruzar com empenhos do TCE-PR (se a pasta dados_tce/ existir)
+        run: |
+          if ls dados_tce/**/*_Empenho.xml dados_tce/*_Empenho.xml >/dev/null 2>&1; then
+            python programas/emendas.py cruzar --saida programas/fontes_osb/emendas --tce dados_tce --ano 2026
+          else
+            echo "::warning::Sem XML de empenhos do TCE-PR em dados_tce/; só a lista das emendas foi atualizada."
+          fi
+      - name: Salvar resultado
+        run: |
+          git config user.name "OSB Foz (automático)"
+          git config user.email "actions@users.noreply.github.com"
+          git add programas/fontes_osb/emendas/*.json programas/fontes_osb/emendas/*.csv
+          git diff --cached --quiet || git commit -m "Emendas: atualização automática"
+          git push
