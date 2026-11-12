@@ -1161,68 +1161,156 @@
     const E = DADOS.emendas;
     if (!E) { el.innerHTML += semDados("As emendas impositivas aparecem quando o resumo das emendas for gerado (programa emendas.py)."); return; }
     const L = E.lista, soma = (a, k) => a.reduce((s, x) => s + (x[k] || 0), 0);
-    const vTot = soma(L, "valor"), pTot = L.reduce((s, x) => s + Math.min(x.pago, x.valor || x.pago), 0);
-    const nada = L.filter((x) => x.situacao === "Nenhum gasto encontrado"), saude = L.filter((x) => x.area === "Saúde");
-    const comAlerta = L.filter((x) => x.alertas.length);
-    el.innerHTML += tilesHtml([
-      ["Emendas aprovadas", nf0.format(L.length), `${reais(vTot)} no orçamento de ${E.ano_orcamento}, indicados pelos vereadores.`],
-      ["Já pago", reais(pTot), `${pct(pctN(pTot, vTot))} do valor das emendas, com dados enviados ao Tribunal de Contas até ${remessa(E.remessa_tce)}.`],
-      ["Nenhum gasto encontrado", nf0.format(nada.length), `${reais(soma(nada, "valor"))} em emendas sem nenhum empenho até agora.`],
-      ["Para a Saúde", pct(pctN(soma(saude, "valor"), vTot)), `${nf0.format(saude.length)} emendas. A lei exige pelo menos metade do valor.`],
-    ]);
-    const semValor = L.filter((x) => !x.valor);
-    if (semValor.length) el.innerHTML += `<p class="card vazio">Atenção: ${nf0.format(semValor.length)} emendas ainda estão sem valor porque o texto delas não pôde ser lido (documento digitalizado). Os totais desta página não incluem essas emendas.</p>`;
-    el.innerHTML += `<div class="card"><h3>Situação das emendas, pelo valor aprovado</h3><div class="barras" id="em-sit"></div>
+    const pagoDe = (x) => Math.min(x.pago, x.valor || x.pago), somaPago = (a) => a.reduce((s, x) => s + pagoDe(x), 0);
+    const SITS = E.situacoes.filter((s) => L.some((x) => x.situacao === s));
+    const COR = Object.fromEntries(SITS.map((s) => [s, `var(--em${E.situacoes.indexOf(s) + 1})`]));
+    const VER = [...new Set(L.flatMap((x) => x.autores))].sort((a, b) => a.localeCompare(b, "pt"));
+    const AREAS = ["Saúde", "Geral", "Não informada"].filter((a) => L.some((x) => x.area === a));
+    const F = { sit: "", ver: "", area: "", q: "" };
+    let lim = 25;
+
+    el.innerHTML += `
+      <div class="em-filtros card" id="em-filtros">
+        <div class="filtros">
+          <label for="em-busca">Buscar por objeto, entidade ou número<input id="em-busca" type="search" placeholder="Ex.: APAE, UBS, ambulância, 120"></label>
+          <label for="em-vereador">Vereador<select id="em-vereador"><option value="">Todos os vereadores</option>${VER.map((a) => `<option>${esc(a)}</option>`).join("")}</select></label>
+          <label for="em-sitf">Situação<select id="em-sitf"><option value="">Todas as situações</option>${SITS.map((s) => `<option>${esc(s)}</option>`).join("")}</select></label>
+          <label for="em-areaf">Área<select id="em-areaf"><option value="">Todas as áreas</option>${AREAS.map((a) => `<option>${esc(a)}</option>`).join("")}</select></label>
+        </div>
+        <div class="em-ativos" id="em-ativos" aria-live="polite"></div>
+      </div>
+      <div id="em-aviso"></div>
+      <div id="em-tiles"></div>
+      <div class="card"><h3>Situação das emendas</h3>
+        <p class="intro" style="font-size:.9rem;margin-top:-4px">Clique numa situação para filtrar a página inteira. Clique de novo para tirar o filtro.</p>
+        <div class="em-sit"><div class="em-rosca" id="em-rosca"></div><ul class="em-leg" id="em-leg"></ul></div>
         <p class="intro" style="font-size:.88rem">A execução das emendas cabe à Prefeitura. Uma emenda sem gasto não quer dizer, sozinha, que houve irregularidade: pode haver impedimento técnico, convênio em andamento ou atraso no envio dos dados ao Tribunal de Contas.</p></div>
-      <div class="grid-2"><div class="card"><h3>Valor indicado por vereador</h3><div class="barras" id="em-ver"></div>
-          <p class="intro" style="font-size:.85rem">Emendas assinadas por mais de um vereador foram divididas igualmente entre eles. Passe o mouse para ver quanto já foi pago.</p></div>
-        <div class="card"><h3>Para onde vão as emendas</h3><div class="barras" id="em-area"></div>
-          <h3 style="margin-top:18px">Quem mais recebeu, entre os empenhos ligados às emendas</h3><div class="barras" id="em-cred"></div></div></div>
+      <div class="grid-2"><div class="card"><h3>Por vereador</h3>
+          <div class="em-leg-mini"><span><i class="marca" style="background:var(--em-aprov)"></i>Valor aprovado</span><span><i class="marca" style="background:var(--series-2)"></i>Já pago</span></div>
+          <div class="em-barras" id="em-ver"></div>
+          <p class="intro" style="font-size:.85rem">Clique no nome para ver todas as emendas do vereador na tabela. Emendas assinadas por mais de um vereador foram divididas igualmente entre eles.</p></div>
+        <div class="card"><h3>Por área</h3>
+          <div class="em-leg-mini"><span><i class="marca" style="background:var(--em-aprov)"></i>Valor aprovado</span><span><i class="marca" style="background:var(--series-2)"></i>Já pago</span></div>
+          <div class="em-barras" id="em-area"></div>
+          <h3 style="margin-top:22px">Quem mais recebeu</h3><p class="intro" style="font-size:.85rem;margin-top:-6px">Empenhos ligados às emendas do filtro atual.</p><div class="barras" id="em-cred"></div></div></div>
       <div class="card"><h3>Pontos a conferir</h3><p class="intro" style="font-size:.9rem">Situações encontradas no cruzamento que merecem pergunta à Prefeitura ou à Câmara.</p><ul class="lista-alertas" id="em-alertas"></ul></div>
-      <div class="card"><h3>Todas as emendas</h3>
-        <div class="filtros"><label for="em-busca">Buscar por objeto, entidade ou número<input id="em-busca" type="search" placeholder="Ex.: APAE, UBS, ambulância, 120"></label>
-          <label for="em-vereador">Vereador<select id="em-vereador"><option value="">Todos os vereadores</option>${[...new Set(L.flatMap((x) => x.autores))].sort().map((a) => `<option>${esc(a)}</option>`).join("")}</select></label>
-          <label for="em-sitf">Situação<select id="em-sitf"><option value="">Todas as situações</option>${E.situacoes.filter((s) => L.some((x) => x.situacao === s)).map((s) => `<option>${esc(s)}</option>`).join("")}</select></label></div>
+      <div class="card" id="em-tabela"><h3 id="em-tab-titulo">Todas as emendas</h3>
         <div class="tabela-box"><table class="tabela-esp"><thead><tr><th>Emenda</th><th>Objeto</th><th class="dir">Valor aprovado</th><th class="dir">Empenhado</th><th class="dir">Pago</th><th>Situação</th></tr></thead><tbody id="em-corpo"></tbody></table></div>
         <p class="intro" id="em-resumo" style="font-size:.88rem"></p><button type="button" class="btn" id="em-mais">Mostrar mais</button>
         <p class="fonte">Fontes: emendas e textos aprovados, SAPL da Câmara Municipal de Foz do Iguaçu (orçamento de ${E.ano_orcamento}); empenhos e pagamentos, TCE-PR, SIM-AM (dados até ${esc(remessa(E.remessa_tce))}). Um empenho é ligado à emenda quando o histórico dele cita o número da emenda, ou quando foi feito na ação do orçamento indicada pela emenda e para o beneficiário indicado nela (CNPJ). Empenhos que atendem várias emendas foram divididos na proporção do valor de cada uma. Valores anulados foram descontados. ${E.nao_impositivas ? E.nao_impositivas + " emendas que não são impositivas (do Executivo ou modificativas) ficaram de fora." : ""}</p></div>`;
-    const cores = { "Paga": "var(--good)", "Empenhada, falta pagar": "var(--series-1)", "Executada em parte": "var(--s4)", "Com gasto (valor da emenda a confirmar)": "var(--s4)", "Sem vínculo claro": "var(--s5)", "A conferir": "var(--critical)", "Nenhum gasto encontrado": "var(--critical)" };
-    const porSit = E.situacoes.map((s) => { const g = L.filter((x) => x.situacao === s); return { nome: `${s} (${g.length})`, valor: soma(g, "valor"), cor: cores[s], explicacao: SIT_EXPLICA[s], qtd: g.length }; }).filter((x) => x.qtd > 0);
-    barras($("#em-sit"), porSit, "", vTot, { porHab: false });
-    const ver = new Map();
-    L.forEach((x) => { const n = x.autores.length || 1; (x.autores.length ? x.autores : ["Sem autor"]).forEach((a) => { const v = ver.get(a) || { valor: 0, pago: 0, qtd: 0 }; v.valor += x.valor / n; v.pago += Math.min(x.pago, x.valor || x.pago) / n; v.qtd++; ver.set(a, v); }); });
-    barras($("#em-ver"), [...ver.entries()].sort((a, b) => b[1].valor - a[1].valor).map(([nome, v]) => ({ nome, valor: v.valor, explicacao: `${v.qtd} emendas · já pago: ${reais(v.pago)} (${pct(pctN(v.pago, v.valor))})` })), "var(--series-2)", vTot, { porHab: false });
-    barras($("#em-area"), ["Saúde", "Geral", "Não informada"].map((a) => ({ nome: a, valor: soma(L.filter((x) => x.area === a), "valor") })).filter((x) => x.valor), "var(--series-1)", vTot, { porHab: false });
-    const cred = new Map(); L.forEach((x) => x.empenhos.filter((i) => !i.divergente).forEach((i) => cred.set(i.credor, (cred.get(i.credor) || 0) + i.empenhado)));
-    barras($("#em-cred"), [...cred.entries()].map(([nome, valor]) => ({ nome, valor })).sort((a, b) => b.valor - a.valor).slice(0, 8), "var(--series-2)", null, { porHab: false });
-    // pontos a conferir
-    const grupos = new Map(); comAlerta.forEach((x) => new Set(x.alertas.map((a) => a.replace(/:.*$/, ""))).forEach((k) => { if (!grupos.has(k)) grupos.set(k, []); grupos.get(k).push(x); }));
-    const itensAl = [...grupos.entries()].map(([k, xs]) => `<li><strong>${esc(k)}</strong>: ${xs.length === 1 ? "emenda" : "emendas"} ${xs.slice(0, 12).map((x) => `<a href="#emendas" data-em="${x.n}">${x.n}</a>`).join(", ")}${xs.length > 12 ? ` e mais ${xs.length - 12}` : ""} (${reais(soma(xs, "valor"))}).</li>`);
-    if (E.fora_da_lista && E.fora_da_lista.length) {
-      const ant = E.fora_da_lista.filter((f) => !f.emenda.endsWith("/" + (E.ano_orcamento - 1)));
-      itensAl.push(`<li><strong>Empenhos de ${anoAtual} que citam emendas fora desta lista</strong>, por exemplo de orçamentos anteriores: ${E.fora_da_lista.slice(0, 8).map((f) => `${esc(f.emenda)} (${reais(f.empenhado)})`).join(", ")}${E.fora_da_lista.length > 8 ? ` e mais ${E.fora_da_lista.length - 8}` : ""}.</li>`);
+
+    // ---- filtro: cada bloco usa todos os filtros, menos o que ele mesmo controla (para continuar mostrando as opções)
+    const casa = (x, sem) => (sem === "sit" || !F.sit || x.situacao === F.sit) && (sem === "ver" || !F.ver || x.autores.includes(F.ver)) &&
+      (sem === "area" || !F.area || x.area === F.area) &&
+      (!F.q || (/^\d+$/.test(F.q) ? String(x.n) === F.q : semAcento(x.objeto + " " + x.autores.join(" ") + " " + x.empenhos.map((i) => i.credor).join(" ")).includes(F.q)));
+    const filtra = (sem) => L.filter((x) => casa(x, sem));
+    const muda = (k, v, rolar) => { F[k] = F[k] === v ? "" : v; lim = 25; tudo(); if (rolar) $("#em-tabela").scrollIntoView({ behavior: "smooth", block: "start" }); };
+
+    function rosca(lista) {
+      const tot = soma(lista, "valor") || 1, W = 240, R = 110, r = 70, c = W / 2;
+      const grupos = SITS.map((s) => { const g = lista.filter((x) => x.situacao === s); return { s, qtd: g.length, valor: soma(g, "valor") }; });
+      let a0 = -Math.PI / 2, svg = `<svg viewBox="0 0 ${W} ${W}" role="img" aria-label="Situação das emendas, por valor aprovado">`;
+      const pt = (a, rr) => `${(c + rr * Math.cos(a)).toFixed(2)},${(c + rr * Math.sin(a)).toFixed(2)}`;
+      grupos.forEach((g, i) => {
+        if (!g.valor) return;
+        const ang = g.valor / tot * Math.PI * 2, a1 = a0 + ang, big = ang > Math.PI ? 1 : 0;
+        const d = ang >= Math.PI * 2 - 1e-6
+          ? `M${pt(a0, R)}A${R},${R} 0 1 1 ${pt(a0 + Math.PI, R)}A${R},${R} 0 1 1 ${pt(a0, R)}M${pt(a0, r)}A${r},${r} 0 1 0 ${pt(a0 + Math.PI, r)}A${r},${r} 0 1 0 ${pt(a0, r)}Z`
+          : `M${pt(a0, R)}A${R},${R} 0 ${big} 1 ${pt(a1, R)}L${pt(a1, r)}A${r},${r} 0 ${big} 0 ${pt(a0, r)}Z`;
+        const apag = F.sit && F.sit !== g.s;
+        svg += `<path class="em-fatia" data-s="${esc(g.s)}" d="${d}" fill="${COR[g.s]}" stroke="var(--surface)" stroke-width="2" fill-rule="evenodd" opacity="${apag ? 0.25 : 1}" tabindex="0" role="button" aria-label="${esc(g.s)}: ${g.qtd} emendas, ${reais(g.valor)}"/>`;
+        a0 = a1;
+      });
+      const sel = F.sit ? grupos.find((g) => g.s === F.sit) : null;
+      svg += `<text x="${c}" y="${c - 6}" text-anchor="middle" class="em-centro-v num">${reais(sel ? sel.valor : tot)}</text>`;
+      svg += `<text x="${c}" y="${c + 16}" text-anchor="middle" class="em-centro-r">${sel ? `${sel.qtd} emendas · ${pct(sel.valor / tot * 100)}` : `${lista.length} emendas`}</text></svg>`;
+      $("#em-rosca").innerHTML = svg;
+      $("#em-rosca").querySelectorAll(".em-fatia").forEach((p) => {
+        const g = grupos.find((x) => x.s === p.dataset.s);
+        ligaTip(p, `<strong>${esc(g.s)}</strong><br>${g.qtd} emendas · ${brl.format(g.valor)}<br>${pct(g.valor / tot * 100)} do valor<br><span style="opacity:.85">${esc(SIT_EXPLICA[g.s] || "")}</span>`);
+        p.addEventListener("click", () => muda("sit", g.s));
+        p.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); muda("sit", g.s); } });
+      });
+      $("#em-leg").innerHTML = grupos.map((g) => `<li><button type="button" class="em-leg-item" data-s="${esc(g.s)}" aria-pressed="${F.sit === g.s}" ${g.qtd ? "" : "disabled"}>
+          <i class="marca" style="background:${COR[g.s]}"></i><span class="em-leg-nome">${esc(g.s)}<small>${g.qtd} ${g.qtd === 1 ? "emenda" : "emendas"}</small></span>
+          <span class="em-leg-val num">${reais(g.valor)}<small>${pct(g.valor / tot * 100)}</small></span></button></li>`).join("");
+      $("#em-leg").querySelectorAll("button").forEach((b) => b.addEventListener("click", () => muda("sit", b.dataset.s)));
     }
-    $("#em-alertas").innerHTML = itensAl.join("") || "<li>Nenhum ponto a conferir.</li>";
-    $("#em-alertas").addEventListener("click", (ev) => { const a = ev.target.closest("a[data-em]"); if (!a) return; ev.preventDefault(); $("#em-busca").value = a.dataset.em; $("#em-vereador").value = ""; $("#em-sitf").value = ""; lim = 25; desenha(); $("#em-busca").scrollIntoView({ block: "center" }); });
-    let lim = 25;
+
+    function barrasDuplas(alvo, itens, chave, ativo, rolar) {
+      const max = Math.max(...itens.map((i) => i.valor), 1);
+      alvo.innerHTML = itens.map((i) => `<div class="em-barra${ativo && ativo !== i.nome ? " apagada" : ""}">
+          <button type="button" class="em-nome" data-v="${esc(i.nome)}" aria-pressed="${ativo === i.nome}">${esc(i.nome)}</button>
+          <span class="em-trilho" style="--w:${(i.valor / max * 100).toFixed(2)}%"><span class="em-aprov"></span><span class="em-pago" style="width:${(Math.min(i.pago, i.valor) / max * 100).toFixed(2)}%"></span></span>
+          <span class="valor num">${reais(i.valor)}<small>${pct(pctN(i.pago, i.valor))} pago</small></span></div>`).join("") || `<p class="intro">Nada neste filtro.</p>`;
+      alvo.querySelectorAll(".em-barra").forEach((row, k) => { const i = itens[k]; ligaTip(row.querySelector(".em-trilho"), `<strong>${esc(i.nome)}</strong><br>${i.qtd} emendas<br>Aprovado: ${brl.format(i.valor)}<br>Já pago: ${brl.format(i.pago)} (${pct(pctN(i.pago, i.valor))})`); });
+      alvo.querySelectorAll(".em-nome").forEach((b) => b.addEventListener("click", () => muda(chave, b.dataset.v, rolar && F[chave] !== b.dataset.v)));
+    }
+
+    function tudo() {
+      escondeTip();
+      $("#em-busca").value !== F.q && document.activeElement !== $("#em-busca") && ($("#em-busca").value = F.q);
+      $("#em-vereador").value = F.ver; $("#em-sitf").value = F.sit; $("#em-areaf").value = F.area;
+      const lista = filtra();
+      // filtros ativos
+      const at = [["sit", "Situação"], ["ver", "Vereador"], ["area", "Área"]].filter(([k]) => F[k]).map(([k, r]) => `<button type="button" class="chip" aria-pressed="true" data-k="${k}">${r}: ${esc(F[k])} ✕</button>`);
+      if (F.q) at.push(`<button type="button" class="chip" aria-pressed="true" data-k="q">Busca: ${esc($("#em-busca").value)} ✕</button>`);
+      $("#em-ativos").innerHTML = at.length ? `<span class="em-ativos-rot">Filtrando por</span>${at.join("")}<button type="button" class="btn-link" id="em-limpa">Limpar tudo</button>` : "";
+      $("#em-ativos").querySelectorAll(".chip").forEach((b) => b.addEventListener("click", () => { F[b.dataset.k] = ""; if (b.dataset.k === "q") $("#em-busca").value = ""; lim = 25; tudo(); }));
+      const lp = $("#em-limpa"); if (lp) lp.addEventListener("click", () => { F.sit = F.ver = F.area = F.q = ""; $("#em-busca").value = ""; lim = 25; tudo(); });
+      // aviso de emendas sem valor
+      const semValor = lista.filter((x) => !x.valor);
+      $("#em-aviso").innerHTML = semValor.length ? `<p class="card vazio">Atenção: ${nf0.format(semValor.length)} emendas estão sem valor porque o texto delas não pôde ser lido. Os totais não incluem essas emendas.</p>` : "";
+      // números
+      const v = soma(lista, "valor"), p = somaPago(lista), nada = lista.filter((x) => x.situacao === "Nenhum gasto encontrado"), sa = lista.filter((x) => x.area === "Saúde");
+      $("#em-tiles").innerHTML = tilesHtml([
+        [F.sit || F.ver || F.area || F.q ? "Emendas no filtro" : "Emendas aprovadas", nf0.format(lista.length), `${reais(v)} no orçamento de ${E.ano_orcamento}.`],
+        ["Já pago", reais(p), `${pct(pctN(p, v))} do valor, com dados enviados ao Tribunal de Contas até ${remessa(E.remessa_tce)}.`],
+        ["Nenhum gasto encontrado", nf0.format(nada.length), `${reais(soma(nada, "valor"))} em emendas sem nenhum empenho até agora.`],
+        ["Para a Saúde", pct(pctN(soma(sa, "valor"), v)), `${nf0.format(sa.length)} emendas. A lei exige pelo menos metade do valor total.`],
+      ]);
+      rosca(filtra("sit"));
+      // por vereador
+      const mv = new Map();
+      filtra("ver").forEach((x) => { const n = x.autores.length || 1; (x.autores.length ? x.autores : ["Sem autor"]).forEach((a) => { const o = mv.get(a) || { nome: a, valor: 0, pago: 0, qtd: 0 }; o.valor += x.valor / n; o.pago += pagoDe(x) / n; o.qtd++; mv.set(a, o); }); });
+      barrasDuplas($("#em-ver"), [...mv.values()].sort((a, b) => b.valor - a.valor), "ver", F.ver, true);
+      const la = filtra("area");
+      barrasDuplas($("#em-area"), AREAS.map((a) => { const g = la.filter((x) => x.area === a); return { nome: a, valor: soma(g, "valor"), pago: somaPago(g), qtd: g.length }; }).filter((x) => x.qtd), "area", F.area, false);
+      const cred = new Map(); lista.forEach((x) => x.empenhos.filter((i) => !i.divergente).forEach((i) => cred.set(i.credor, (cred.get(i.credor) || 0) + i.empenhado)));
+      const tc = [...cred.entries()].map(([nome, valor]) => ({ nome, valor })).sort((a, b) => b.valor - a.valor).slice(0, 8);
+      if (tc.length) barras($("#em-cred"), tc, "var(--series-2)", null, { porHab: false }); else $("#em-cred").innerHTML = `<p class="intro">Nenhum empenho ligado às emendas deste filtro.</p>`;
+      // pontos a conferir
+      const grupos = new Map(); lista.filter((x) => x.alertas.length).forEach((x) => new Set(x.alertas.map((a) => a.replace(/:.*$/, ""))).forEach((k) => { if (!grupos.has(k)) grupos.set(k, []); grupos.get(k).push(x); }));
+      const itensAl = [...grupos.entries()].map(([k, xs]) => `<li><strong>${esc(k)}</strong>: ${xs.length === 1 ? "emenda" : "emendas"} ${xs.slice(0, 12).map((x) => `<a href="#emendas" data-em="${x.n}">${x.n}</a>`).join(", ")}${xs.length > 12 ? ` e mais ${xs.length - 12}` : ""} (${reais(soma(xs, "valor"))}).</li>`);
+      if (!F.sit && !F.ver && !F.area && !F.q && E.fora_da_lista && E.fora_da_lista.length)
+        itensAl.push(`<li><strong>Empenhos de ${anoAtual} que citam emendas fora desta lista</strong>, por exemplo de orçamentos anteriores: ${E.fora_da_lista.slice(0, 8).map((f) => `${esc(f.emenda)} (${reais(f.empenhado)})`).join(", ")}${E.fora_da_lista.length > 8 ? ` e mais ${E.fora_da_lista.length - 8}` : ""}.</li>`);
+      $("#em-alertas").innerHTML = itensAl.join("") || "<li>Nenhum ponto a conferir neste filtro.</li>";
+      // tabela
+      $("#em-tab-titulo").textContent = F.ver ? `Emendas de ${F.ver}` : (F.sit || F.area || F.q ? "Emendas no filtro" : "Todas as emendas");
+      const vis = F.ver ? lista : lista.slice(0, lim);
+      $("#em-corpo").innerHTML = vis.map(linha).join("") || `<tr><td colspan="6">Nenhuma emenda encontrada com esses filtros.</td></tr>`;
+      $("#em-corpo").querySelectorAll(".em-autor").forEach((b) => b.addEventListener("click", () => muda("ver", b.dataset.v, false)));
+      const coletivas = F.ver ? lista.filter((x) => x.autores.length > 1).length : 0;
+      $("#em-resumo").textContent = `${nf0.format(lista.length)} emendas, somando ${brl2.format(soma(lista, "valor"))} aprovados e ${brl2.format(somaPago(lista))} pagos.` +
+        (coletivas ? ` ${coletivas} delas são coletivas e aparecem aqui pelo valor inteiro; no gráfico por vereador, o valor é dividido entre os autores.` : "");
+      $("#em-mais").hidden = vis.length >= lista.length;
+    }
+
     const linha = (x) => {
       const det = x.empenhos.length ? `<details><summary>${x.empenhos.length} ${x.empenhos.length > 1 ? "empenhos ligados" : "empenho ligado"}</summary><ul class="em-emp">${x.empenhos.map((i) => `<li><span class="num">${esc(i.nr)} · ${fmtDataBR(i.data)}</span> · ${esc(i.credor)} · empenhado ${brl2.format(i.empenhado)}, pago ${brl2.format(i.pago)}<span class="doc">${esc(i.vinculo)}${i.dividido ? " · dividido com outras emendas" : ""}${i.divergente ? " · credor diferente do beneficiário: não entra na soma" : ""}</span></li>`).join("")}</ul></details>` : "";
-      return `<tr><td><strong>${x.n}/${E.ano_orcamento - 1}</strong><span class="doc">${esc(x.autores.join(", "))} · ${esc(x.area)}</span>${x.url ? `<a class="doc" href="${esc(x.url)}" target="_blank" rel="noopener">Texto da emenda ↗</a>` : ""}</td>
-        <td>${esc(x.objeto)}${x.alertas.length ? `<span class="doc" style="color:#b07a00">⚠ ${x.alertas.map(esc).join(" · ")}</span>` : ""}${det}</td>
+      return `<tr><td><strong>${x.n}/${E.ano_orcamento - 1}</strong><span class="doc">${x.autores.map((a) => `<button type="button" class="em-autor${F.ver === a ? " ativo" : ""}" data-v="${esc(a)}">${esc(a)}</button>`).join(", ")} · ${esc(x.area)}</span>${x.url ? `<a class="doc" href="${esc(x.url)}" target="_blank" rel="noopener">Texto da emenda ↗</a>` : ""}</td>
+        <td>${esc(x.objeto)}${x.alertas.length ? `<span class="doc em-alerta">⚠ ${x.alertas.map(esc).join(" · ")}</span>` : ""}${det}</td>
         <td class="dir num"><strong>${x.valor ? brl2.format(x.valor) : "–"}</strong></td><td class="dir num">${brl2.format(x.empenhado)}</td><td class="dir num">${brl2.format(x.pago)}</td>
-        <td><span class="pill ${SIT_CLASSE[x.situacao] || "alerta"}" title="${esc(SIT_EXPLICA[x.situacao] || "")}">${esc(x.situacao)}</span></td></tr>`;
+        <td><span class="pill ${SIT_CLASSE[x.situacao] || "alerta"}" title="${esc(SIT_EXPLICA[x.situacao] || "")}"><i class="marca" style="background:${COR[x.situacao]}"></i>${esc(x.situacao)}</span></td></tr>`;
     };
-    const desenha = () => {
-      const q = semAcento($("#em-busca").value.trim()), vr = $("#em-vereador").value, st = $("#em-sitf").value;
-      const lista = L.filter((x) => (!vr || x.autores.includes(vr)) && (!st || x.situacao === st) &&
-        (!q || (/^\d+$/.test(q) ? String(x.n) === q : semAcento(x.objeto + " " + x.autores.join(" ") + " " + x.empenhos.map((i) => i.credor).join(" ")).includes(q))));
-      $("#em-corpo").innerHTML = lista.slice(0, lim).map(linha).join("") || `<tr><td colspan="6">Nenhuma emenda encontrada com esses filtros.</td></tr>`;
-      $("#em-resumo").textContent = `${nf0.format(lista.length)} emendas, somando ${brl2.format(soma(lista, "valor"))} aprovados e ${brl2.format(lista.reduce((s, x) => s + Math.min(x.pago, x.valor || x.pago), 0))} pagos.`;
-      $("#em-mais").hidden = lista.length <= lim;
-    };
-    ["input", "change"].forEach((ev) => ["#em-busca", "#em-vereador", "#em-sitf"].forEach((id) => $(id).addEventListener(ev, () => { lim = 25; desenha(); })));
-    $("#em-mais").addEventListener("click", () => { lim += 50; desenha(); });
-    desenha();
+
+    $("#em-busca").addEventListener("input", () => { F.q = semAcento($("#em-busca").value.trim()); lim = 25; tudo(); });
+    $("#em-vereador").addEventListener("change", (e) => { F.ver = e.target.value; lim = 25; tudo(); });
+    $("#em-sitf").addEventListener("change", (e) => { F.sit = e.target.value; lim = 25; tudo(); });
+    $("#em-areaf").addEventListener("change", (e) => { F.area = e.target.value; lim = 25; tudo(); });
+    $("#em-mais").addEventListener("click", () => { lim += 50; tudo(); });
+    $("#em-alertas").addEventListener("click", (ev) => { const a = ev.target.closest("a[data-em]"); if (!a) return; ev.preventDefault(); F.sit = F.ver = F.area = ""; F.q = a.dataset.em; $("#em-busca").value = a.dataset.em; lim = 25; tudo(); $("#em-tabela").scrollIntoView({ behavior: "smooth", block: "start" }); });
+    tudo();
   }
 
   Object.assign(ESPECIAIS, {
