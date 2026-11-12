@@ -155,6 +155,8 @@ def extrair(a):
         txt = pdf.read_text(errors="ignore") if pdf.suffix == ".txt" else texto_pdf(pdf)
         if pdf.suffix == ".pdf" and pdf.parent.name == "pdf":
             (out / "txt").mkdir(exist_ok=True); (out / "txt" / f"{pdf.stem}.txt").write_text(txt)
+        if txt.startswith("[OCR]"):  # OCR escreve 25.000.00: o último ponto volta a ser vírgula dos centavos
+            txt = re.sub(r"(?<![\d.])(\d{1,3}(?:\.\d{3})*)\.(\d{2})(?![\d.])", r"\1,\2", txt)
         dots, total, cnpjs = ler_emenda(txt)
         m = meta.get(pdf.stem, {})
         brutos.append({"ocr": txt.startswith("[OCR]"), "chave": pdf.stem, "numero": m.get("numero", pdf.stem.split("_")[0]),
@@ -175,13 +177,15 @@ def extrair(a):
         if not dest: alertas.append("sem dotação de destino")
         sd = round(sum(d["valor"] or 0 for d in dest), 2)
         so = round(sum(d["valor"] or 0 for d in orig), 2)
+        if dest and any(d["valor"] is None for d in dest) and so > sd:  # OCR perdeu um valor de destino
+            sd = so; alertas.append("valor lido pela origem (OCR incompleto): conferir")
         b["total"] = sd or None
         if b["total"] is None and "sem valor total" not in alertas: alertas.append("sem valor total")
         if sd and so and abs(sd - so) > 0.01: alertas.append(f"destino {sd:,.2f} ≠ origem {so:,.2f}")
         if b.get("ocr"): alertas.append("lido por OCR: conferir")
         for d in b["dotacoes"]:
             if d.get("malformada"): alertas.append(f"código da dotação escrito errado na emenda: {d['dotacao']}")
-        impositiva = bool(re.search(r"execu[cç][aã]o\s+obrigat[oó]ria", b["ementa"], re.I)) or not b["ementa"]
+        impositiva = not re.search(r"poder\s+executivo|modificativa", b["ementa"], re.I)
         if not impositiva: alertas = ["não é emenda impositiva (Executivo ou modificativa)"]
         linhas.append({**{k: b[k] for k in ("numero", "ano", "ementa", "url", "total", "cnpjs")}, "impositiva": impositiva,
                        "autores": "; ".join(b["autores"]),
@@ -213,7 +217,7 @@ ALIAS = {  # nomes possíveis das colunas nos arquivos do TCE-PR (PIT) -> nome i
     "anoempenho": ["nranoempenho", "anoempenho"], "credor_doc": ["nrdoccredor", "documentocredor", "cnpjcpfcredor", "nrdocumento"],
     "credor_nome": ["nmcredor", "nomecredor", "credor"], "valor": ["vlempenho", "valorempenho", "vloperacao", "valor"],
     "data": ["dtempenho", "dataempenho"], "historico": ["dshistorico", "historico"],
-    "vlpago": ["vlpagamento", "valorpago", "vlpago", "vloperacao"], "vlestorno": ["vlestorno"],
+    "vlpago": ["vlpagamento", "valorpago", "vlpago", "vloperacao"], "vlestorno": ["vlestorno"], "vlanulado": ["vlestornoempenho", "vlanulacao", "vlanulado"],
 }
 
 
@@ -227,12 +231,15 @@ def _mapear(colunas):
 
 def ler_xml(caminho, tag):
     import xml.etree.ElementTree as ET
-    regs, mapa = [], None
+    # atributos vazios não aparecem no XML: o mapa é montado com todos os nomes vistos, registro a registro
+    regs, mapa, vistos = [], {}, set()
     for _, el in ET.iterparse(caminho):
         if el.tag == tag:
-            if mapa is None: mapa = _mapear(el.attrib.keys())
+            novos = set(el.attrib) - vistos
+            if novos:
+                vistos |= novos; mapa = _mapear(sorted(vistos))
             regs.append({k: el.attrib.get(c, "") for k, c in mapa.items()}); el.clear()
-    return regs, mapa or {}
+    return regs, mapa
 
 
 def achar_xml(pasta, ano, nome):
@@ -328,6 +335,8 @@ def cruzar(a):
     for e in emendas:
         for d, v in zip(e["dotacoes_destino"], e["valores_destino"]):
             if chave_txt(d): emendas_na_dot[chave_txt(d)] += v or 0
+    valor_emenda = {(int(so_digitos(e["numero"]) or -1), int(so_digitos(e["ano"]) or -1)):
+                    (e["total"] or sum(v or 0 for v in e["valores_destino"])) for e in emendas}
     res = []
     for e in emendas:
         cnpjs = {so_digitos(c) for c in e["cnpjs"]}
@@ -343,16 +352,34 @@ def cruzar(a):
                 vistos.add(idp(r))
                 item = {"empenho": f"{so_digitos(r.get('nrempenho'))}/{so_digitos(r.get('anoempenho'))}",
                         "data": r.get("data", ""), "credor": r.get("credor_nome", ""), "doc": so_digitos(r.get("credor_doc")),
-                        "empenhado": val(r.get("valor")), "pago": pagos.get(idp(r), 0.0),
+                        "empenhado": round(val(r.get("valor")) - val(r.get("vlanulado")), 2), "anulado": val(r.get("vlanulado")),
+                        "pago": pagos.get(idp(r), 0.0),
                         "historico": re.sub(r"\s+", " ", r.get("historico") or "")[:300], "dotacao": d}
-                cita = chave_e in citacoes(r.get("historico"))
-                item["vinculo"] = "histórico cita a emenda" if cita else ("CNPJ do beneficiário" if item["doc"] in cnpjs else "")
-                item["outras_emendas_no_empenho"] = len(citacoes(r.get("historico"))) > 1
+                cit = citacoes(r.get("historico"))
+                cita = chave_e in cit
+                cita_outra = bool(cit) and not cita  # empenho de outra emenda da mesma entidade
+                item["vinculo"] = "histórico cita a emenda" if cita else ("CNPJ do beneficiário" if item["doc"] in cnpjs and not cita_outra else "")
+                # citação com credor que não é o beneficiário de um repasse (modalidade 50): número provavelmente errado
+                repasse = e["dotacoes_destino"] and all(".50." in d for d in e["dotacoes_destino"])
+                item["credor_divergente"] = bool(cita and cnpjs and repasse and item["doc"] not in cnpjs)
+                item["outras_emendas_no_empenho"] = len(cit) > 1
+                # empenho que atende várias emendas: divide pelo valor de cada uma
+                if cita and len(cit) > 1:
+                    soma = sum(valor_emenda.get(k, 0) for k in cit)
+                    item["fator"] = round(valor_emenda.get(chave_e, 0) / soma, 6) if soma else round(1 / len(cit), 6)
+                else:
+                    item["fator"] = 1.0
+                if item["empenhado"] <= 0.005 and item["pago"] <= 0.005: continue  # empenho anulado
                 (forte if item["vinculo"] else candidatos).append(item)
         if sem_codigo: candidatos = []  # sem dotação no arquivo, "mesma dotação" não tem sentido
         total = e["total"] or sum(v or 0 for v in e["valores_destino"])
-        emp_f, pago_f = sum(i["empenhado"] for i in forte), sum(i["pago"] for i in forte)
-        if forte and not total:
+        conta = [i for i in forte if not i["credor_divergente"]]
+        emp_f = round(sum(i["empenhado"] * i["fator"] for i in conta), 2)
+        pago_f = round(sum(i["pago"] * i["fator"] for i in conta), 2)
+        forte_ok = [i for i in forte if not i["credor_divergente"]]
+        if forte and not forte_ok:
+            st = "citada só em empenho de outro credor (conferir)"
+        elif forte and not total:
             st = "com execução (valor da emenda não lido)"
         elif forte:
             st = "paga" if tem_pag and pago_f >= 0.95 * total else ("empenhada" if emp_f >= 0.95 * total else "parcial")
@@ -374,6 +401,71 @@ def cruzar(a):
     print(f"{len(res)} emendas | valor R$ {sum(r['valor'] or 0 for r in res):,.2f} | {dict(c)}")
 
 
+# ---------------------------------------------------------------- painel
+SITUACAO = {  # status interno -> (rótulo no site, ordem)
+    "paga": ("Paga", 1),
+    "empenhada": ("Empenhada, falta pagar", 2),
+    "parcial": ("Executada em parte", 3),
+    "com execução (valor da emenda não lido)": ("Com gasto (valor da emenda a confirmar)", 4),
+    "dotação movimentada, sem vínculo direto": ("Sem vínculo claro", 5),
+    "citada só em empenho de outro credor (conferir)": ("A conferir", 6),
+    "sem execução encontrada": ("Nenhum gasto encontrado", 7),
+}
+
+
+def painel(a):
+    """Resumo enxuto para o site (dados.json -> chave "emendas")."""
+    out = Path(a.saida)
+    r = json.loads((out / "emendas.json").read_text())
+    extra = json.loads((out / "emendas_extraidas.json").read_text())
+    nao_imp = sum(1 for e in extra if not e.get("impositiva", True))
+    orfas = json.loads((out / "empenhos_emendas_fora_da_lista.json").read_text()) if (out / "empenhos_emendas_fora_da_lista.json").exists() else {}
+    lista = []
+    for e in r:
+        valor = e["valor"] or 0
+        autores = [re.sub(r"\s*\(Vereador[a]?\)", "", x).strip() for x in e["autores"].split(";") if x.strip()]
+        ementa = re.sub(r"\s+", " ", e["ementa"])
+        sem_ac = unicodedata.normalize("NFKD", ementa[:90]).encode("ascii", "ignore").decode().upper()
+        area = "Saúde" if re.search(r"AREA\s+S?AU?DE|SAUDE|SAUDE", sem_ac) else ("Geral" if "GERAL" in sem_ac else "Não informada")
+        objeto = re.sub(r"^.*?EXECU[CÇ][AÃ]O\s+OBRIGAT[OÓ]RIA\s*-?\s*(?:[AÁ]REA\s+\S+)?\s*", "", ementa, flags=re.I).strip(" -")
+        alertas = [x for x in e.get("alertas_extracao", []) if not x.startswith("lido por OCR")]
+        alertas = ["Valor lido pela origem do recurso (documento digitalizado): conferir" if x.startswith("valor lido pela origem") else x for x in alertas]
+        if valor and e["empenhado_vinculado"] > 1.05 * valor:
+            alertas.append("Empenhos que citam a emenda somam mais que o valor dela")
+        if any(i.get("credor_divergente") for i in e["empenhos_vinculados"]):
+            alertas.append("Empenho cita a emenda, mas o credor não é o beneficiário indicado")
+        alertas = [x.replace("código da dotação escrito errado na emenda", "Código do orçamento escrito errado na emenda")
+                    .replace("PDF sem dotação legível (talvez imagem: precisa OCR)", "Texto da emenda não pôde ser lido")
+                    .replace("sem dotação de destino", "Sem dotação de destino").replace("sem valor total", "Sem valor")
+                   for x in alertas]
+        alertas = [re.sub(r"^destino .* ≠ origem .*$", "Valor de destino diferente do valor de origem", x) for x in alertas]
+        if "Texto da emenda não pôde ser lido" in alertas:  # os outros dois são consequência deste
+            alertas = [x for x in alertas if x not in ("Sem dotação de destino", "Sem valor")]
+        alertas = list(dict.fromkeys(alertas))
+        emp = sorted(e["empenhos_vinculados"], key=lambda i: -i["empenhado"])
+        lista.append({
+            "n": int(so_digitos(e["numero"]) or 0), "autores": autores, "area": area, "objeto": objeto[:400],
+            "valor": round(valor, 2), "empenhado": e["empenhado_vinculado"], "pago": e["pago_vinculado"],
+            "situacao": SITUACAO.get(e["status"], (e["status"], 9))[0], "url": e["url"],
+            "alertas": alertas,
+            "empenhos": [{"nr": i["empenho"], "data": i["data"][:10], "credor": i["credor"].strip()[:80],
+                          "empenhado": round(i["empenhado"] * i.get("fator", 1), 2), "pago": round(i["pago"] * i.get("fator", 1), 2),
+                          "vinculo": i["vinculo"], "dividido": i.get("fator", 1) < 1, "divergente": i.get("credor_divergente", False)}
+                         for i in emp[:12]],
+        })
+    lista.sort(key=lambda x: x["n"])
+    res = {"ano_orcamento": a.ano, "remessa_tce": a.remessa, "atualizado_em": a.atualizado,
+           "nao_impositivas": nao_imp,
+           "situacoes": [v[0] for v in sorted(SITUACAO.values(), key=lambda v: v[1])],
+           "fora_da_lista": [{"emenda": k, "empenhado": v} for k, v in sorted(orfas.items(), key=lambda i: -i[1])],
+           "lista": lista}
+    (out / "painel_emendas.json").write_text(json.dumps(res, ensure_ascii=False, separators=(",", ":")))
+    if a.dados:
+        d = json.loads(Path(a.dados).read_text(encoding="utf-8")); d["emendas"] = res
+        Path(a.dados).write_text(json.dumps(d, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    print(f"painel: {len(lista)} emendas, R$ {sum(x['valor'] for x in lista):,.2f}")
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sp = ap.add_subparsers(dest="cmd", required=True)
@@ -381,5 +473,9 @@ if __name__ == "__main__":
     for p in (b, sp.add_parser("extrair"), c := sp.add_parser("cruzar")): p.add_argument("--saida", default="fontes_osb/emendas")
     g = c.add_mutually_exclusive_group(required=True); g.add_argument("--tce"); g.add_argument("--empenhos")
     c.add_argument("--ano", type=int, default=2026); c.add_argument("--pagamentos")
+    pn = sp.add_parser("painel", help="gera o resumo para o site (e opcionalmente grava em dados.json)")
+    pn.add_argument("--saida", default="fontes_osb/emendas"); pn.add_argument("--dados")
+    pn.add_argument("--ano", type=int, default=2026); pn.add_argument("--remessa", default="")
+    pn.add_argument("--atualizado", default=time.strftime("%Y-%m-%d"))
     a = ap.parse_args()
-    {"baixar": baixar, "extrair": extrair, "cruzar": cruzar}[a.cmd](a)
+    {"baixar": baixar, "extrair": extrair, "cruzar": cruzar, "painel": painel}[a.cmd](a)

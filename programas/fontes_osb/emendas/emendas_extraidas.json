@@ -4,7 +4,7 @@
   "ano": 2025,
   "ementa": "EMENDA\t001\t/ 2025 - EXECUÇÃO OBRIGATÓRIA ÁREA SAÚDE\t\t\t\t\t\t\r\nRepasse à Casa de Apoio Vaso Novo - CAVAN, para aquisição de materiais de consumo, serviços, manutenção, aquisição de bens permanentes, construção ou reforma.",
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51467/001_-_fruet_-_saude_-ass.pdf",
-  "total": null,
+  "total": 50000.0,
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
@@ -13,14 +13,13 @@
    "10.001.10.301.0320.2305.4.4.50.42.1303"
   ],
   "valores_destino": [
-   null,
-   null
+   25000.0,
+   25000.0
   ],
   "dotacoes_origem": [
    "10.001.10.122.0320.2193.4.4.90.51.1303"
   ],
   "alertas_extracao": [
-   "sem valor total",
    "lido por OCR: conferir"
   ]
  },
@@ -29,7 +28,7 @@
   "ano": 2025,
   "ementa": "EMENDA\t002\t/ 2025 - EXECUÇÃO OBRIGATÓRIA ÁREA SAÚDE\t\t\t\t\t\t\r\nRepasse à Associação Viva Bia, CNPJ 05.919.875.0001-05, Mantenedora da ESCOLA ALTERNATIVA, para aquisição de bens permanentes.",
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51472/002_-_fruet_-_saude_-ass.pdf",
-  "total": null,
+  "total": 30000.0,
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
@@ -37,13 +36,12 @@
    "10.001.10.301.0320.2305.4.4.50.42.1303"
   ],
   "valores_destino": [
-   null
+   30000.0
   ],
   "dotacoes_origem": [
    "10.001.10.122.0320.2193.4.4.90.51.1303"
   ],
   "alertas_extracao": [
-   "sem valor total",
    "lido por OCR: conferir"
   ]
  },
@@ -52,7 +50,7 @@
   "ano": 2025,
   "ementa": "EMENDA\t003\t/ 2025 - EXECUÇÃO OBRIGATÓRIA ÁREA SAÚDE\t\t\t\t\t\t\r\nRepasse à Associação de Amparo aos Idosos de Foz do Iguaçu - Lar dos Velhinhos, para aquisição de materiais de consumo, serviços, manutenção e aquisição de bens permanentes.",
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51476/003_-_fruet_-_saude_-ass.pdf",
-  "total": null,
+  "total": 100000.0,
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
@@ -61,14 +59,13 @@
    "10.001.10.301.0320.2305.4.4.50.42.1303"
   ],
   "valores_destino": [
-   null,
-   null
+   30000.0,
+   70000.0
   ],
   "dotacoes_origem": [
    "10.001.10.122.0320.2193.4.4.90.51.1303"
   ],
   "alertas_extracao": [
-   "sem valor total",
    "lido por OCR: conferir"
   ]
  },
@@ -77,7 +74,7 @@
   "ano": 2025,
   "ementa": "EMENDA\t004\t/ 2025 - EXECUÇÃO OBRIGATÓRIA ÁREA SAÚDE\t\t\t\t\t\t\r\nAquisição de bens permanentes para o SIATE do 9º Batalhão do Corpo de Bombeiros Militar.",
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51480/004_-_fruet_-_saude_-ass.pdf",
-  "total": null,
+  "total": 150000.0,
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
@@ -85,13 +82,12 @@
    "10.001.10.301.0320.2311.4.4.90.52.1303"
   ],
   "valores_destino": [
-   null
+   150000.0
   ],
   "dotacoes_origem": [
    "10.001.10.122.0320.2193.4.4.90.51.1303"
   ],
   "alertas_extracao": [
-   "sem valor total",
    "lido por OCR: conferir"
   ]
  },
@@ -100,7 +96,7 @@
   "ano": 2025,
   "ementa": "EMENDA\t005\t/ 2025 - EXECUÇÃO OBRIGATÓRIA\tÁREA SAÚDE\t\t\t\t\t\t\r\nAquisição de bens permanentes para a Divisão de Saúde Mental - CAPS Infantil.",
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51482/005_-_fruet_-_saude_-ass.pdf",
-  "total": null,
+  "total": 50000.0,
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
@@ -108,13 +104,12 @@
    "10.001.10.302.0320.2202.4.4.90.52.1303"
   ],
   "valores_destino": [
-   null
+   50000.0
   ],
   "dotacoes_origem": [
    "10.001.10.122.0320.2193.4.4.90.51.1303"
   ],
   "alertas_extracao": [
-   "sem valor total",
    "lido por OCR: conferir"
   ]
  },
@@ -123,7 +118,7 @@
   "ano": 2025,
   "ementa": "EMENDA\t006\t/ 2025 - EXECUÇÃO OBRIGATÓRIA\tÁREA SAÚDE\t\t\t\t\t\t\r\nAquisição de bens permanentes para a Divisão de Saúde Mental - CAPS II.",
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51486/006_-_fruet_-_saude_-ass.pdf",
-  "total": null,
+  "total": 50000.0,
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
@@ -131,13 +126,12 @@
    "10.001.10.302.0320.2202.4.4.90.52.1303"
   ],
   "valores_destino": [
-   null
+   50000.0
   ],
   "dotacoes_origem": [
    "10.001.10.122.0320.2193.4.4.90.51.1303"
   ],
   "alertas_extracao": [
-   "sem valor total",
    "lido por OCR: conferir"
   ]
  },
@@ -146,7 +140,7 @@
   "ano": 2025,
   "ementa": "EMENDA\t007\t/ 2025 - EXECUÇÃO OBRIGATÓRIA\tÁREA SAÚDE\t\t\t\t\t\t\r\nAquisição de bens permanentes para a Divisão de Saúde Mental - CAPS AD III.",
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51488/007_-_fruet_-_saude_-ass.pdf",
-  "total": null,
+  "total": 50000.0,
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
@@ -154,13 +148,12 @@
    "10.001.10.302.0320.2202.4.4.90.52.1303"
   ],
   "valores_destino": [
-   null
+   50000.0
   ],
   "dotacoes_origem": [
    "10.001.10.122.0320.2193.4.4.90.51.1303"
   ],
   "alertas_extracao": [
-   "sem valor total",
    "lido por OCR: conferir"
   ]
  },
@@ -169,7 +162,7 @@
   "ano": 2025,
   "ementa": "EMENDA\t008\t/ 2025 - EXECUÇÃO OBRIGATÓRIA\tÁREA SAÚDE\t\t\t\t\t\t\r\nAuxílio à Associação Maestro Esporte Clube,  para aquisição de bens permantes.",
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51496/008_-_fruet_-_saude_-ass.pdf",
-  "total": null,
+  "total": 250000.0,
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
@@ -177,13 +170,12 @@
    "10.001.10.301.0320.2305.4.4.50.42.1303"
   ],
   "valores_destino": [
-   null
+   250000.0
   ],
   "dotacoes_origem": [
    "10.001.10.122.0320.2193.4.4.90.51.1303"
   ],
   "alertas_extracao": [
-   "sem valor total",
    "lido por OCR: conferir"
   ]
  },
@@ -192,7 +184,7 @@
   "ano": 2025,
   "ementa": "EMENDA\t009\t/ 2025 - EXECUÇÃO OBRIGATÓRIA\tÁREA SAÚDE\t\t\t\t\t\t\r\nRepasse ao Centro de Nutrição Infantil de Foz do Iguaçu - CENNI/FI, para aquisição de materias de consumo, serviços, manutenção e  aquisição de bens permantes.",
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51499/009_-_fruet_-_saude_-ass.pdf",
-  "total": null,
+  "total": 100000.0,
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
@@ -201,14 +193,13 @@
    "10.001.10.306.0320.6005.4.4.50.42.1303"
   ],
   "valores_destino": [
-   null,
-   null
+   50000.0,
+   50000.0
   ],
   "dotacoes_origem": [
    "10.001.10.122.0320.2193.4.4.90.51.1303"
   ],
   "alertas_extracao": [
-   "sem valor total",
    "lido por OCR: conferir"
   ]
  },
@@ -237,7 +228,7 @@
   "ano": 2025,
   "ementa": "EMENDA\t011\t/ 2025 - EXECUÇÃO OBRIGATÓRIA\tÁREA SAÚDE\t\t\t\t\t\t\r\nRepasse à Casa das Fraldas Mãos de Anjos Foz, para aquisição de materias de consumo.",
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51506/011_-_fruet_-_saude_-_ass.pdf",
-  "total": null,
+  "total": 64372.5,
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
@@ -245,13 +236,12 @@
    "10.001.10.301.0320.2305.3.3.50.41.1303"
   ],
   "valores_destino": [
-   null
+   64372.5
   ],
   "dotacoes_origem": [
    "10.001.10.122.0320.2193.4.4.90.51.1303"
   ],
   "alertas_extracao": [
-   "sem valor total",
    "lido por OCR: conferir"
   ]
  },
@@ -260,7 +250,7 @@
   "ano": 2025,
   "ementa": "EMENDA\t012\t/ 2025 - EXECUÇÃO OBRIGATÓRIA ÁREA SAÚDE\t\t\t\t\t\t\r\nAuxílio à Associação Iguaçuense de Apoio aos Deficientes Visuais Assim eu Vejo, para aquisição de bens permantes.",
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51515/012_-_fruet_-_saude_-ass.pdf",
-  "total": null,
+  "total": 20000.0,
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
@@ -268,13 +258,12 @@
    "10.001.10.301.0320.2305.4.4.50.42.1303"
   ],
   "valores_destino": [
-   null
+   20000.0
   ],
   "dotacoes_origem": [
    "10.001.10.122.0320.2193.4.4.90.51.1303"
   ],
   "alertas_extracao": [
-   "sem valor total",
    "lido por OCR: conferir"
   ]
  },
@@ -283,7 +272,7 @@
   "ano": 2025,
   "ementa": "EMENDA\t013\t/ 2025 - EXECUÇÃO OBRIGATÓRIA\tÁREA GERAL\t\t\t\t\t\t\r\nRepasse ao Albergue Noturno Lar Esperança, para aquisição de bens permanentes.",
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51521/013_-_fruet_-_geral_-ass.pdf",
-  "total": null,
+  "total": 50372.5,
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
@@ -291,13 +280,12 @@
    "08.002.08.245.0330.2231.4.4.50.42.1000"
   ],
   "valores_destino": [
-   null
+   50372.5
   ],
   "dotacoes_origem": [
    "07.001.04.123.0140.2035.3.3.90.39.1000"
   ],
   "alertas_extracao": [
-   "sem valor total",
    "lido por OCR: conferir"
   ]
  },
@@ -306,7 +294,7 @@
   "ano": 2025,
   "ementa": "EMENDA\t014\t/ 2025 - EXECUÇÃO OBRIGATÓRIA\tÁREA GERAL\t\t\t\t\t\t\r\nRepasse à Associação Poço de Jacó - Projeto Sol Nascente para aquisição de materias de consumo e bens permantes.",
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51530/014_-_fruet_-_geral_-ass.pdf",
-  "total": null,
+  "total": 90000.0,
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
@@ -315,14 +303,14 @@
    "31.002.13.392.0210.2306.4.4.50.42.1000"
   ],
   "valores_destino": [
-   null,
+   45000.0,
    null
   ],
   "dotacoes_origem": [
    "07.001.04.123.0140.2035.3.3.90.39.1000"
   ],
   "alertas_extracao": [
-   "sem valor total",
+   "valor lido pela origem (OCR incompleto): conferir",
    "lido por OCR: conferir"
   ]
  },
@@ -331,7 +319,7 @@
   "ano": 2025,
   "ementa": "EMENDA\t015\t/ 2025 - EXECUÇÃO OBRIGATÓRIA\tÁREA GERAL\t\r\nRepasse à Associação de Pais, Mestres e Funcionários do CMEI AMOR PERFEITO, para aquisição de equipamentos e materiais permanentes para o CMEI.",
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51535/015_-_fruet_-_geral_-ass.pdf",
-  "total": null,
+  "total": 30000.0,
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
@@ -339,13 +327,12 @@
    "12.003.12.365.0310.2300.4.4.50.42.1000"
   ],
   "valores_destino": [
-   null
+   30000.0
   ],
   "dotacoes_origem": [
    "07.001.04.123.0140.2035.3.3.90.39.1000"
   ],
   "alertas_extracao": [
-   "sem valor total",
    "lido por OCR: conferir"
   ]
  },
@@ -354,7 +341,7 @@
   "ano": 2025,
   "ementa": "EMENDA\t016\t/ 2025 - EXECUÇÃO OBRIGATÓRIA\tÁREA GERAL\t\t\t\t\r\nRepasse à Associação de Pais, Mestres e Funcionários do CMEI FLOR DE LIS, para aquisição de equipamentos e materiais permanentes para o CMEI.",
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51538/016_-_fruet_-_geral_-ass.pdf",
-  "total": null,
+  "total": 20000.0,
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
@@ -362,13 +349,12 @@
    "12.003.12.365.0310.2300.4.4.50.42.1000"
   ],
   "valores_destino": [
-   null
+   20000.0
   ],
   "dotacoes_origem": [
    "07.001.04.123.0140.2035.3.3.90.39.1000"
   ],
   "alertas_extracao": [
-   "sem valor total",
    "lido por OCR: conferir"
   ]
  },
@@ -377,7 +363,7 @@
   "ano": 2025,
   "ementa": "EMENDA\t017\t/ 2025 - EXECUÇÃO OBRIGATÓRIA\tÁREA GERAL\t\t\t\t\t\t\r\nRepasse à Associação de Pais, Mestres e Funcionários do CMEI PROFª HELEY DE ABREU SILVA BATISTA, para aquisição de equipamentos e materiais permanentes, contratação de serviços e manutenção para o CMEI.",
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51543/017_-_fruet_-_geral_-ass.pdf",
-  "total": null,
+  "total": 50000.0,
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
@@ -386,14 +372,13 @@
    "12.003.12.365.0310.2300.4.4.50.42.1000"
   ],
   "valores_destino": [
-   null,
-   null
+   20000.0,
+   30000.0
   ],
   "dotacoes_origem": [
    "07.001.04.123.0140.2035.3.3.90.39.1000"
   ],
   "alertas_extracao": [
-   "sem valor total",
    "lido por OCR: conferir"
   ]
  },
@@ -402,7 +387,7 @@
   "ano": 2025,
   "ementa": "EMENDA\t018\t/ 2025 - EXECUÇÃO OBRIGATÓRIA ÁREA GERAL\t\t\t\t\t\t\r\nRepasse à Associação de Pais, Mestres e Funcionários da Escola Municipal João da Costa Viana, para aquisição de equipamentos e materiais permanentes.",
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51547/018_-_fruet_-_geral_-ass.pdf",
-  "total": null,
+  "total": 39000.0,
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
@@ -410,13 +395,12 @@
    "12.003.12.361.0310.2301.4.4.50.42.1000"
   ],
   "valores_destino": [
-   null
+   39000.0
   ],
   "dotacoes_origem": [
    "07.001.04.123.0140.2035.3.3.90.39.1000"
   ],
   "alertas_extracao": [
-   "sem valor total",
    "lido por OCR: conferir"
   ]
  },
@@ -425,7 +409,7 @@
   "ano": 2025,
   "ementa": "EMENDA\t019\t/ 2025 - EXECUÇÃO OBRIGATÓRIA ÁREA GERAL\t\t\t\t\t\t\r\nAuxílio à Associação Viva Bia, CNPJ 05.919.875.0001-05, Mantenedora da ESCOLA ALTERNATIVA, para aquisição de bens permanetes.",
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51551/019_-_fruet_-_geral_-ass.pdf",
-  "total": null,
+  "total": 50000.0,
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
@@ -433,13 +417,12 @@
    "12.003.12.367.0310.2181.4.4.50.42.1000"
   ],
   "valores_destino": [
-   null
+   50000.0
   ],
   "dotacoes_origem": [
    "07.001.04.123.0140.2035.3.3.90.39.1000"
   ],
   "alertas_extracao": [
-   "sem valor total",
    "lido por OCR: conferir"
   ]
  },
@@ -448,7 +431,7 @@
   "ano": 2025,
   "ementa": "EMENDA\t020\t/ 2025 - EXECUÇÃO OBRIGATÓRIA ÁREA GERAL\t\t\t\t\t\t\r\nRepasse à Missão Resgate Ministério Profético de Adoração, para aquisição de materias de consumo, serviços, manutenção, aquisição de bens permanentes, construção ou reforma.",
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51557/020_-_fruet_-_geral_-ass.pdf",
-  "total": null,
+  "total": 50000.0,
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
@@ -457,14 +440,14 @@
    "31.002.13.392.0210.2306.4.4.50.42.1000"
   ],
   "valores_destino": [
-   null,
+   25000.0,
    null
   ],
   "dotacoes_origem": [
    "07.001.04.123.0140.2035.3.3.90.39.1000"
   ],
   "alertas_extracao": [
-   "sem valor total",
+   "valor lido pela origem (OCR incompleto): conferir",
    "lido por OCR: conferir"
   ]
  },
@@ -473,7 +456,7 @@
   "ano": 2025,
   "ementa": "EMENDA\t021\t/ 2025 - EXECUÇÃO OBRIGATÓRIA\tÁREA GERAL\t\t\t\t\t\t\r\nRepasse à Associação dos Clubes de Mães de Foz do Iguaçu, para aquisição de materias de consumo, serviços, manutenção e  aquisição de bens permantes.",
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51560/021_-_fruet_-_geral_-ass.pdf",
-  "total": null,
+  "total": 100000.0,
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
@@ -482,14 +465,13 @@
    "31.002.13.392.0210.2306.4.4.50.42.1000"
   ],
   "valores_destino": [
-   null,
-   null
+   50000.0,
+   50000.0
   ],
   "dotacoes_origem": [
    "07.001.04.123.0140.2035.3.3.90.39.1000"
   ],
   "alertas_extracao": [
-   "sem valor total",
    "lido por OCR: conferir"
   ]
  },
@@ -498,7 +480,7 @@
   "ano": 2025,
   "ementa": "EMENDA\t022\t/ 2025 - EXECUÇÃO OBRIGATÓRIA\tÁREA GERAL\t\t\t\t\t\t\r\nRepasse à Associação Kashikoi de Karatê Shotokan, para aquisição de bens permanentes.",
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51564/022_-_fruet_-_geral_-ass.pdf",
-  "total": null,
+  "total": 75000.0,
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
@@ -506,13 +488,12 @@
    "09.005.27.812.0300.2166.4.4.50.42.1000"
   ],
   "valores_destino": [
-   null
+   75000.0
   ],
   "dotacoes_origem": [
    "07.001.04.123.0140.2035.3.3.90.39.1000"
   ],
   "alertas_extracao": [
-   "sem valor total",
    "lido por OCR: conferir"
   ]
  },
@@ -521,7 +502,7 @@
   "ano": 2025,
   "ementa": "EMENDA\t023\t/ 2025 - EXECUÇÃO OBRIGATÓRIA\tÁREA GERAL\t\t\t\t\t\t\r\nRepasse à Associação Iguaçuense de Sipalki-do Dragão Dourado, para aquisição de bens permanentes.",
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51568/023_-_fruet_-_geral_-ass.pdf",
-  "total": null,
+  "total": 30000.0,
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
@@ -529,13 +510,12 @@
    "09.005.27.812.0300.2166.4.4.50.42.1000"
   ],
   "valores_destino": [
-   null
+   30000.0
   ],
   "dotacoes_origem": [
    "07.001.04.123.0140.2035.3.3.90.39.1000"
   ],
   "alertas_extracao": [
-   "sem valor total",
    "lido por OCR: conferir"
   ]
  },
@@ -544,7 +524,7 @@
   "ano": 2025,
   "ementa": "EMENDA\t024\t/ 2025 - EXECUÇÃO OBRIGATÓRIA\tÁREA GERAL\t\t\t\t\t\t\r\nConstrução de um Complexo Polo Esportivo no Loteamento Cohiguaçu.",
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51571/024_-_fruet_-_geral_-ass.pdf",
-  "total": null,
+  "total": 410000.0,
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
@@ -552,13 +532,12 @@
    "09.003.27.812.0300.2307.4.4.90.51.1000"
   ],
   "valores_destino": [
-   null
+   410000.0
   ],
   "dotacoes_origem": [
    "07.001.04.123.0140.2035.3.3.90.39.1000"
   ],
   "alertas_extracao": [
-   "sem valor total",
    "lido por OCR: conferir"
   ]
  },
@@ -567,7 +546,7 @@
   "ano": 2025,
   "ementa": "EMENDA\t025\t/ 2025 - EXECUÇÃO OBRIGATÓRIA ÁREA GERAL\t\t\t\t\t\t\r\nAquisição de material de consumo para a Agência do Trabalhador.",
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51575/025_-_fruet_-_geral_ass.pdf",
-  "total": null,
+  "total": 50000.0,
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
@@ -575,13 +554,12 @@
    "20.004.11.122.0190.2082.3.3.90.30.1000"
   ],
   "valores_destino": [
-   null
+   50000.0
   ],
   "dotacoes_origem": [
    "07.001.04.123.0140.2035.3.3.90.39.1000"
   ],
   "alertas_extracao": [
-   "sem valor total",
    "lido por OCR: conferir"
   ]
  },
@@ -7973,7 +7951,7 @@
   "url": "http://sapl.fozdoiguacu.pr.leg.br/media/sapl/public/materialegislativa/2025/51749/383_-_valentina_-_geral_-_ass.pdf",
   "total": 20000.0,
   "cnpjs": [],
-  "impositiva": false,
+  "impositiva": true,
   "autores": "Valentina (Vereadora)",
   "dotacoes_destino": [
    "12.003.12.361.0310.2301.3.3.50.41.1505",
@@ -7986,9 +7964,7 @@
   "dotacoes_origem": [
    "07.001.04.123.0140.2035.4.4.90.51.1505"
   ],
-  "alertas_extracao": [
-   "não é emenda impositiva (Executivo ou modificativa)"
-  ]
+  "alertas_extracao": []
  },
  {
   "numero": 384,

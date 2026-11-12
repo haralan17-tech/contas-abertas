@@ -168,6 +168,9 @@ tr.cred-det td { background: var(--bg); color: var(--ink-2); font-size: .88rem; 
 .ind { display: flex; flex-direction: column; gap: 10px; }
 .ind-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 .pill { display: inline-flex; align-items: center; gap: 6px; font-size: .8rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; border: 1.5px solid currentColor; }
+.lista-alertas { margin: 0; padding-left: 20px; display: grid; gap: 8px; font-size: .92rem; }
+.em-emp { margin: 6px 0 0; padding-left: 18px; font-size: .82rem; display: grid; gap: 4px; }
+.tabela-esp details summary { cursor: pointer; color: var(--accent); font-size: .82rem; margin-top: 4px; }
 .pill.ok { color: var(--good); } .pill.alerta { color: #b07a00; } .pill.ruim { color: var(--critical); }
 :root[data-theme="dark"] .pill.alerta { color: var(--warning); }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .pill.alerta { color: var(--warning); } }
@@ -414,6 +417,7 @@ td a { font-size: .82rem; font-weight: 700; }
             <li><a href="#obras">Obras</a></li>
             <li><a href="#alugueis">Aluguéis de imóveis</a></li>
             <li><a href="#sem-licitacao">Contratações sem licitação</a></li>
+            <li><a href="#emendas">Emendas impositivas</a></li>
             <li><a href="#diarias">Diárias e passagens</a></li>
             <li><a href="#gratificacoes">Gratificações</a></li>
             <li><a href="#horas-extras">Horas extras</a></li>
@@ -594,6 +598,7 @@ td a { font-size: .82rem; font-weight: 700; }
       <a class="card-esp" href="#obras"><img src="img/lupa-notebook.webp" alt=""><strong>Obras</strong><span>Obras em andamento, prazos e pagamentos às construtoras.</span></a>
       <a class="card-esp" href="#alugueis"><img src="img/lupa-prancheta.webp" alt=""><strong>Aluguéis de imóveis</strong><span>Prédios alugados pela Prefeitura e quem recebe.</span></a>
       <a class="card-esp" href="#sem-licitacao"><img src="img/lupa-pensando.webp" alt=""><strong>Sem licitação</strong><span>Dispensas e inexigibilidades: o que foi comprado e de quem.</span></a>
+      <a class="card-esp" href="#emendas"><img src="img/lupa-prancheta.webp" alt=""><strong>Emendas impositivas</strong><span>O que os vereadores indicaram e o que a Prefeitura já pagou.</span></a>
       <a class="card-esp" href="#diarias"><img src="img/lupa-anotando.webp" alt=""><strong>Diárias e passagens</strong><span>Quem viajou, para onde, por quê e quanto custou.</span></a>
       <a class="card-esp" href="#gratificacoes"><img src="img/lupa-prancheta.webp" alt=""><strong>Gratificações</strong><span>Valores pagos além do salário-base.</span></a>
       <a class="card-esp" href="#horas-extras"><img src="img/lupa-pensando.webp" alt=""><strong>Horas extras</strong><span>Serviço extraordinário, mês a mês.</span></a>
