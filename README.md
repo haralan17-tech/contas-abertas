@@ -9,7 +9,7 @@ Painel do **Observatório Social do Brasil – Foz do Iguaçu** com as receitas 
 | `index.html` | A página do site. Lê os números do arquivo `dados.json`. |
 | `dados.json` | Todos os dados que o site mostra. É o arquivo que muda a cada atualização. |
 | `img/` | Logo do OSB e as poses do Luposo. |
-| `robots.txt` | Pede aos buscadores para não indexar o site durante a validação. |
+| `CNAME` | Domínio do site: contasabertas.com.br. Não apague. |
 | `programas/` | Programas que transformam os arquivos oficiais em `dados.json` e montam a página. |
 
 ## Fontes dos dados
@@ -29,18 +29,14 @@ Painel do **Observatório Social do Brasil – Foz do Iguaçu** com as receitas 
    python3 programas/processar.py --siconfi PASTA_SICONFI --tce PASTA_TCE --servidores Servidores.xls --saida dados.json
    ```
 
-3. Envie o novo `dados.json` para o repositório (Add file → Upload files), substituindo o antigo. O site atualiza em 1 a 2 minutos.
+3. Envie o novo `dados.json` para o repositório (Add file → Upload files), substituindo o antigo. O site (https://contasabertas.com.br) atualiza em 1 a 2 minutos.
 
 Se preferir, envie os arquivos para o Claude e peça o `dados.json` atualizado.
 
-## Ao sair da validação
-
-1. Apague o `robots.txt`.
-2. Gere a página sem o modo de validação:
-
-   ```
-   python3 programas/montar.py --dados dados.json --saida index.html --sem-embutir
-   ```
+## Publicação
+O site está em **https://contasabertas.com.br** (GitHub Pages com domínio próprio, fora do modo de validação desde 12/11/2026).
+Para gerar a página: `python3 programas/montar.py --dados dados.json --saida index.html --sem-embutir`
+(acrescente `--validacao` só se quiser voltar a mostrar a faixa amarela e bloquear buscadores).
 
 ## Emendas impositivas
 
