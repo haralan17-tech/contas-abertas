@@ -395,6 +395,65 @@
   }
   const fmtCurto = (v) => reais(v).replace("R$ ", "");
 
+  // ============================================================ tabela com busca, filtros e ordenação
+  // cfg: { linhas, colunas: [{ rot, dir, ord: (x) => valor, cel: (x) => html }], busca: { rot, ph, txt: (x) => texto },
+  //        filtros: [{ rot, val: (x) => texto, todos, opcoes: [{ rot, fn }] }], ordem: { col, desc }, lim, resumo: (lista) => texto, vazio }
+  const colador = new Intl.Collator("pt-BR", { sensitivity: "base", numeric: true });
+  const dataISO = (s) => { if (!s) return null; let m = String(s).match(/^(\d{4})-(\d{2})-(\d{2})/); if (m) return m[0]; m = String(s).match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})/); if (!m) { const MM = ["janeiro","fevereiro","marco","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"], t = semAcento(s).match(/(\d{1,2})\s+de\s+([a-z]+)\s+de\s+(\d{4})/); if (t && MM.includes(t[2])) return `${t[3]}-${String(MM.indexOf(t[2]) + 1).padStart(2, "0")}-${t[1].padStart(2, "0")}`; return null; } const a = m[3].length === 2 ? "20" + m[3] : m[3]; return `${a}-${m[2].padStart(2, "0")}-${m[1].padStart(2, "0")}`; };
+  let tiSeq = 0;
+  function tabelaInterativa(box, cfg) {
+    if (!box) return;
+    const id = "ti" + ++tiSeq, L = cfg.linhas, passo = cfg.lim || 25;
+    const F = (cfg.filtros || []).map((f, i) => {
+      if (f.opcoes) return { ...f, i, html: f.opcoes.map((o, k) => `<option value="${k}">${esc(o.rot)}</option>`).join("") };
+      const cont = new Map(); L.forEach((x) => { const v = f.val(x); if (v != null && v !== "") cont.set(v, (cont.get(v) || 0) + 1); });
+      const vals = [...cont.keys()].sort(colador.compare);
+      return { ...f, i, vals, html: `<option value="">${esc(f.todos || "Todos")}</option>` + vals.map((v, k) => `<option value="${k}">${esc(v)} (${nf0.format(cont.get(v))})</option>`).join("") };
+    });
+    const temCtrl = cfg.busca || F.length;
+    box.innerHTML = `${temCtrl ? `<div class="filtros">${cfg.busca ? `<label for="${id}-q">${esc(cfg.busca.rot)}<input id="${id}-q" type="search" placeholder="${esc(cfg.busca.ph || "")}"></label>` : ""}${F.map((f) => `<label for="${id}-f${f.i}">${esc(f.rot)}<select id="${id}-f${f.i}">${f.html}</select></label>`).join("")}<button type="button" class="btn btn-limpar" id="${id}-limpa">Limpar filtros</button></div>` : ""}
+      <div class="tabela-box"><table class="tabela-esp tabela-ord"><thead><tr>${cfg.colunas.map((c, k) => `<th${c.dir ? ' class="dir"' : ""}${c.ord ? ` aria-sort="none"` : ""}>${c.ord ? `<button type="button" class="ord" data-k="${k}" title="Clique para ordenar">${c.rot}<span class="seta" aria-hidden="true"></span></button>` : c.rot}</th>`).join("")}</tr></thead><tbody id="${id}-c"></tbody></table></div>
+      <div class="ti-rodape"><p class="intro" id="${id}-r"></p><button type="button" class="btn" id="${id}-m">Mostrar mais</button></div>`;
+    let ord = cfg.ordem ? { ...cfg.ordem } : null, lim = passo;
+    const q$ = (s) => box.querySelector(s);
+    function lista() {
+      const q = cfg.busca ? semAcento(q$(`#${id}-q`).value.trim()) : "";
+      let r = L.filter((x) => (!q || semAcento(cfg.busca.txt(x)).includes(q)) && F.every((f) => {
+        const v = q$(`#${id}-f${f.i}`).value;
+        if (f.opcoes) return !f.opcoes[v].fn || f.opcoes[v].fn(x);
+        return v === "" || f.val(x) === f.vals[v];
+      }));
+      if (ord) {
+        const fn = cfg.colunas[ord.col].ord, s = ord.desc ? -1 : 1;
+        r = r.map((x) => [fn(x), x]).sort((a, b) => {
+          const va = a[0], vb = b[0];
+          if (va == null || va === "") return vb == null || vb === "" ? 0 : 1;
+          if (vb == null || vb === "") return -1;
+          return s * (typeof va === "number" && typeof vb === "number" ? va - vb : colador.compare(String(va), String(vb)));
+        }).map((p) => p[1]);
+      }
+      return r;
+    }
+    function desenha() {
+      const r = lista();
+      q$(`#${id}-c`).innerHTML = r.slice(0, lim).map((x) => `<tr>${cfg.colunas.map((c) => `<td${c.dir ? ' class="dir num"' : ""}>${c.cel(x)}</td>`).join("")}</tr>`).join("") || `<tr><td colspan="${cfg.colunas.length}">${esc(cfg.vazio || "Nada encontrado com esses filtros.")}</td></tr>`;
+      q$(`#${id}-r`).textContent = cfg.resumo ? cfg.resumo(r) : `${nf0.format(r.length)} de ${nf0.format(L.length)} registros.`;
+      q$(`#${id}-m`).hidden = r.length <= lim;
+      box.querySelectorAll("th[aria-sort]").forEach((th) => { const k = Number(th.querySelector(".ord").dataset.k); th.setAttribute("aria-sort", ord && ord.col === k ? (ord.desc ? "descending" : "ascending") : "none"); });
+    }
+    box.querySelectorAll("button.ord").forEach((b) => b.addEventListener("click", () => {
+      const k = Number(b.dataset.k);
+      if (ord && ord.col === k) ord.desc = !ord.desc;
+      else { const v = L.map(cfg.colunas[k].ord).find((x) => x != null && x !== ""); ord = { col: k, desc: typeof v === "number" }; }
+      lim = passo; desenha();
+    }));
+    if (cfg.busca) q$(`#${id}-q`).addEventListener("input", () => { lim = passo; desenha(); });
+    F.forEach((f) => q$(`#${id}-f${f.i}`).addEventListener("change", () => { lim = passo; desenha(); }));
+    if (temCtrl) q$(`#${id}-limpa`).addEventListener("click", () => { if (cfg.busca) q$(`#${id}-q`).value = ""; F.forEach((f) => { q$(`#${id}-f${f.i}`).selectedIndex = 0; }); ord = cfg.ordem ? { ...cfg.ordem } : null; lim = passo; desenha(); });
+    q$(`#${id}-m`).addEventListener("click", () => { lim += 50; desenha(); });
+    desenha();
+  }
+
   function paginaDiarias(el) {
     const di = A.diarias, ps = A.passagens;
     el.innerHTML = topoEsp("Diárias e passagens", "Diárias pagam hospedagem e alimentação de quem viaja a serviço. Passagens são compradas de agências e empresas de ônibus. Aqui você vê quem viajou, para onde, por quê e quanto custou.", "lupa-anotando");
@@ -415,10 +474,7 @@
         <div class="card"><h3>Destinos que mais receberam diárias</h3><div class="barras" id="d-dest"></div></div></div>
       <div class="grid-2"><div class="card"><h3>Quem mais recebeu diárias</h3><div class="barras" id="d-pess"></div></div>
         <div class="card"><h3>Onde as passagens foram compradas</h3><div class="barras" id="d-pass"></div></div></div>
-      <div class="card"><h3>Todas as viagens</h3>
-        <div class="filtros"><label for="d-busca">Buscar por nome, cargo, destino ou motivo<input id="d-busca" type="search" placeholder="Ex.: Brasília, enfermeiro, congresso"></label></div>
-        <div class="tabela-box"><table class="tabela-esp"><thead><tr><th>Quem viajou</th><th>Destino e período</th><th>Motivo</th><th class="dir">Diárias</th><th class="dir">Valor</th></tr></thead><tbody id="d-corpo"></tbody></table></div>
-        <p class="intro" id="d-resumo" style="font-size:.88rem"></p><button type="button" class="btn" id="d-mais">Mostrar mais</button>
+      <div class="card"><h3>Todas as viagens</h3><div id="d-tab"></div>
         <p class="fonte">Fonte: ${esc(fonteTce().replace("Fonte: ", ""))}. ${di.canceladas ? di.canceladas + " diárias canceladas (pagamento estornado) foram retiradas. " : ""}O CPF aparece mascarado, como publicado pelo Tribunal de Contas.</p></div>`;
     const porMes = Array(A.meses).fill(0); v.forEach((x) => { const m = Number(x.inicio.slice(5, 7)) - 1; if (m < A.meses) porMes[m] += x.valor; });
     colunas($("#d-mes"), porMes, MESES.slice(0, A.meses), "var(--series-2)", fmtCurto);
@@ -427,18 +483,29 @@
     barras($("#d-dest"), agrupa((x) => x.destino || "Não informado").slice(0, 10), "var(--series-2)", total);
     barras($("#d-pess"), [...pessoas.values()].sort((a, b) => b.valor - a.valor).slice(0, 10).map((p) => ({ nome: p.nome + (p.cargo ? " (" + p.cargo + ")" : ""), valor: p.valor, explicacao: `${p.viagens} viagens` })), "var(--series-2)", null, { porHab: false });
     if (ps && ps.fornecedores.length) barras($("#d-pass"), ps.fornecedores.map((x) => ({ nome: x.nome, valor: x.valor })), "var(--series-1)", ps.total);
-    let lim = 25;
     const fmtData = (d) => d ? d.slice(8, 10) + "/" + d.slice(5, 7) : "";
-    const desenha = () => {
-      const q = semAcento($("#d-busca").value.trim());
-      const lista = q ? v.filter((x) => semAcento([x.nome, x.cargo, x.destino, x.objetivo, x.tipo].join(" ")).includes(q)) : v;
-      $("#d-corpo").innerHTML = lista.slice(0, lim).map((x) => `<tr><td><strong>${esc(x.nome)}</strong><span class="doc">${esc(x.cargo || x.entidade)}</span></td><td>${esc(x.destino)}<span class="doc num">${fmtData(x.inicio)} a ${fmtData(x.fim)}</span></td><td>${esc(x.objetivo || x.tipo)}</td><td class="dir num">${nf1.format(x.diarias)}</td><td class="dir num"><strong>${brl2.format(x.valor)}</strong></td></tr>`).join("") || `<tr><td colspan="5">Nenhuma viagem encontrada.</td></tr>`;
-      $("#d-resumo").textContent = `${nf0.format(lista.length)} viagens, somando ${brl2.format(lista.reduce((s, x) => s + x.valor, 0))}.`;
-      $("#d-mais").hidden = lista.length <= lim;
-    };
-    $("#d-busca").addEventListener("input", () => { lim = 25; desenha(); });
-    $("#d-mais").addEventListener("click", () => { lim += 50; desenha(); });
-    desenha();
+    const tipoCurto = (x) => x.tipo.replace(" não ligados ao TCE/PR", "").replace("Tribunal de Contas do Estado do Paraná  ", "TCE-PR: ");
+    tabelaInterativa($("#d-tab"), {
+      linhas: v,
+      busca: { rot: "Buscar por nome, cargo, destino ou motivo", ph: "Ex.: Brasília, enfermeiro, congresso", txt: (x) => [x.nome, x.cargo, x.destino, x.objetivo, x.tipo].join(" ") },
+      filtros: [
+        { rot: "Tipo de viagem", todos: "Todos os tipos", val: tipoCurto },
+        { rot: "Destino", todos: "Todos os destinos", val: (x) => x.destino || "Não informado" },
+        { rot: "Mês de início", todos: "Todos os meses", val: (x) => x.inicio ? MESES_LONGO[Number(x.inicio.slice(5, 7)) - 1] : "" },
+        { rot: "Cargo", todos: "Todos os cargos", val: (x) => x.cargo || "" },
+      ],
+      colunas: [
+        { rot: "Quem viajou", ord: (x) => x.nome, cel: (x) => `<strong>${esc(x.nome)}</strong><span class="doc">${esc(x.cargo || x.entidade)}</span>` },
+        { rot: "Destino", ord: (x) => x.destino, cel: (x) => esc(x.destino || "Não informado") },
+        { rot: "Período", ord: (x) => x.inicio, cel: (x) => `<span class="num">${fmtData(x.inicio)} a ${fmtDataBR(x.fim)}</span>` },
+        { rot: "Motivo", ord: (x) => x.objetivo || x.tipo, cel: (x) => esc(x.objetivo || x.tipo) },
+        { rot: "Diárias", dir: true, ord: (x) => x.diarias, cel: (x) => nf1.format(x.diarias) },
+        { rot: "Valor", dir: true, ord: (x) => x.valor, cel: (x) => `<strong>${brl2.format(x.valor)}</strong>` },
+      ],
+      ordem: { col: 2, desc: true },
+      resumo: (r) => `${nf0.format(r.length)} viagens, somando ${brl2.format(r.reduce((s, x) => s + x.valor, 0))}.`,
+      vazio: "Nenhuma viagem encontrada.",
+    });
   }
 
   const EXPLICA_FOLHA = {
@@ -525,39 +592,55 @@
     const acima = prefeito ? ativos.filter((x) => x.rem > prefeito.rem) : [];
     el.innerHTML += tilesHtml([
       ["Vínculos em atividade", nf0.format(ativos.length), `${nf0.format(pessoas)} pessoas. Quem tem dois cargos (como professores com duas matrículas) conta duas vezes.`],
-      ["Soma das remunerações", reais(soma), "Total mensal informado para os vínculos em atividade."],
-      ["Remuneração mediana", brl.format(mediana(comValor)), "Metade ganha menos que isso, metade ganha mais."],
-      ["Remuneração média", brl.format(soma / Math.max(comValor.length, 1)), "A média é puxada para cima pelos salários mais altos."],
+      ["Soma das remunerações brutas", reais(soma), "Total mensal bruto informado para os vínculos em atividade."],
+      ["Remuneração bruta mediana", brl.format(mediana(comValor)), "Metade ganha menos que isso, metade ganha mais."],
+      ["Remuneração bruta média", brl.format(soma / Math.max(comValor.length, 1)), "A média é puxada para cima pelos salários mais altos."],
     ]);
     const faixas = [[0, 3000, "até 3 mil"], [3000, 5000, "3 a 5 mil"], [5000, 8000, "5 a 8 mil"], [8000, 12000, "8 a 12 mil"], [12000, 20000, "12 a 20 mil"], [20000, 30000, "20 a 30 mil"], [30000, 1e9, "mais de 30 mil"]];
     el.innerHTML += `<div class="card"><h3>Quantos vínculos em cada faixa de remuneração</h3><div class="colunas" id="r-faixa"></div><p class="intro" style="font-size:.88rem">Valores mensais em reais. Considera só vínculos em atividade com remuneração informada.</p></div>
       <div class="grid-2"><div class="card"><h3>Remuneração mediana por tipo de vínculo</h3><div class="barras" id="r-vinc"></div></div>
-      <div class="card"><h3>Cargos com mais servidores</h3><div class="tabela-box"><table class="tabela-esp"><thead><tr><th>Cargo</th><th class="dir">Vínculos</th><th class="dir">Mediana</th><th class="dir">Maior</th></tr></thead><tbody id="r-cargos"></tbody></table></div></div></div>
+      <div class="card"><h3>Remuneração bruta por cargo</h3><div id="r-cargos"></div></div></div>
       ${prefeito ? `<p class="nota">O subsídio do prefeito é ${brl2.format(prefeito.rem)}. ${nf0.format(acima.length)} vínculos têm remuneração informada acima desse valor, a maioria de ${esc(top3(acima))}. O subsídio do prefeito é o teto geral do município, mas há exceções: procuradores municipais seguem o teto dos desembargadores, por decisão do STF, e alguns valores, como férias, 13º e indenizações, ficam fora do teto. Só a análise do contracheque mostra se há irregularidade.</p>` : ""}
-      <div class="card"><h3>Consultar servidores</h3>
-        <div class="filtros"><label for="r-busca">Buscar por nome, cargo ou lotação<input id="r-busca" type="search" placeholder="Ex.: professor, UPA, guarda"></label>
-          <label for="r-vinculo">Vínculo<select id="r-vinculo"><option value="">Todos os vínculos</option>${[...new Set(L.map((x) => x.vinculo))].sort().map((v) => `<option>${esc(v)}</option>`).join("")}</select></label>
-          <label for="r-sit">Situação<select id="r-sit"><option value="ativos">Em atividade</option><option value="deslig">Desligados</option><option value="">Todos</option></select></label></div>
-        <div class="tabela-box"><table class="tabela-esp"><thead><tr><th>Servidor</th><th>Cargo e vínculo</th><th>Lotação</th><th>Situação</th><th class="dir">Remuneração</th></tr></thead><tbody id="r-corpo"></tbody></table></div>
-        <p class="intro" id="r-resumo" style="font-size:.88rem"></p><button type="button" class="btn" id="r-mais">Mostrar mais</button>
-        <p class="fonte">Fonte: Portal da Transparência da Prefeitura de Foz do Iguaçu, planilha "Servidores" gerada em ${esc(S.gerado_em)}. Mostra a remuneração informada para cada matrícula; não inclui CPF.</p></div>`;
+      <div class="card"><h3>Consultar servidores</h3><div id="r-tab"></div>
+        <p class="nota"><strong>Remuneração bruta, sem descontos.</strong> O atual Portal da Transparência de Foz do Iguaçu ainda não permite usar as informações de descontos e de impostos retidos na fonte (como imposto de renda e contribuição previdenciária). Por isso, ainda não é possível informar a remuneração líquida de cada servidor.</p>
+        <p class="fonte">Fonte: Portal da Transparência da Prefeitura de Foz do Iguaçu, planilha "Servidores" gerada em ${esc(S.gerado_em)}. Mostra a remuneração bruta informada para cada matrícula; não inclui CPF.</p></div>`;
     colunas($("#r-faixa"), faixas.map(([a, b]) => comValor.filter((x) => x >= a && x < b).length), faixas.map((f) => f[2]), "var(--series-1)", (v) => nf0.format(v));
     const porV = new Map(); ativos.forEach((x) => { if (x.rem > 0) { const a = porV.get(x.vinculo) || []; a.push(x.rem); porV.set(x.vinculo, a); } });
     barras($("#r-vinc"), [...porV.entries()].map(([k, a]) => ({ nome: `${k} (${nf0.format(a.length)})`, valor: mediana(a), explicacao: `${nf0.format(a.length)} vínculos. Média: ${brl.format(a.reduce((s, x) => s + x, 0) / a.length)}.` })).sort((a, b) => b.valor - a.valor), "var(--series-1)", null, { porHab: false });
     const porC = new Map(); ativos.forEach((x) => { if (x.rem > 0) { const a = porC.get(x.cargo) || []; a.push(x.rem); porC.set(x.cargo, a); } });
-    $("#r-cargos").innerHTML = [...porC.entries()].sort((a, b) => b[1].length - a[1].length).slice(0, 15).map(([c, a]) => `<tr><td>${esc(c)}</td><td class="dir num">${nf0.format(a.length)}</td><td class="dir num">${brl.format(mediana(a))}</td><td class="dir num">${brl.format(Math.max(...a))}</td></tr>`).join("");
-    let lim = 25;
-    const desenha = () => {
-      const q = semAcento($("#r-busca").value.trim()), vin = $("#r-vinculo").value, sit = $("#r-sit").value;
-      const lista = L.filter((x) => (!vin || x.vinculo === vin) && (sit === "" || (sit === "ativos" ? !/^Desligado/i.test(x.situacao) : /^Desligado/i.test(x.situacao))) &&
-        (!q || semAcento(x.nome + " " + x.cargo + " " + x.lotacao).includes(q))).sort((a, b) => b.rem - a.rem);
-      $("#r-corpo").innerHTML = lista.slice(0, lim).map((x) => `<tr><td><strong>${esc(x.nome)}</strong><span class="doc">Admissão: ${esc(x.adm)}${x.desl ? " · Desligamento: " + esc(x.desl) : ""}</span></td><td>${esc(x.cargo)}<span class="doc">${esc(x.vinculo)}${x.carga ? " · " + nf0.format(x.carga) + "h semanais" : ""}</span></td><td>${esc(x.lotacao)}</td><td>${esc(x.situacao)}</td><td class="dir num"><strong>${brl2.format(x.rem)}</strong></td></tr>`).join("") || `<tr><td colspan="5">Nenhum servidor encontrado.</td></tr>`;
-      $("#r-resumo").textContent = `${nf0.format(lista.length)} vínculos encontrados.`;
-      $("#r-mais").hidden = lista.length <= lim;
-    };
-    ["#r-busca", "#r-vinculo", "#r-sit"].forEach((id) => $(id).addEventListener(id === "#r-busca" ? "input" : "change", () => { lim = 25; desenha(); }));
-    $("#r-mais").addEventListener("click", () => { lim += 50; desenha(); });
-    desenha();
+    tabelaInterativa($("#r-cargos"), {
+      linhas: [...porC.entries()].map(([c, a]) => ({ cargo: c, n: a.length, med: mediana(a), max: Math.max(...a) })),
+      busca: { rot: "Buscar cargo", ph: "Ex.: professor", txt: (x) => x.cargo },
+      colunas: [
+        { rot: "Cargo", ord: (x) => x.cargo, cel: (x) => esc(x.cargo) },
+        { rot: "Vínculos", dir: true, ord: (x) => x.n, cel: (x) => nf0.format(x.n) },
+        { rot: "Mediana bruta", dir: true, ord: (x) => x.med, cel: (x) => brl.format(x.med) },
+        { rot: "Maior bruta", dir: true, ord: (x) => x.max, cel: (x) => brl.format(x.max) },
+      ],
+      ordem: { col: 1, desc: true }, lim: 15,
+      resumo: (r) => `${nf0.format(r.length)} cargos com vínculos em atividade.`,
+    });
+    const desl = (x) => /^Desligado/i.test(x.situacao);
+    tabelaInterativa($("#r-tab"), {
+      linhas: L,
+      busca: { rot: "Buscar por nome, cargo ou lotação", ph: "Ex.: professor, UPA, guarda", txt: (x) => x.nome + " " + x.cargo + " " + x.lotacao },
+      filtros: [
+        { rot: "Situação", opcoes: [{ rot: "Em atividade", fn: (x) => !desl(x) }, { rot: "Desligados", fn: desl }, { rot: "Todos" }] },
+        { rot: "Vínculo", todos: "Todos os vínculos", val: (x) => x.vinculo },
+        { rot: "Lotação", todos: "Todas as lotações", val: (x) => x.lotacao },
+        { rot: "Cargo", todos: "Todos os cargos", val: (x) => x.cargo },
+      ],
+      colunas: [
+        { rot: "Servidor", ord: (x) => x.nome, cel: (x) => `<strong>${esc(x.nome)}</strong><span class="doc">Admissão: ${esc(x.adm)}${x.desl ? " · Desligamento: " + esc(x.desl) : ""}</span>` },
+        { rot: "Cargo e vínculo", ord: (x) => x.cargo, cel: (x) => `${esc(x.cargo)}<span class="doc">${esc(x.vinculo)}${x.carga ? " · " + nf0.format(x.carga) + "h semanais" : ""}</span>` },
+        { rot: "Lotação", ord: (x) => x.lotacao, cel: (x) => esc(x.lotacao) },
+        { rot: "Situação", ord: (x) => x.situacao, cel: (x) => esc(x.situacao) },
+        { rot: "Remuneração bruta", dir: true, ord: (x) => x.rem, cel: (x) => `<strong>${brl2.format(x.rem)}</strong>` },
+      ],
+      ordem: { col: 4, desc: true },
+      resumo: (r) => `${nf0.format(r.length)} vínculos encontrados. Soma da remuneração bruta: ${brl2.format(r.reduce((s, x) => s + x.rem, 0))}.`,
+      vazio: "Nenhum servidor encontrado.",
+    });
   }
   function top3(lista) {
     const m = new Map(); lista.forEach((x) => { const c = x.cargo.replace(/\s*\(.*\)$/, "").replace(/ Consultor$/, ""); m.set(c, (m.get(c) || 0) + 1); });
@@ -736,6 +819,7 @@
   }
 
   // ============================================================ página: Câmara
+  const DE_OLHO_CAMARA = "https://app.powerbi.com/view?r=eyJrIjoiYmQ1Nzg0NjctYzM1My00YzY2LWFjZDEtNGMyOTY5MTFjN2NjIiwidCI6IjU2ODcyMjU4LTc5ZDUtNDU1OC05MTAwLTExODBjN2JlYjUyZSJ9";
   function paginaCamara(el) {
     const C = DADOS.camara;
     el.innerHTML = topoEsp("Câmara de Vereadores", "Quanto custa o Poder Legislativo de Foz do Iguaçu, como o dinheiro é usado e como Foz se compara às 24 maiores cidades do Paraná.", "lupa-pensando");
@@ -762,14 +846,15 @@
         <p class="fonte">Fonte: ${esc(C.fonte_comparativo)}</p></div>
       <div class="card"><h3>Quanto custa cada cadeira nas câmaras do Paraná</h3><p class="intro">Cada bolha é uma cidade. Mais à direita, maior o custo mensal por cadeira; mais acima, mais vereadores. O tamanho da bolha acompanha o custo por cadeira.</p><div id="cm-disp"></div><p class="fonte">Custo por cadeira = despesa liquidada de ${esc(C.periodo_comparacao)} ÷ número de vereadores ÷ ${C.meses_comparacao} meses. Fonte: ${esc(C.fonte_comparativo)}</p></div>
       <div class="card"><h3>Repasses e despesas por mês em ${esc(C.periodo_comparacao)}</h3>${legenda([{ nome: "Repasses recebidos", cor: "var(--series-1)" }, { nome: "Despesa liquidada", cor: "var(--series-2)" }])}<div id="cm-mensal"></div></div>
-      <div class="card"><h3>Principais despesas por natureza em <span id="cm-nat-ano"></span></h3><div class="barras" id="cm-nat"></div></div>`;
+      <div class="card"><h3>Principais despesas por natureza em <span id="cm-nat-ano"></span></h3><div class="barras" id="cm-nat"></div></div>
+      <a class="foco-obra" href="${DE_OLHO_CAMARA}" target="_blank" rel="noopener"><div><span class="fo-tag">Ferramenta do OSB Foz do Iguaçu</span><strong class="fo-tit">DE OLHO NA CÂMARA</strong><span class="fo-txt">Painel do Observatório com o acompanhamento detalhado da Câmara Municipal de Foz do Iguaçu.</span><span class="fo-btn">Abrir o De Olho na Câmara ↗</span></div><img src="img/lupa-pensando.webp" alt=""></a>`;
     linhas($("#cm-anual"), C.anual.map((a) => String(a.ano) + (a.periodo !== "Jan–dez" ? "*" : "")), [
       { nome: "Repasses", valores: C.anual.map((a) => a.repasses), cor: "var(--series-1)" },
       { nome: "Despesa paga", valores: C.anual.map((a) => a.pago), cor: "var(--series-2)" },
     ], fmtCurto, { rotulo: "Repasses e despesas da Câmara por ano" });
     const E = C.foz_estagios, totG = C.foz_grupos.reduce((s, g) => s + g[1], 0);
     sankeyMulti($("#cm-sankey"), C.foz_grupos.map((g) => ({ caminho: ["Repasses da Prefeitura", g[0]], v: g[1] })).concat([{ caminho: ["Repasses da Prefeitura", "Diferença (não é saldo de caixa)"], v: E.repasses - totG }]), { maxNos: [1, 9], titulos: ["Recebido", "Usado"] });
-    barras($("#cm-grupos"), C.foz_grupos.map((g) => ({ nome: g[0], valor: g[1] })), "var(--series-2)", totG, { porHab: false });
+    barras($("#cm-grupos"), C.foz_grupos.map((g) => ({ nome: g[0], valor: g[1] })).sort((a, b) => b.valor - a.valor), "var(--series-2)", totG, { porHab: false });
     const desenhaComp = (campo) => {
       const fm = campo === "hab" ? (v) => brl2.format(v) : (v) => reais(v);
       const lista = comp.slice().sort((a, b) => b[campo] - a[campo]);
@@ -822,9 +907,9 @@
         <div class="card"><h3>Gratuidades</h3><div id="tr-grat"></div><p class="intro" style="font-size:.88rem">Parte dos passageiros que não paga tarifa (idosos, pessoas com deficiência, estudantes com passe livre e outros). Quanto maior essa parte, maior o custo por passageiro pagante.</p></div></div>
       <div class="card"><h3>O novo edital de concessão</h3><p class="intro">Comparação entre o sistema atual, o estudo técnico contratado pela Prefeitura e a proposta de edital.</p>
         <div class="tabela-box"><table class="tabela-esp"><thead><tr>${R.comparativo_edital.colunas.map((c, i) => `<th${i ? ' class="dir"' : ""}>${esc(c)}</th>`).join("")}</tr></thead><tbody>${R.comparativo_edital.linhas.map((l) => `<tr>${l.map((c, i) => `<td${i ? ' class="dir"' : ""}>${i ? esc(c) : "<strong>" + esc(c) + "</strong>"}</td>`).join("")}</tr>`).join("")}</tbody></table></div></div>
+      <div class="card"><h3>Pagamentos à concessionária registrados no Tribunal de Contas</h3><div id="tr-tcepag"></div></div>
       <div class="grid-2"><div class="card"><h3>Pontos de atenção apontados pelo OSB</h3><ol style="margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:8px">${R.pontos_atencao.map((p) => `<li>${esc(p)}</li>`).join("")}</ol></div>
         <div class="card"><h3>Recomendações do Tribunal de Contas</h3><p class="intro">Das ${R.recomendacoes_tce.total} recomendações do TCE-PR sobre o edital:</p><div class="barras" id="tr-tce"></div></div></div>
-      <div class="card"><h3>Pagamentos à concessionária registrados no Tribunal de Contas</h3><div id="tr-tcepag"></div></div>
       ${M.some((m, i) => i && M.slice(0, i).some((n) => n.passageiros === m.passageiros && n.custo_total === m.custo_total)) ? `<p class="nota">Na planilha de prestação de contas, os valores de julho/2025 são idênticos aos de maio/2025, o que sugere erro de preenchimento. Os gráficos mostram os valores como estão na planilha.</p>` : ""}
       <p class="fonte">Fontes: ${esc(R.fonte_mensal)}; ${esc(R.fonte_estudo)}.</p>`;
     linhas($("#tr-custo"), rot, [
@@ -867,9 +952,38 @@
     ]);
     el.innerHTML += `<div class="grid-2"><div class="card"><h3>Aluguéis pagos por mês</h3><div class="colunas" id="al-mes"></div></div>
       <div class="card"><h3>Por secretaria</h3><div class="barras" id="al-org"></div></div></div>
-      <div class="card"><h3>Quem recebe e quais imóveis</h3><div class="tabela-box"><table class="tabela-esp"><thead><tr><th>Locador</th><th>Imóvel e finalidade</th><th>Secretaria</th><th class="dir">Pago</th></tr></thead><tbody>${cr.map((x) => `<tr><td><strong>${esc(x.nome)}</strong><span class="doc">${esc(x.documento)}</span></td><td>${x.imoveis.map((i) => esc(i)).join("<br><br>")}</td><td>${esc(x.orgao)}</td><td class="dir num"><strong>${brl2.format(x.pago)}</strong></td></tr>`).join("")}</tbody></table></div>
+      <div class="card"><h3>Quem recebe e quais imóveis</h3><div id="al-tab"></div>
       <p class="fonte">${esc(fonteTce())} Despesas classificadas como "locação de imóveis". A descrição do imóvel é o histórico do empenho.</p></div>
-      ${Al.contratos.length ? `<div class="card"><h3>Contratos de locação assinados em ${anoAtual}</h3><div class="tabela-box"><table class="tabela-esp"><thead><tr><th>Contratado</th><th>Objeto</th><th>Vigência</th><th class="dir">Valor</th></tr></thead><tbody>${Al.contratos.map((c) => `<tr><td><strong>${esc(c.contratado)}</strong><span class="doc">Contrato ${esc(c.numero)} · ${esc(c.entidade)}</span></td><td>${esc(c.objeto)}</td><td class="num">${fmtDataBR(c.inicio)} a ${fmtDataBR(c.fim)}</td><td class="dir num">${brl2.format(c.valor)}</td></tr>`).join("")}</tbody></table></div></div>` : ""}`;
+      ${Al.contratos.length ? `<div class="card"><h3>Contratos de locação assinados em ${anoAtual}</h3><div id="al-cont"></div></div>` : ""}`;
+    tabelaInterativa($("#al-tab"), {
+      linhas: cr,
+      busca: { rot: "Buscar por locador, endereço ou finalidade", ph: "Ex.: escola, CRAS, Rua", txt: (x) => x.nome + " " + x.imoveis.join(" ") + " " + x.orgao },
+      filtros: [
+        { rot: "Secretaria", todos: "Todas as secretarias", val: (x) => x.orgao },
+        { rot: "Tipo de locador", todos: "Todos", val: (x) => x.tipo },
+      ],
+      colunas: [
+        { rot: "Locador", ord: (x) => x.nome, cel: (x) => `<strong>${esc(x.nome)}</strong><span class="doc">${esc(x.documento)}</span>` },
+        { rot: "Imóvel e finalidade", cel: (x) => x.imoveis.map((i) => esc(i)).join("<br><br>") },
+        { rot: "Secretaria", ord: (x) => x.orgao, cel: (x) => esc(x.orgao) },
+        { rot: "Pago", dir: true, ord: (x) => x.pago, cel: (x) => `<strong>${brl2.format(x.pago)}</strong>` },
+      ],
+      ordem: { col: 3, desc: true },
+      resumo: (r) => `${nf0.format(r.length)} locadores, somando ${brl2.format(r.reduce((s, x) => s + x.pago, 0))}.`,
+    });
+    if (Al.contratos.length) tabelaInterativa($("#al-cont"), {
+      linhas: Al.contratos,
+      busca: { rot: "Buscar por contratado ou objeto", ph: "Ex.: sede, Rua", txt: (c) => c.contratado + " " + c.objeto + " " + c.numero },
+      filtros: [{ rot: "Órgão", todos: "Todos os órgãos", val: (c) => c.entidade }],
+      colunas: [
+        { rot: "Contratado", ord: (c) => c.contratado, cel: (c) => `<strong>${esc(c.contratado)}</strong><span class="doc">Contrato ${esc(c.numero)} · ${esc(c.entidade)}</span>` },
+        { rot: "Objeto", cel: (c) => esc(c.objeto) },
+        { rot: "Vigência", ord: (c) => c.inicio, cel: (c) => `<span class="num">${fmtDataBR(c.inicio)} a ${fmtDataBR(c.fim)}</span>` },
+        { rot: "Valor", dir: true, ord: (c) => c.valor, cel: (c) => brl2.format(c.valor) },
+      ],
+      ordem: { col: 3, desc: true },
+      resumo: (r) => `${nf0.format(r.length)} contratos, somando ${brl2.format(r.reduce((s, c) => s + c.valor, 0))}.`,
+    });
     colunas($("#al-mes"), Al.mensal, MESES.slice(0, Al.mensal.length), "var(--series-2)", fmtCurto);
     const org = new Map(); cr.forEach((x) => org.set(x.orgao, (org.get(x.orgao) || 0) + x.pago));
     barras($("#al-org"), [...org.entries()].map(([nome, valor]) => ({ nome, valor })).sort((a, b) => b.valor - a.valor).slice(0, 8), "var(--series-2)", tot, { porHab: false });
@@ -878,72 +992,120 @@
   // ============================================================ página: obras
   const MAPA_OBRAS = "https://www.google.com/maps/d/u/0/viewer?mid=1CcneuVsY_H58_SAMOfGdbJXzmjDgwRk&ll=-25.50866069360419%2C-54.558194320410145&z=12";
   function paginaObras(el) {
-    el.innerHTML = topoEsp("Obras", "As obras registradas pela Prefeitura no Tribunal de Contas, quanto custam, em que pé estão e quanto já foi pago às construtoras.", "lupa-notebook");
-    el.innerHTML += `<a class="foco-obra" href="${MAPA_OBRAS}"><div><span class="fo-tag">Ferramenta do OSB Foz do Iguaçu</span><strong class="fo-tit">FOCO NA OBRA</strong><span class="fo-txt">${DADOS.foco_na_obra ? DADOS.foco_na_obra.obras.length : 27} obras públicas monitoradas pelos voluntários do Observatório, com localização, situação e informações de cada uma.</span><span class="fo-btn">Abrir o mapa Foco na Obra ↗</span></div><img src="img/lupa-notebook.webp" alt=""></a>`;
     const F = DADOS.foco_na_obra, FO = F ? F.obras : [];
-    const ivTce = (T() && T().obras && T().obras.intervencoes) || [];
+    const t = T(), O = t && t.obras, iv = O ? O.intervencoes : [], pg = O ? O.pagamentos : [];
+    const ref = new Date(DADOS.meta.atualizado_em + "T12:00:00");
+    let h = topoEsp("Obras", "As obras públicas de Foz do Iguaçu vistas de duas formas: as que os voluntários do Observatório acompanham de perto no Foco na Obra e as que a Prefeitura cadastrou no Tribunal de Contas, com quanto já foi pago às construtoras.", "lupa-notebook");
+    h += `<div class="card"><h3>Todas as obras no mapa</h3><p class="intro">Obras monitoradas pelo OSB (círculos) e obras iniciadas em ${anoAtual} cadastradas pela Prefeitura no Tribunal de Contas (quadrados). A cor indica a situação; o tamanho, o valor. Toque em um ponto para abrir o local no Google Maps.</p>
+      <div class="chips" role="group" aria-label="Camadas do mapa"><button type="button" class="chip" data-cam="osb" aria-pressed="true">● Foco na Obra (OSB)</button><button type="button" class="chip" data-cam="tce" aria-pressed="true">■ Cadastro no TCE-PR</button></div>
+      <div class="legenda">${Object.entries(COR_SIT).map(([n, c]) => `<span><i class="marca" style="background:${c}"></i>${n}</span>`).join("")}<span><i class="marca" style="background:var(--ink-3);transform:rotate(45deg);border-radius:1px"></i>Ponto de referência</span></div>
+      <div id="ob-mapa"></div><p class="fonte">Mapa esquemático: os pontos estão nas coordenadas informadas, sem o desenho das ruas. Fontes: mapa Foco na Obra (OSB Foz do Iguaçu) e cadastro de obras do SIM-AM (TCE-PR).</p></div>`;
+
+    // ---------- parte 1: Foco na Obra
+    h += `<div class="secao-obras" id="parte-foco"><span class="num-sec">1</span><div><h2>Obras monitoradas pelo OSB: Foco na Obra</h2><p>Levantamento dos voluntários do Observatório, com visitas, situação e percentual executado de cada obra.</p></div></div>`;
+    h += `<a class="foco-obra" href="${MAPA_OBRAS}" target="_blank" rel="noopener"><div><span class="fo-tag">Ferramenta do OSB Foz do Iguaçu</span><strong class="fo-tit">FOCO NA OBRA</strong><span class="fo-txt">${FO.length || 27} obras públicas monitoradas pelos voluntários do Observatório, com localização, situação e informações de cada uma.</span><span class="fo-btn">Abrir o mapa Foco na Obra ↗</span></div><img src="img/lupa-notebook.webp" alt=""></a>`;
     if (FO.length) {
       const cont = FO.reduce((s, o) => s + (o.valor_contratado || 0), 0), cnt = (g) => FO.filter((o) => o.grupo === g).length;
-      el.innerHTML += tilesHtml([
+      h += tilesHtml([
         ["Obras monitoradas pelo OSB", nf0.format(FO.length), "Acompanhadas pelos voluntários no Foco na Obra."],
         ["Valor contratado", reais(cont), `Soma das ${FO.filter((o) => o.valor_contratado).length} obras com contrato assinado.`],
         ["Em andamento", nf0.format(cnt("Em andamento")), `${nf0.format(cnt("Em licitação"))} ainda em licitação e ${nf0.format(cnt("Não iniciada"))} contratadas e não iniciadas.`],
         ["Paralisadas ou suspensas", nf0.format(cnt("Paralisada")), FO.filter((o) => o.grupo === "Paralisada").map((o) => o.nome).join("; ")],
       ]);
-    }
-    el.innerHTML += `<div class="card"><h3>Mapa das obras</h3><p class="intro">Obras monitoradas pelo OSB (círculos) e obras iniciadas em ${anoAtual} cadastradas pela Prefeitura no Tribunal de Contas (quadrados). A cor indica a situação; o tamanho, o valor. Toque em um ponto para abrir o local no Google Maps.</p>
-      <div class="chips" role="group" aria-label="Camadas do mapa"><button type="button" class="chip" data-cam="osb" aria-pressed="true">● Foco na Obra (OSB)</button><button type="button" class="chip" data-cam="tce" aria-pressed="true">■ Cadastro no TCE-PR</button></div>
-      <div class="legenda">${Object.entries(COR_SIT).map(([n, c]) => `<span><i class="marca" style="background:${c}"></i>${n}</span>`).join("")}<span><i class="marca" style="background:var(--ink-3);transform:rotate(45deg);border-radius:1px"></i>Ponto de referência</span></div>
-      <div id="ob-mapa"></div><p class="fonte">Mapa esquemático: os pontos estão nas coordenadas informadas, sem o desenho das ruas. Fontes: mapa Foco na Obra (OSB Foz do Iguaçu) e cadastro de obras do SIM-AM (TCE-PR).</p></div>`;
-    if (FO.length) {
-      el.innerHTML += `<div class="card"><h3>Obras monitoradas pelo OSB</h3>
-        <div class="filtros"><label for="fo-cat">Área<select id="fo-cat"><option value="">Todas as áreas</option>${[...new Set(FO.map((o) => o.categoria))].sort().map((c) => `<option>${esc(c)}</option>`).join("")}</select></label>
-          <label for="fo-sit">Situação<select id="fo-sit"><option value="">Todas as situações</option>${Object.keys(COR_SIT).filter((g) => FO.some((o) => o.grupo === g)).map((g) => `<option>${g}</option>`).join("")}</select></label></div>
-        <div class="tabela-box"><table class="tabela-esp"><thead><tr><th>Obra</th><th>Empresa e contrato</th><th>Situação</th><th>Prazo</th><th class="dir">Valores</th></tr></thead><tbody id="fo-corpo"></tbody></table></div>
-        ${F.formulario ? `<a class="fo-form" href="${esc(F.formulario)}"><img src="img/lupa-anotando.webp" alt=""><span><strong>Viu algo numa dessas obras?</strong> Mande sua sugestão, dúvida, denúncia ou foto para o Observatório.</span><span class="fo-btn">Enviar pelo formulário ↗</span></a>` : ""}
+      h += `<div class="card"><h3>Lista das obras do Foco na Obra</h3><div id="fo-tab"></div>
+        ${F.formulario ? `<a class="fo-form" href="${esc(F.formulario)}" target="_blank" rel="noopener"><img src="img/lupa-anotando.webp" alt=""><span><strong>Viu algo numa dessas obras?</strong> Mande sua sugestão, dúvida, denúncia ou foto para o Observatório.</span><span class="fo-btn">Enviar pelo formulário ↗</span></a>` : ""}
         <p class="fonte">Fonte: mapa Foco na Obra, mantido pelos voluntários do OSB Foz do Iguaçu. Percentuais de execução e datas como informados no mapa.</p></div>`;
-      const desenhaFO = () => {
-        const c = $("#fo-cat").value, g = $("#fo-sit").value;
-        $("#fo-corpo").innerHTML = FO.filter((o) => (!c || o.categoria === c) && (!g || o.grupo === g)).sort((a, b) => (b.valor_contratado || b.valor_edital || 0) - (a.valor_contratado || a.valor_edital || 0)).map((o) => `<tr>
-          <td><strong>${esc(o.nome)}</strong><span class="doc">${esc(o.categoria)} · ${esc(o.processo)}</span>${o.lat != null ? `<a href="https://www.google.com/maps?q=${o.lat},${o.lon}" target="_blank" rel="noopener">Ver no mapa ↗</a>` : ""}</td>
-          <td>${o.empresa ? esc(o.empresa) : '<span class="doc">Sem contrato</span>'}${o.contrato ? `<span class="doc">Contrato ${esc(o.contrato)}</span>` : ""}</td>
-          <td><span class="pill" style="color:${COR_SIT[o.grupo]}">${esc(o.situacao)}</span>${o.pct_executado != null ? `<div class="prog" title="${nf1.format(o.pct_executado)}% executado"><div style="width:${Math.min(100, o.pct_executado)}%"></div></div><span class="doc">${nf1.format(o.pct_executado)}% executado</span>` : ""}${o.ultima_medicao ? `<span class="doc">Última medição: ${esc(o.ultima_medicao)}</span>` : ""}</td>
-          <td class="num">${o.inicio ? "Início " + esc(o.inicio) : "–"}${o.termino ? `<span class="doc">Término previsto: ${esc(o.termino)}</span>` : ""}</td>
-          <td class="dir num">${o.valor_contratado ? `<strong>${brl.format(o.valor_contratado)}</strong><span class="doc">contratado</span>` : ""}${o.valor_edital ? `<span class="doc">Edital: ${brl.format(o.valor_edital)}</span>` : ""}${o.valor_executado ? `<span class="doc">Executado: ${brl.format(o.valor_executado)}</span>` : ""}</td></tr>`).join("");
-      };
-      $("#fo-cat").addEventListener("change", desenhaFO); $("#fo-sit").addEventListener("change", desenhaFO);
-      desenhaFO();
     }
+
+    // ---------- parte 2: TCE-PR
+    h += `<div class="secao-obras" id="parte-tce"><span class="num-sec">2</span><div><h2>Obras informadas pela Prefeitura ao Tribunal de Contas</h2><p>Cadastro oficial de obras (SIM-AM do TCE-PR) e pagamentos feitos às construtoras em ${anoAtual}.</p></div></div>`;
+    if (!O) h += semDados(`Os dados de obras de ${anoAtual} ainda não foram carregados.`);
+    else {
+      const totIv = iv.reduce((s, x) => s + x.valor, 0), totPg = pg.reduce((s, x) => s + x.pago, 0);
+      h += tilesHtml([
+        [`Obras cadastradas em ${anoAtual}`, nf0.format(iv.length), "Intervenções iniciadas no ano e informadas ao Tribunal de Contas."],
+        ["Valor dessas obras", reais(totIv), "Soma do valor previsto de cada obra."],
+        ["Pago em obras", reais(totPg), `Todas as obras e instalações, inclusive de anos anteriores, de janeiro a ${MESES_LONGO[A.meses - 1]}.`],
+        ["Empresas que receberam", nf0.format(pg.filter((x) => x.pago > 0).length), "Construtoras e prestadores pagos por obras no período."],
+      ]);
+      h += `<div class="card"><h3>Obras iniciadas em ${anoAtual}</h3><div id="tce-tab"></div><p class="fonte">${esc(fonteTce().replace(/pagamentos até.*$/, ""))} Cadastro de obras (intervenções) do SIM-AM. O percentual do prazo compara o tempo decorrido até ${fmtDataBR(DADOS.meta.atualizado_em)} com o prazo de execução.</p></div>
+        <div class="card"><h3>Quem recebeu por obras em ${anoAtual}</h3><div id="pg-tab"></div><p class="fonte">${esc(fonteTce())} Despesas classificadas como "obras e instalações".</p></div>`;
+    }
+    el.innerHTML = h;
+
+    // ---------- mapa
     const camadas = { osb: true, tce: true };
-    const vmax = Math.max(1, ...FO.map((o) => o.valor_contratado || o.valor_edital || 0), ...ivTce.map((o) => o.valor));
+    const vmax = Math.max(1, ...FO.map((o) => o.valor_contratado || o.valor_edital || 0), ...iv.map((o) => o.valor));
     const raio = (v) => Math.max(6, Math.sqrt((v || 0) / vmax) * 18);
     function desenhaMapaObras() {
       const pts = [];
       if (camadas.osb) FO.forEach((o) => { if (o.lat != null) pts.push({ lat: o.lat, lon: o.lon, cor: COR_SIT[o.grupo], forma: "c", r: raio(o.valor_contratado || o.valor_edital), camada: "osb", link: `https://www.google.com/maps?q=${o.lat},${o.lon}`, tip: `<strong>${esc(o.nome)}</strong><br>Foco na Obra · ${esc(o.situacao)}${o.pct_executado != null ? ` (${nf1.format(o.pct_executado)}%)` : ""}<br>${o.valor_contratado ? brl.format(o.valor_contratado) + " contratado" : o.valor_edital ? brl.format(o.valor_edital) + " no edital" : ""}${o.empresa ? "<br>" + esc(o.empresa) : ""}` }); });
-      if (camadas.tce) ivTce.forEach((o) => o.locais.forEach((l) => { if (l.lat != null) pts.push({ lat: l.lat, lon: l.lon, cor: COR_SIT[grupoSit(o.situacao)], forma: "q", r: raio(o.valor) * 0.85, camada: "tce", link: `https://www.google.com/maps?q=${l.lat},${l.lon}`, tip: `<strong>${esc(o.nome)}</strong><br>Cadastro TCE-PR · ${esc(o.situacao)}<br>${brl.format(o.valor)}<br>${esc(l.endereco)}` }); }));
+      if (camadas.tce) iv.forEach((o) => o.locais.forEach((l) => { if (l.lat != null) pts.push({ lat: l.lat, lon: l.lon, cor: COR_SIT[grupoSit(o.situacao)], forma: "q", r: raio(o.valor) * 0.85, camada: "tce", link: `https://www.google.com/maps?q=${l.lat},${l.lon}`, tip: `<strong>${esc(o.nome)}</strong><br>Cadastro TCE-PR · ${esc(o.situacao)}<br>${brl.format(o.valor)}<br>${esc(l.endereco)}` }); }));
       mapaPontos($("#ob-mapa"), pts);
     }
     el.querySelectorAll(".chip[data-cam]").forEach((b) => b.addEventListener("click", () => { camadas[b.dataset.cam] = !camadas[b.dataset.cam]; b.setAttribute("aria-pressed", String(camadas[b.dataset.cam])); desenhaMapaObras(); }));
     desenhaMapaObras();
-    const t = T();
-    if (!t) { el.innerHTML += semDados(`Os dados de obras de ${anoAtual} ainda não foram carregados.`); return; }
-    const O = t.obras, iv = O.intervencoes, pg = O.pagamentos;
-    const totIv = iv.reduce((s, x) => s + x.valor, 0), totPg = pg.reduce((s, x) => s + x.pago, 0);
-    const ref = new Date(DADOS.meta.atualizado_em + "T12:00:00");
-    el.innerHTML += tilesHtml([
-      [`Obras cadastradas em ${anoAtual}`, nf0.format(iv.length), "Intervenções iniciadas no ano e informadas ao Tribunal de Contas."],
-      ["Valor dessas obras", reais(totIv), "Soma do valor previsto de cada obra."],
-      ["Pago em obras", reais(totPg), `Todas as obras e instalações, inclusive de anos anteriores, de janeiro a ${MESES_LONGO[A.meses - 1]}.`],
-      ["Empresas que receberam", nf0.format(pg.filter((x) => x.pago > 0).length), "Construtoras e prestadores pagos por obras no período."],
-    ]);
-    el.innerHTML += `<div class="card"><h3>Obras iniciadas em ${anoAtual}</h3><div class="tabela-box"><table class="tabela-esp"><thead><tr><th>Obra</th><th>Local</th><th>Situação</th><th>Prazo</th><th class="dir">Valor</th></tr></thead><tbody>${iv.map((o) => {
+
+    // ---------- tabela Foco na Obra
+    if (FO.length) tabelaInterativa($("#fo-tab"), {
+      linhas: FO,
+      busca: { rot: "Buscar por obra, empresa ou processo", ph: "Ex.: escola, UBS, pavimentação", txt: (o) => [o.nome, o.empresa, o.processo, o.contrato, o.categoria].join(" ") },
+      filtros: [
+        { rot: "Área", todos: "Todas as áreas", val: (o) => o.categoria },
+        { rot: "Situação", todos: "Todas as situações", val: (o) => o.grupo },
+        { rot: "Empresa", todos: "Todas as empresas", val: (o) => o.empresa || "Sem contrato" },
+      ],
+      colunas: [
+        { rot: "Obra", ord: (o) => o.nome, cel: (o) => `<strong>${esc(o.nome)}</strong><span class="doc">${esc(o.categoria)} · ${esc(o.processo)}</span>${o.lat != null ? `<a href="https://www.google.com/maps?q=${o.lat},${o.lon}" target="_blank" rel="noopener">Ver no mapa ↗</a>` : ""}` },
+        { rot: "Empresa e contrato", ord: (o) => o.empresa, cel: (o) => `${o.empresa ? esc(o.empresa) : '<span class="doc">Sem contrato</span>'}${o.contrato ? `<span class="doc">Contrato ${esc(o.contrato)}</span>` : ""}` },
+        { rot: "Situação", ord: (o) => o.grupo, cel: (o) => `<span class="pill" style="color:${COR_SIT[o.grupo]}">${esc(o.situacao)}</span>${o.ultima_medicao ? `<span class="doc">Última medição: ${esc(o.ultima_medicao)}</span>` : ""}` },
+        { rot: "% executado", dir: true, ord: (o) => o.pct_executado, cel: (o) => o.pct_executado != null ? `<div class="prog" title="${nf1.format(o.pct_executado)}% executado"><div style="width:${Math.min(100, o.pct_executado)}%"></div></div>${nf1.format(o.pct_executado)}%` : "–" },
+        { rot: "Início", ord: (o) => dataISO(o.inicio), cel: (o) => `<span class="num">${o.inicio ? esc(o.inicio) : "–"}</span>${o.termino ? `<span class="doc">Término previsto: ${esc(o.termino)}</span>` : ""}` },
+        { rot: "Valores", dir: true, ord: (o) => o.valor_contratado || o.valor_edital || null, cel: (o) => `${o.valor_contratado ? `<strong>${brl.format(o.valor_contratado)}</strong><span class="doc">contratado</span>` : ""}${o.valor_edital ? `<span class="doc">Edital: ${brl.format(o.valor_edital)}</span>` : ""}${o.valor_executado ? `<span class="doc">Executado: ${brl.format(o.valor_executado)}</span>` : ""}` },
+      ],
+      ordem: { col: 5, desc: true },
+      resumo: (r) => `${nf0.format(r.length)} de ${nf0.format(FO.length)} obras. Valor contratado: ${brl.format(r.reduce((s, o) => s + (o.valor_contratado || 0), 0))}.`,
+      vazio: "Nenhuma obra encontrada com esses filtros.",
+    });
+
+    // ---------- tabelas TCE
+    if (!O) return;
+    const IV = iv.map((o) => {
       const ini = new Date(o.inicio + "T12:00:00"), dias = Math.round((ref - ini) / 864e5), p = o.prazo_dias ? Math.min(999, dias / o.prazo_dias * 100) : null;
-      const fimPrev = o.prazo_dias ? new Date(ini.getTime() + o.prazo_dias * 864e5).toISOString().slice(0, 10) : "";
-      const cls = p == null ? "" : p > 100 ? "ruim" : p > 80 ? "alerta" : "ok";
-      return `<tr><td><strong>${esc(o.nome)}</strong><span class="doc">${esc(o.entidade)} · execução ${esc(o.regime.toLowerCase())}</span></td><td>${o.locais.map((l) => esc(l.endereco || l.bem) + (l.lat != null ? `<br><a href="https://www.google.com/maps?q=${l.lat},${l.lon}" target="_blank" rel="noopener">Ver no mapa ↗</a>` : "")).join("<br>") || "–"}</td><td>${esc(o.situacao)}<span class="doc">Última medição: ${fmtDataBR(o.ultima_medicao)}</span></td><td class="num">Início ${fmtDataBR(o.inicio)}<span class="doc">${o.prazo_dias} dias, até ${fmtDataBR(fimPrev)}</span>${p != null ? `<span class="pill ${cls}" style="margin-top:4px">${nf0.format(p)}% do prazo</span>` : ""}</td><td class="dir num"><strong>${brl2.format(o.valor)}</strong></td></tr>`;
-    }).join("")}</tbody></table></div><p class="fonte">${esc(fonteTce().replace(/pagamentos até.*$/, ""))} Cadastro de obras (intervenções) do SIM-AM. O percentual do prazo compara o tempo decorrido até ${fmtDataBR(DADOS.meta.atualizado_em)} com o prazo de execução.</p></div>
-      <div class="card"><h3>Quem recebeu por obras em ${anoAtual}</h3><div class="tabela-box"><table class="tabela-esp"><thead><tr><th>Empresa</th><th>O que foi pago</th><th>Secretaria</th><th class="dir">Pago</th></tr></thead><tbody>${pg.map((x) => `<tr><td><strong>${esc(x.nome)}</strong><span class="doc">${esc(x.documento)}</span></td><td>${x.historicos.map(esc).join("<br><br>")}</td><td>${esc(x.orgao)}</td><td class="dir num"><strong>${brl2.format(x.pago)}</strong><span class="doc">Empenhado: ${brl.format(x.empenhado)}</span></td></tr>`).join("")}</tbody></table></div>
-      <p class="fonte">${esc(fonteTce())} Despesas classificadas como "obras e instalações".</p></div>`;
+      return { ...o, p, fimPrev: o.prazo_dias ? new Date(ini.getTime() + o.prazo_dias * 864e5).toISOString().slice(0, 10) : "", local: o.locais.map((l) => l.endereco || l.bem).join("; ") };
+    });
+    tabelaInterativa($("#tce-tab"), {
+      linhas: IV,
+      busca: { rot: "Buscar por obra ou endereço", ph: "Ex.: escola, Rua, pavimentação", txt: (o) => o.nome + " " + o.local + " " + o.entidade },
+      filtros: [
+        { rot: "Órgão", todos: "Todos os órgãos", val: (o) => o.entidade },
+        { rot: "Situação", todos: "Todas as situações", val: (o) => o.situacao },
+        { rot: "Prazo", opcoes: [{ rot: "Todos os prazos" }, { rot: "Prazo já vencido", fn: (o) => o.p != null && o.p > 100 }, { rot: "Mais de 80% do prazo", fn: (o) => o.p != null && o.p > 80 }, { rot: "Dentro do prazo", fn: (o) => o.p != null && o.p <= 80 }] },
+      ],
+      colunas: [
+        { rot: "Obra", ord: (o) => o.nome, cel: (o) => `<strong>${esc(o.nome)}</strong><span class="doc">${esc(o.entidade)} · execução ${esc(o.regime.toLowerCase())}</span>` },
+        { rot: "Local", ord: (o) => o.local, cel: (o) => o.locais.map((l) => esc(l.endereco || l.bem) + (l.lat != null ? `<br><a href="https://www.google.com/maps?q=${l.lat},${l.lon}" target="_blank" rel="noopener">Ver no mapa ↗</a>` : "")).join("<br>") || "–" },
+        { rot: "Situação", ord: (o) => o.situacao, cel: (o) => `${esc(o.situacao)}<span class="doc">Última medição: ${fmtDataBR(o.ultima_medicao)}</span>` },
+        { rot: "Prazo", ord: (o) => o.p, cel: (o) => { const cls = o.p == null ? "" : o.p > 100 ? "ruim" : o.p > 80 ? "alerta" : "ok"; return `<span class="num">Início ${fmtDataBR(o.inicio)}</span><span class="doc">${o.prazo_dias} dias, até ${fmtDataBR(o.fimPrev)}</span>${o.p != null ? `<span class="pill ${cls}" style="margin-top:4px">${nf0.format(o.p)}% do prazo</span>` : ""}`; } },
+        { rot: "Valor", dir: true, ord: (o) => o.valor, cel: (o) => `<strong>${brl2.format(o.valor)}</strong>` },
+      ],
+      ordem: { col: 4, desc: true },
+      resumo: (r) => `${nf0.format(r.length)} de ${nf0.format(IV.length)} obras, somando ${brl2.format(r.reduce((s, o) => s + o.valor, 0))}.`,
+    });
+    tabelaInterativa($("#pg-tab"), {
+      linhas: pg,
+      busca: { rot: "Buscar por empresa ou descrição", ph: "Ex.: pavimentação, reforma", txt: (x) => x.nome + " " + x.documento + " " + x.historicos.join(" ") },
+      filtros: [{ rot: "Secretaria", todos: "Todas as secretarias", val: (x) => x.orgao }],
+      colunas: [
+        { rot: "Empresa", ord: (x) => x.nome, cel: (x) => `<strong>${esc(x.nome)}</strong><span class="doc">${esc(x.documento)}</span>` },
+        { rot: "O que foi pago", cel: (x) => x.historicos.map(esc).join("<br><br>") },
+        { rot: "Secretaria", ord: (x) => x.orgao, cel: (x) => esc(x.orgao) },
+        { rot: "Empenhado", dir: true, ord: (x) => x.empenhado, cel: (x) => brl.format(x.empenhado) },
+        { rot: "Pago", dir: true, ord: (x) => x.pago, cel: (x) => `<strong>${brl2.format(x.pago)}</strong>` },
+      ],
+      ordem: { col: 4, desc: true },
+      resumo: (r) => `${nf0.format(r.length)} empresas, somando ${brl2.format(r.reduce((s, x) => s + x.pago, 0))} pagos.`,
+    });
   }
 
   // ============================================================ página: sem licitação
@@ -1328,25 +1490,68 @@
   function slides() {
     const r = A.receitas, d = A.despesas, f = d.por_funcao.slice().sort((a, b) => b.valor - a.valor), baseF = f.reduce((s, x) => s + x.valor, 0);
     const S = [];
-    S.push({ tag: `Receitas · ${anoAtual}${ateMes()}`, num: reais(r.arrecadado), txt: "entraram nos cofres do município", det: `Isso dá ${brl.format(r.arrecadado / POP)} por morador. Veja de onde vem cada real.`, link: "#receitas", cta: "De onde vem o dinheiro", img: "lupa-prancheta" });
-    S.push({ tag: "Para onde vai", num: `R$ ${nf0.format(f[0].valor / baseF * 100)}`, txt: `de cada R$ 100 gastos foram para ${f[0].funcao.toLowerCase()}`, det: `${f[1].funcao} vem em seguida, com R$ ${nf0.format(f[1].valor / baseF * 100)} de cada R$ 100.`, link: "#caminho-do-dinheiro", cta: "Siga o caminho do dinheiro", img: "lupa-acenando" });
+    S.push({ tag: `Receitas · ${anoAtual}${ateMes()}`, num: reais(r.arrecadado), txt: "entraram nos cofres do município", det: `Isso dá ${brl.format(r.arrecadado / POP)} por morador. Veja de onde vem cada real.`, link: "#receitas", cta: "De onde vem o dinheiro", img: "lupa-prancheta", foto: "cidade" });
+    const gR = (r.grupos || []).find((g) => /Royalties/i.test(g.grupo));
+    if (gR) { const vR = gR.itens.reduce((a, i) => a + i.valor, 0); if (vR > 0) S.push({ tag: `Royalties de Itaipu · ${anoAtual}${ateMes()}`, num: reais(vR), txt: "pagos pela Itaipu Binacional ao município", det: `São R$ ${nf0.format(vR / r.arrecadado * 100)} de cada R$ 100 que a Prefeitura arrecadou. Veja onde esse dinheiro foi usado.`, link: "#caminho-do-dinheiro", cta: "Para onde foram os royalties", img: "lupa-acenando", foto: "itaipu" }); }
+    S.push({ tag: "Para onde vai", num: `R$ ${nf0.format(f[0].valor / baseF * 100)}`, txt: `de cada R$ 100 gastos foram para ${f[0].funcao.toLowerCase()}`, det: `${f[1].funcao} vem em seguida, com R$ ${nf0.format(f[1].valor / baseF * 100)} de cada R$ 100.`, link: "#caminho-do-dinheiro", cta: "Siga o caminho do dinheiro", img: "lupa-acenando", foto: "panorama" });
     const ip = A.indicadores;
-    if (ip.pessoal_rcl_pct) S.push({ tag: "Lei de Responsabilidade Fiscal", num: pct(ip.pessoal_rcl_pct), txt: ip.pessoal_rcl_pct > 54 ? "da receita vai para pessoal, acima do limite de 54%" : "da receita vai para gastos com pessoal", det: "Percentual informado pela Prefeitura no Relatório de Gestão Fiscal.", link: "#limites", cta: "Ver os limites da lei", img: "lupa-pensando" });
-    if (DADOS.camara) { const C = DADOS.camara, comp = C.comparativo.map((c) => ({ ...c, v: c.despesa / c.cadeiras })).sort((a, b) => b.v - a.v), pos = comp.findIndex((c) => /Foz/.test(c.municipio)) + 1; S.push({ tag: "Câmara de Vereadores", num: `${pos}º`, txt: `maior custo por cadeira entre ${comp.length} câmaras do Paraná`, det: `${brl.format(comp[pos - 1].v / C.meses_comparacao)} por cadeira, por mês, em ${C.periodo_comparacao}.`, link: "#camara", cta: "Ver as contas da Câmara", img: "lupa-notebook" }); }
-    if (DADOS.transporte) { const M = DADOS.transporte.mensal, a = M[M.length - 1].mes.slice(0, 4), l = M.filter((m) => m.mes.startsWith(a)); S.push({ tag: "Transporte coletivo", num: reais(l.reduce((s, m) => s + m.aporte_municipio, 0)), txt: `de dinheiro da Prefeitura para manter os ônibus em ${a}`, det: `Isso cobre ${pct(pctN(l.reduce((s, m) => s + m.aporte_municipio, 0), l.reduce((s, m) => s + m.custo_total, 0)))} do custo do sistema.`, link: "#transporte", cta: "Entenda o transporte", img: "lupa-anotando" }); }
+    if (ip.pessoal_rcl_pct) S.push({ tag: "Lei de Responsabilidade Fiscal", num: pct(ip.pessoal_rcl_pct), txt: ip.pessoal_rcl_pct > 54 ? "da receita vai para pessoal, acima do limite de 54%" : "da receita vai para gastos com pessoal", det: "Percentual informado pela Prefeitura no Relatório de Gestão Fiscal.", link: "#limites", cta: "Ver os limites da lei", img: "lupa-pensando", foto: "prefeitura" });
+    if (DADOS.camara) { const C = DADOS.camara, comp = C.comparativo.map((c) => ({ ...c, v: c.despesa / c.cadeiras })).sort((a, b) => b.v - a.v), pos = comp.findIndex((c) => /Foz/.test(c.municipio)) + 1; S.push({ tag: "Câmara de Vereadores", num: `${pos}º`, txt: `maior custo por cadeira entre ${comp.length} câmaras do Paraná`, det: `${brl.format(comp[pos - 1].v / C.meses_comparacao)} por cadeira, por mês, em ${C.periodo_comparacao}.`, link: "#camara", cta: "Ver as contas da Câmara", img: "lupa-notebook", foto: "camara" }); }
+    if (DADOS.transporte) { const M = DADOS.transporte.mensal, a = M[M.length - 1].mes.slice(0, 4), l = M.filter((m) => m.mes.startsWith(a)); S.push({ tag: "Transporte coletivo", num: reais(l.reduce((s, m) => s + m.aporte_municipio, 0)), txt: `de dinheiro da Prefeitura para manter os ônibus em ${a}`, det: `Isso cobre ${pct(pctN(l.reduce((s, m) => s + m.aporte_municipio, 0), l.reduce((s, m) => s + m.custo_total, 0)))} do custo do sistema.`, link: "#transporte", cta: "Entenda o transporte", img: "lupa-anotando", foto: "onibus" }); }
     const he = A.componentes_folha && A.componentes_folha["Horas extras (serviços extraordinários)"];
-    if (he && he.mensal.length > 1 && he.mensal[0] > 0) { const v = (he.mensal[he.mensal.length - 1] / he.mensal[0] - 1) * 100; S.push({ tag: "Horas extras", num: (v >= 0 ? "+" : "") + nf0.format(v) + "%", txt: `no gasto mensal com horas extras de janeiro a ${MESES_LONGO[he.mensal.length - 1]}`, det: `Foram ${reais(he.total)} no período.`, link: "#horas-extras", cta: "Ver horas extras", img: "lupa-pensando" }); }
+    if (he && he.mensal.length > 1 && he.mensal[0] > 0) { const v = (he.mensal[he.mensal.length - 1] / he.mensal[0] - 1) * 100; S.push({ tag: "Horas extras", num: (v >= 0 ? "+" : "") + nf0.format(v) + "%", txt: `no gasto mensal com horas extras de janeiro a ${MESES_LONGO[he.mensal.length - 1]}`, det: `Foram ${reais(he.total)} no período.`, link: "#horas-extras", cta: "Ver horas extras", img: "lupa-pensando", foto: "prefeitura" }); }
     const sl = T() && T().sem_licitacao;
-    if (sl) { const R = sl.resumo, n = (R.Dispensa ? R.Dispensa.qtd : 0) + (R.Inexigibilidade ? R.Inexigibilidade.qtd : 0), tot = Object.values(R).reduce((s, x) => s + x.qtd, 0); S.push({ tag: "Compras sem licitação", num: nf0.format(n), txt: `processos sem licitação em ${anoAtual}`, det: `${pct(pctN(n, tot))} de todos os processos de compra abertos no ano.`, link: "#sem-licitacao", cta: "Ver as contratações", img: "lupa-notebook" }); }
+    if (sl) { const R = sl.resumo, n = (R.Dispensa ? R.Dispensa.qtd : 0) + (R.Inexigibilidade ? R.Inexigibilidade.qtd : 0), tot = Object.values(R).reduce((s, x) => s + x.qtd, 0); S.push({ tag: "Compras sem licitação", num: nf0.format(n), txt: `processos sem licitação em ${anoAtual}`, det: `${pct(pctN(n, tot))} de todos os processos de compra abertos no ano.`, link: "#sem-licitacao", cta: "Ver as contratações", img: "lupa-notebook", foto: "prefeitura" }); }
     const Em = DADOS.emendas;
-    if (Em && Em.lista.length) { const L = Em.lista, v = L.reduce((s, x) => s + x.valor, 0), p = L.reduce((s, x) => s + Math.min(x.pago, x.valor || x.pago), 0), n0 = L.filter((x) => x.situacao === "Nenhum gasto encontrado").length; S.push({ tag: "Emendas dos vereadores", num: `R$ ${nf0.format(p / v * 100)}`, txt: `de cada R$ 100 das emendas impositivas de ${Em.ano_orcamento} já foram pagos`, det: `São ${nf0.format(L.length)} emendas e ${reais(v)}. ${nf0.format(n0)} ainda não tiveram nenhum gasto.`, link: "#emendas", cta: "Acompanhe cada emenda", img: "lupa-prancheta" }); }
+    if (Em && Em.lista.length) { const L = Em.lista, v = L.reduce((s, x) => s + x.valor, 0), p = L.reduce((s, x) => s + Math.min(x.pago, x.valor || x.pago), 0), n0 = L.filter((x) => x.situacao === "Nenhum gasto encontrado").length; S.push({ tag: "Emendas dos vereadores", num: `R$ ${nf0.format(p / v * 100)}`, txt: `de cada R$ 100 das emendas impositivas de ${Em.ano_orcamento} já foram pagos`, det: `São ${nf0.format(L.length)} emendas e ${reais(v)}. ${nf0.format(n0)} ainda não tiveram nenhum gasto.`, link: "#emendas", cta: "Acompanhe cada emenda", foto: "camara", img: "lupa-prancheta" }); }
+    const FO = DADOS.foco_na_obra && DADOS.foco_na_obra.obras;
+    if (FO && FO.length) { const par = FO.filter((o) => o.grupo === "Paralisada").length, and = FO.filter((o) => o.grupo === "Em andamento").length; S.push({ tag: "Obras públicas", num: nf0.format(FO.length), txt: "obras acompanhadas pelo OSB no projeto Foco na Obra", det: `${and} em andamento e ${par} paralisada${par === 1 ? "" : "s"}. Veja no mapa onde ficam e quanto já foi executado.`, link: "#obras", cta: "Ver as obras no mapa", img: "lupa-anotando", foto: "obras" }); }
     return S;
+  }
+
+  // ------------------------------------------------------------ fotos de fundo do slider
+  // Cada foto fica em img/fotos/<chave>.jpg. Se o arquivo não existir, o slide usa a foto "padrao" ou o fundo verde.
+  const FOTOS = {
+    cidade:     { credito: "", pos: "center" },
+    panorama:   { credito: "", pos: "center" },
+    itaipu:     { credito: "", pos: "center" },
+    prefeitura: { credito: "", pos: "center" },
+    camara:     { credito: "", pos: "center" },
+    onibus:     { credito: "", pos: "center" },
+    obras:      { credito: "", pos: "center" },
+    padrao:     { credito: "", pos: "center" },
+  };
+  const fotoOk = {};
+  function carregaFoto(k) {
+    if (!k || !FOTOS[k]) return Promise.resolve(false);
+    if (k in fotoOk) return Promise.resolve(fotoOk[k]);
+    return new Promise((res) => { const im = new Image(); im.onload = () => res(fotoOk[k] = true); im.onerror = () => res(fotoOk[k] = false); im.src = `img/fotos/${k}.jpg`; });
+  }
+  async function aplicaFotos(S) {
+    const camadas = document.querySelectorAll("#sl-fotos .sl-foto");
+    for (let i = 0; i < S.length; i++) {
+      let k = S[i].foto;
+      if (!(await carregaFoto(k))) k = (await carregaFoto("padrao")) ? "padrao" : null;
+      S[i].fotoUsada = k;
+      const c = camadas[i]; if (!c) continue;
+      if (k) { c.style.backgroundImage = `url("img/fotos/${k}.jpg")`; c.style.backgroundPosition = FOTOS[k].pos || "center"; c.classList.add("tem"); }
+    }
+    slCredito();
+  }
+  let slLista = [];
+  function slCredito() {
+    const el = $("#sl-cred"); if (!el) return;
+    const s = slLista[slAtual], k = s && s.fotoUsada, c = k && FOTOS[k].credito;
+    el.textContent = c ? c : ""; el.hidden = !c;
+    $("#slider").classList.toggle("com-foto", !!k);
   }
   function montaSlider() {
     const S = slides();
     $("#slides").innerHTML = S.map((s, i) => `<article class="slide${i === slAtual % S.length ? " ativo" : ""}" role="group" aria-roledescription="destaque" aria-label="${i + 1} de ${S.length}"><div><span class="sl-tag">${esc(s.tag)}</span><div class="sl-num">${esc(s.num)}</div><p class="sl-txt">${esc(s.txt)}</p><p class="sl-det">${esc(s.det)}</p><a class="sl-cta" href="${s.link}">${esc(s.cta)} →</a></div><img src="img/${s.img}.webp" alt=""></article>`).join("");
     $("#sl-dots").innerHTML = S.map((s, i) => `<button type="button" role="tab" aria-label="Destaque ${i + 1}" aria-selected="${i === slAtual % S.length}" data-i="${i}"></button>`).join("");
     slAtual = slAtual % S.length;
+    $("#sl-fotos").innerHTML = S.map((s, i) => `<div class="sl-foto${i === slAtual ? " ativo" : ""}"></div>`).join("");
+    slLista = S; aplicaFotos(S);
   }
   function slIr(i) {
     const els = document.querySelectorAll("#slides .slide"), dots = document.querySelectorAll("#sl-dots button");
@@ -1354,6 +1559,8 @@
     slAtual = (i + els.length) % els.length;
     els.forEach((e, k) => e.classList.toggle("ativo", k === slAtual));
     dots.forEach((d, k) => d.setAttribute("aria-selected", String(k === slAtual)));
+    document.querySelectorAll("#sl-fotos .sl-foto").forEach((e, k) => e.classList.toggle("ativo", k === slAtual));
+    slCredito();
   }
   function slAuto() {
     clearInterval(slTimer);
