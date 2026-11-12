@@ -305,7 +305,8 @@
   };
   const curto = (s, n = 36) => { s = CURTO[s] || s; return s.length > n ? s.slice(0, n - 1) + "…" : s; };
 
-  function sankey(box, notaEl, fonteEl) {
+  function sankey(box, notaEl, fonteEl, opts) {
+    opts = opts || {};
     box = box || $("#sankey"); notaEl = notaEl || $("#caminho-nota"); fonteEl = fonteEl || $("#fonte-caminho");
     const r = A.receitas, d = A.despesas;
     const esq = r.grupos.map((g) => ({ nome: g.grupo, v: g.itens.reduce((s, i) => s + i.valor, 0), cor: "var(--series-1)" }))
@@ -345,17 +346,18 @@
     esq.forEach((x, i) => { const h = x.v * k; links.push({ d: banda(xL + nodeW, x.y, x.h, xC, yc, h), cor: x.cor, no: x, lado: "e", i }); yc += h; });
     yc = yC;
     dir.forEach((x, i) => { const h = x.v * k; links.push({ d: banda(xC + nodeW, yc, h, xR, x.y, x.h), cor: x.cor, no: x, lado: "d", i }); yc += h; });
-    links.forEach((l, j) => { s += `<path class="lk" data-j="${j}" d="${l.d}" fill="${l.cor}" opacity=".26"/>`; });
+    const atr = (lado, x) => opts.marcavel ? ` data-lado="${lado}" data-n="${esc(x.nome)}"` : "";
+    links.forEach((l, j) => { s += `<path class="lk" data-j="${j}" d="${l.d}" fill="${l.cor}" opacity=".26"${atr(l.lado, l.no)}/>`; });
     s += `<rect x="${xC}" y="${yC}" width="${nodeW}" height="${hC}" rx="3" fill="var(--accent)"/>`;
     s += `<text x="${xC + nodeW / 2}" y="${yC - 8}" text-anchor="middle" style="font-weight:800">Cofre do município</text>`;
     s += `<text x="${xC + nodeW / 2}" y="${yC + hC + 18}" text-anchor="middle" class="v" style="fill:var(--ink-3)">${reais(totalEsq)}</text>`;
     esq.forEach((x) => {
-      s += `<rect x="${xL}" y="${x.y}" width="${nodeW}" height="${x.h}" rx="2" fill="${x.cor}"/>`;
-      s += `<text x="${xL - 8}" y="${x.y + x.h / 2 + 4}" text-anchor="end">${esc(curto(x.nome))} <tspan class="v">${reais(x.v)}</tspan></text>`;
+      s += `<rect class="no" x="${xL}" y="${x.y}" width="${nodeW}" height="${x.h}" rx="2" fill="${x.cor}"${atr("e", x)}/>`;
+      s += `<text class="no" x="${xL - 8}" y="${x.y + x.h / 2 + 4}" text-anchor="end"${atr("e", x)}>${esc(curto(x.nome))} <tspan class="v">${reais(x.v)}</tspan></text>`;
     });
     dir.forEach((x) => {
-      s += `<rect x="${xR}" y="${x.y}" width="${nodeW}" height="${x.h}" rx="2" fill="${x.cor}"/>`;
-      s += `<text x="${xR + nodeW + 8}" y="${x.y + x.h / 2 + 4}">${esc(curto(x.nome))} <tspan class="v">${reais(x.v)}</tspan></text>`;
+      s += `<rect class="no" x="${xR}" y="${x.y}" width="${nodeW}" height="${x.h}" rx="2" fill="${x.cor}"${atr("d", x)}/>`;
+      s += `<text class="no" x="${xR + nodeW + 8}" y="${x.y + x.h / 2 + 4}"${atr("d", x)}>${esc(curto(x.nome))} <tspan class="v">${reais(x.v)}</tspan></text>`;
     });
     s += `</svg>`;
     box.innerHTML = s;
@@ -366,6 +368,54 @@
     });
     notaEl.textContent = `Receitas em valores brutos (${reais(T)}), de janeiro a ${MESES_LONGO[A.meses - 1]} de ${anoAtual}. As áreas mostram a despesa ${medidaF}. Áreas com menos de 2,5% do total foram somadas em "Outras áreas".`;
     fonteEl.textContent = d.por_funcao_medida === "pago" ? `Receitas: ${fonteSiconfi().replace("Fonte: ", "")} Despesas: ${fonteTce().replace("Fonte: ", "")}` : fonteSiconfi();
+    return { esq, dir, total: totalEsq };
+  }
+
+  // Visão geral com destaque: receitas e áreas não têm ligação direta entre si (passam pelo cofre),
+  // então o filtro destaca os itens escolhidos sem mudar os totais.
+  function sankeyGeralFiltravel(wrap, notaEl, fonteEl) {
+    const id = "skg" + ++skSeq;
+    wrap.innerHTML = `<div class="sk-filtros" id="${id}-f"></div><p class="sk-resumo" id="${id}-res"></p><div id="${id}-g" class="sankey-box"></div>`;
+    const info = sankey($(`#${id}-g`), notaEl, fonteEl, { marcavel: true });
+    const lados = [["e", "Receitas", info.esq], ["d", "Destino do dinheiro", info.dir]];
+    const sel = { e: null, d: null };
+    $(`#${id}-f`).innerHTML = lados.map(([l, rot, lista]) => `<details class="fsk" data-l="${l}"><summary><span class="fsk-rot">${rot}</span><span class="fsk-val" id="${id}-v${l}"></span></summary>
+      <div class="fsk-painel"><div class="fsk-acoes"><button type="button" class="btn" data-todas="${l}">Marcar todas</button><button type="button" class="btn" data-nenhuma="${l}">Desmarcar todas</button></div>
+      <div class="fsk-lista">${lista.map((x, k) => `<label><input type="checkbox" data-l="${l}" data-k="${k}" checked><span>${esc(x.nome)}</span><small class="num">${reais(x.v)}</small></label>`).join("")}</div></div></details>`).join("") + `<button type="button" class="btn btn-limpar" id="${id}-limpa">Limpar destaque</button>`;
+    const g = $(`#${id}-g`);
+    function aplica() {
+      escondeTip();
+      lados.forEach(([l, , lista]) => {
+        wrap.querySelectorAll(`input[data-l="${l}"]`).forEach((c) => { c.checked = !sel[l] || sel[l].has(lista[Number(c.dataset.k)].nome); });
+        $(`#${id}-v${l}`).textContent = !sel[l] ? `Todas (${lista.length})` : sel[l].size === 1 ? curto([...sel[l]][0], 34) : `${sel[l].size} de ${lista.length}`;
+        wrap.querySelector(`details[data-l="${l}"]`).classList.toggle("ativo", !!sel[l]);
+      });
+      const filtrado = sel.e || sel.d;
+      g.querySelectorAll("[data-lado]").forEach((n) => {
+        const l = n.dataset.lado, on = !filtrado || (sel[l] ? sel[l].has(n.getAttribute("data-n")) : false);
+        n.classList.toggle("apagado", !on);
+        n.classList.toggle("aceso", !!filtrado && on);
+      });
+      $(`#${id}-limpa`).hidden = !filtrado;
+      const soma = (l) => lados.find((x) => x[0] === l)[2].filter((x) => sel[l] && sel[l].has(x.nome)).reduce((s, x) => s + x.v, 0);
+      $(`#${id}-res`).innerHTML = !filtrado ? `Use os filtros ou clique numa receita ou área para destacá-la.` :
+        [sel.e ? `Receitas destacadas: <strong>${brl.format(soma("e"))}</strong> (${pct(soma("e") / info.total * 100)})` : "", sel.d ? `Destinos destacados: <strong>${brl.format(soma("d"))}</strong> (${pct(soma("d") / info.total * 100)})` : ""].filter(Boolean).join(" · ") +
+        `. <span style="color:var(--ink-3)">O dinheiro passa pelo cofre do município, então não dá para ligar uma receita a uma área aqui. Para isso, use o diagrama 2, por fonte do recurso.</span>`;
+    }
+    wrap.querySelectorAll(".fsk-lista input").forEach((c) => c.addEventListener("change", () => {
+      const l = c.dataset.l, lista = lados.find((x) => x[0] === l)[2];
+      const m = new Set([...wrap.querySelectorAll(`input[data-l="${l}"]`)].filter((x) => x.checked).map((x) => lista[Number(x.dataset.k)].nome));
+      sel[l] = m.size === lista.length ? null : m; aplica();
+    }));
+    wrap.querySelectorAll("[data-todas]").forEach((b) => b.addEventListener("click", () => { sel[b.dataset.todas] = null; aplica(); }));
+    wrap.querySelectorAll("[data-nenhuma]").forEach((b) => b.addEventListener("click", () => { sel[b.dataset.nenhuma] = new Set(); aplica(); }));
+    $(`#${id}-limpa`).addEventListener("click", () => { sel.e = sel.d = null; aplica(); });
+    g.classList.add("clicavel");
+    g.querySelectorAll("rect[data-lado], text[data-lado]").forEach((n) => n.addEventListener("click", () => {
+      const l = n.dataset.lado, nome = n.getAttribute("data-n");
+      sel[l] = sel[l] && sel[l].size === 1 && sel[l].has(nome) ? null : new Set([nome]); aplica();
+    }));
+    aplica();
   }
 
   // ------------------------------------------------------------ páginas especiais
@@ -739,7 +789,9 @@
     for (let e = 0; e < nEt; e++) {
       const tot = new Map(); fluxos.forEach((f) => tot.set(f.caminho[e], (tot.get(f.caminho[e]) || 0) + f.v));
       const manter = new Set([...tot.entries()].sort((a, b) => b[1] - a[1]).slice(0, maxNos[e] || 8).map((x) => x[0]));
-      fluxos.forEach((f) => { if (!manter.has(f.caminho[e])) f.caminho[e] = (opts.outros && opts.outros[e]) || "Outros"; });
+      const agrup = new Set();
+      fluxos.forEach((f) => { if (!manter.has(f.caminho[e])) { agrup.add(f.caminho[e]); f.caminho[e] = (opts.outros && opts.outros[e]) || "Outros"; } });
+      if (opts.agrupados) opts.agrupados[e] = [...agrup];
     }
     const etapas = [];
     for (let e = 0; e < nEt; e++) {
@@ -781,10 +833,11 @@
       s += `<path class="lk" data-j="${j}" d="M${l.x0},${l.y0}C${xm},${l.y0} ${xm},${l.y1} ${l.x1},${l.y1}L${l.x1},${l.y1 + l.h}C${xm},${l.y1 + l.h} ${xm},${l.y0 + l.h} ${l.x0},${l.y0 + l.h}Z" fill="${l.o.cor}" opacity=".3"/>`;
     });
     etapas.forEach((lista, e) => lista.forEach((n) => {
-      s += `<rect x="${xs[e]}" y="${n.y}" width="${nodeW}" height="${n.h}" rx="2" fill="${n.cor}"/>`;
+      const at = opts.onNo ? ` data-e="${e}" data-n="${esc(n.nome)}"` : "";
+      s += `<rect class="no" x="${xs[e]}" y="${n.y}" width="${nodeW}" height="${n.h}" rx="2" fill="${n.cor}"${at}/>`;
       const txt = `${esc(curto(n.nome, e === 0 ? 30 : e === nEt - 1 ? 32 : 24))} <tspan class="v">${reais(n.v)}</tspan>`;
-      if (e === 0) s += `<text x="${xs[e] - 8}" y="${n.y + n.h / 2 + 4}" text-anchor="end">${txt}</text>`;
-      else s += `<text x="${xs[e] + nodeW + 8}" y="${n.y + n.h / 2 + 4}"${e < nEt - 1 ? ' class="meio"' : ""}>${txt}</text>`;
+      if (e === 0) s += `<text class="no" x="${xs[e] - 8}" y="${n.y + n.h / 2 + 4}" text-anchor="end"${at}>${txt}</text>`;
+      else s += `<text class="no${e < nEt - 1 ? " meio" : ""}" x="${xs[e] + nodeW + 8}" y="${n.y + n.h / 2 + 4}"${at}>${txt}</text>`;
     }));
     if (opts.titulos) opts.titulos.forEach((t, e) => { s += `<text x="${xs[e] + nodeW / 2}" y="14" text-anchor="middle" style="font-weight:800;fill:var(--ink-3);font-size:11px;text-transform:uppercase;letter-spacing:.06em">${esc(t)}</text>`; });
     s += `</svg>`;
@@ -794,17 +847,78 @@
       const l = links[Number(p.dataset.j)];
       ligaTip(p, `<strong>${esc(l.a.nome)} → ${esc(l.b.nome)}</strong><br>${brl.format(l.v)} · ${pct(l.v / total * 100)} do total` + (nEt > 2 && l.o !== l.a ? `<br><span style="opacity:.85">Origem: ${esc(l.o.nome)}</span>` : ""));
     });
+    if (opts.onNo) {
+      box.classList.add("clicavel");
+      box.querySelectorAll("[data-n]").forEach((n) => {
+        const nome = n.getAttribute("data-n"), e = Number(n.dataset.e), no = idx[e].get(nome);
+        ligaTip(n, `<strong>${esc(nome)}</strong><br>${brl.format(no.v)} · ${pct(no.v / total * 100)} do total<br><span style="opacity:.85">${/^Outr/.test(nome) ? "Clique para abrir os itens agrupados aqui." : "Clique para ver só este item."}</span>`);
+        n.addEventListener("click", () => opts.onNo(e, nome));
+      });
+    }
   }
+
+  // Sankey com filtros por etapa: cada etapa ganha um seletor com caixas de marcar;
+  // clicar num nó do diagrama filtra por ele (ou abre o grupo "Outros").
+  let skSeq = 0;
+  function sankeyFiltravel(box, fluxosTodos, opts) {
+    const id = "sk" + ++skSeq, nEt = fluxosTodos[0].caminho.length, tits = opts.titulos || [];
+    const totalGeral = fluxosTodos.reduce((s, f) => s + f.v, 0);
+    const opcoes = [];
+    for (let e = 0; e < nEt; e++) {
+      const mp = new Map(); fluxosTodos.forEach((f) => mp.set(f.caminho[e], (mp.get(f.caminho[e]) || 0) + f.v));
+      opcoes.push([...mp.entries()].sort((a, b) => b[1] - a[1]));
+    }
+    const sel = opcoes.map(() => null); // null = todas
+    box.innerHTML = `<div class="sk-filtros">${opcoes.map((op, e) => `<details class="fsk" data-e="${e}"><summary><span class="fsk-rot">${esc(tits[e] || "Etapa " + (e + 1))}</span><span class="fsk-val" id="${id}-v${e}"></span></summary>
+        <div class="fsk-painel"><div class="fsk-acoes"><button type="button" class="btn" data-todas="${e}">Marcar todas</button><button type="button" class="btn" data-nenhuma="${e}">Desmarcar todas</button></div>
+        <div class="fsk-lista">${op.map(([n, v], k) => `<label><input type="checkbox" data-e="${e}" data-k="${k}" checked><span>${esc(n)}</span><small class="num">${reais(v)}</small></label>`).join("")}</div></div></details>`).join("")}
+      <button type="button" class="btn btn-limpar" id="${id}-limpa">Limpar filtros</button></div>
+      <p class="sk-resumo" id="${id}-res"></p><div id="${id}-g"></div>`;
+    const q$ = (x) => box.querySelector(x);
+    function sincroniza() {
+      opcoes.forEach((op, e) => {
+        box.querySelectorAll(`input[data-e="${e}"]`).forEach((c) => { c.checked = !sel[e] || sel[e].has(op[Number(c.dataset.k)][0]); });
+        const n = sel[e] ? sel[e].size : op.length;
+        q$(`#${id}-v${e}`).textContent = !sel[e] ? `Todas (${op.length})` : n === 1 ? curto([...sel[e]][0], 34) : `${n} de ${op.length}`;
+        q$(`details[data-e="${e}"]`).classList.toggle("ativo", !!sel[e]);
+      });
+    }
+    function desenha() {
+      escondeTip(); sincroniza();
+      const fl = fluxosTodos.filter((f) => f.caminho.every((c, e) => !sel[e] || sel[e].has(c))).map((f) => ({ caminho: f.caminho.slice(), v: f.v }));
+      const tot = fl.reduce((s, f) => s + f.v, 0), filtrado = sel.some(Boolean);
+      q$(`#${id}-limpa`).hidden = !filtrado;
+      q$(`#${id}-res`).innerHTML = filtrado ? `Mostrando <strong>${brl.format(tot)}</strong> de ${brl.format(totalGeral)} (${pct(tot / totalGeral * 100)} do total).` : `Total: <strong>${brl.format(totalGeral)}</strong>. Use os filtros acima ou clique num item do diagrama para focar nele.`;
+      if (!fl.length) { q$(`#${id}-g`).innerHTML = semDados("Nenhum valor com essa combinação de filtros."); return; }
+      const agrupados = [];
+      sankeyMulti(q$(`#${id}-g`), fl, { ...opts, agrupados, onNo: (e, nome) => {
+        if (/^Outr/.test(nome) && agrupados[e] && agrupados[e].length) sel[e] = new Set(agrupados[e]);
+        else if (sel[e] && sel[e].size === 1 && sel[e].has(nome)) sel[e] = null;
+        else sel[e] = new Set([nome]);
+        desenha();
+      } });
+    }
+    box.querySelectorAll(".fsk-lista input").forEach((c) => c.addEventListener("change", () => {
+      const e = Number(c.dataset.e), op = opcoes[e];
+      const marcados = new Set([...box.querySelectorAll(`input[data-e="${e}"]`)].filter((x) => x.checked).map((x) => op[Number(x.dataset.k)][0]));
+      sel[e] = marcados.size === op.length ? null : marcados;
+      desenha();
+    }));
+    box.querySelectorAll("[data-todas]").forEach((b) => b.addEventListener("click", () => { sel[Number(b.dataset.todas)] = null; desenha(); }));
+    box.querySelectorAll("[data-nenhuma]").forEach((b) => b.addEventListener("click", () => { sel[Number(b.dataset.nenhuma)] = new Set(); desenha(); }));
+    q$(`#${id}-limpa`).addEventListener("click", () => { sel.fill(null); box.querySelectorAll("details.fsk").forEach((d) => d.open = false); desenha(); });
+    desenha();
+  }
+  document.addEventListener("click", (ev) => { document.querySelectorAll("details.fsk[open]").forEach((d) => { if (!d.contains(ev.target)) d.open = false; }); });
   const fluxosDe = (linhasF, cols, filtro) => linhasF.filter((r) => !filtro || filtro(r)).map((r) => ({ caminho: cols.map((c) => r[c]), v: r[4] }));
   const COL = { fonte: 0, funcao: 1, subfuncao: 2, natureza: 3 };
 
   // ============================================================ página: o caminho do dinheiro
   function paginaCaminho(el) {
     el.innerHTML = topoEsp("O caminho do dinheiro", "Cada diagrama segue o dinheiro de uma origem até onde ele foi gasto. A espessura das faixas é proporcional ao valor. Passe o mouse ou toque nas faixas para ver os valores.", "lupa-acenando");
-    el.innerHTML += `<div class="card"><h3>1. Visão geral: de onde vem e para onde vai</h3><p class="intro">Todas as receitas do período à esquerda; as áreas de governo que receberam os pagamentos à direita.</p><div id="cd-geral" class="sankey-box"></div><p class="intro" id="cd-geral-nota" style="font-size:.88rem"></p><p class="fonte" id="cd-geral-fonte"></p></div>`;
-    sankey($("#cd-geral"), $("#cd-geral-nota"), $("#cd-geral-fonte"));
+    el.innerHTML += `<div class="card"><h3>1. Visão geral: de onde vem e para onde vai</h3><p class="intro">Todas as receitas do período à esquerda; as áreas de governo que receberam os pagamentos à direita.</p><div id="cd-geral"></div><p class="intro" id="cd-geral-nota" style="font-size:.88rem"></p><p class="fonte" id="cd-geral-fonte"></p></div>`;
     const t = T();
-    if (!t) { el.innerHTML += semDados(`Os demais diagramas usam os empenhos e pagamentos do Tribunal de Contas, ainda não carregados para ${anoAtual}.`); return; }
+    if (!t) { el.innerHTML += semDados(`Os demais diagramas usam os empenhos e pagamentos do Tribunal de Contas, ainda não carregados para ${anoAtual}.`); sankeyGeralFiltravel($("#cd-geral"), $("#cd-geral-nota"), $("#cd-geral-fonte")); return; }
     const L = t.fluxos.linhas;
     const fonteTxt = `<p class="fonte">${esc(fonteTce())} A fonte de recurso é a que a Prefeitura informou em cada empenho.</p>`;
     const blocos = [
@@ -815,7 +929,8 @@
       ["6. Recursos livres: as escolhas da Prefeitura", "Os recursos livres (e os desvinculados pela DRM) não têm destino obrigatório. Mostram as prioridades da gestão.", "cd-livres", () => fluxosDe(L, [COL.fonte, COL.funcao, COL.natureza], (r) => /livres|desvinculados/i.test(r[0])), { titulos: ["Fonte", "Área", "Tipo de gasto"], maxNos: [2, 9, 7] }],
     ];
     blocos.forEach(([tit, txt, id]) => { el.innerHTML += `<div class="card"><h3>${tit}</h3><p class="intro">${txt}</p><div id="${id}"></div>${fonteTxt}</div>`; });
-    blocos.forEach(([, , id, gera, o]) => { const f = gera(); if (f.length) sankeyMulti($("#" + id), f, o); else $("#" + id).innerHTML = semDados("Sem dados para este diagrama."); });
+    sankeyGeralFiltravel($("#cd-geral"), $("#cd-geral-nota"), $("#cd-geral-fonte"));
+    blocos.forEach(([, , id, gera, o]) => { const f = gera(); if (f.length) sankeyFiltravel($("#" + id), f, o); else $("#" + id).innerHTML = semDados("Sem dados para este diagrama."); });
   }
 
   // ============================================================ página: Câmara
