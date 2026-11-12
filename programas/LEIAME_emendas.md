@@ -42,7 +42,7 @@ Saída: `programas/fontes_osb/emendas/emendas.json`, para a futura página #emen
 python3 programas/emendas.py extrair --saida programas/fontes_osb/emendas         # usa os textos em txt/ se não houver PDFs
 python3 programas/emendas.py cruzar  --saida programas/fontes_osb/emendas --tce PASTA_TCE --ano 2026
 python3 programas/emendas.py painel  --saida programas/fontes_osb/emendas --remessa 2026/08 --dados dados.json
-python3 programas/montar.py --dados dados.json --saida index.html --sem-embutir --validacao
+python3 programas/montar.py --dados dados.json --saida index.html --sem-embutir
 ```
 O `processar.py` também inclui `painel_emendas.json` no `dados.json` toda vez que roda.
 
