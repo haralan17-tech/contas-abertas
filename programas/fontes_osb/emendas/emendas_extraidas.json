@@ -8,13 +8,20 @@
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
-  "dotacoes_destino": [],
-  "valores_destino": [],
-  "dotacoes_origem": [],
+  "dotacoes_destino": [
+   "10.001.10.301.0320.2305.3.3.50.41.1303",
+   "10.001.10.301.0320.2305.4.4.50.42.1303"
+  ],
+  "valores_destino": [
+   null,
+   null
+  ],
+  "dotacoes_origem": [
+   "10.001.10.122.0320.2193.4.4.90.51.1303"
+  ],
   "alertas_extracao": [
-   "PDF sem dotação legível (talvez imagem: precisa OCR)",
-   "sem dotação de destino",
-   "sem valor total"
+   "sem valor total",
+   "lido por OCR: conferir"
   ]
  },
  {
@@ -26,13 +33,18 @@
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
-  "dotacoes_destino": [],
-  "valores_destino": [],
-  "dotacoes_origem": [],
+  "dotacoes_destino": [
+   "10.001.10.301.0320.2305.4.4.50.42.1303"
+  ],
+  "valores_destino": [
+   null
+  ],
+  "dotacoes_origem": [
+   "10.001.10.122.0320.2193.4.4.90.51.1303"
+  ],
   "alertas_extracao": [
-   "PDF sem dotação legível (talvez imagem: precisa OCR)",
-   "sem dotação de destino",
-   "sem valor total"
+   "sem valor total",
+   "lido por OCR: conferir"
   ]
  },
  {
@@ -44,13 +56,20 @@
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
-  "dotacoes_destino": [],
-  "valores_destino": [],
-  "dotacoes_origem": [],
+  "dotacoes_destino": [
+   "10.001.10.301.0320.2305.3.3.50.41.1303",
+   "10.001.10.301.0320.2305.4.4.50.42.1303"
+  ],
+  "valores_destino": [
+   null,
+   null
+  ],
+  "dotacoes_origem": [
+   "10.001.10.122.0320.2193.4.4.90.51.1303"
+  ],
   "alertas_extracao": [
-   "PDF sem dotação legível (talvez imagem: precisa OCR)",
-   "sem dotação de destino",
-   "sem valor total"
+   "sem valor total",
+   "lido por OCR: conferir"
   ]
  },
  {
@@ -62,13 +81,18 @@
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
-  "dotacoes_destino": [],
-  "valores_destino": [],
-  "dotacoes_origem": [],
+  "dotacoes_destino": [
+   "10.001.10.301.0320.2311.4.4.90.52.1303"
+  ],
+  "valores_destino": [
+   null
+  ],
+  "dotacoes_origem": [
+   "10.001.10.122.0320.2193.4.4.90.51.1303"
+  ],
   "alertas_extracao": [
-   "PDF sem dotação legível (talvez imagem: precisa OCR)",
-   "sem dotação de destino",
-   "sem valor total"
+   "sem valor total",
+   "lido por OCR: conferir"
   ]
  },
  {
@@ -80,13 +104,18 @@
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
-  "dotacoes_destino": [],
-  "valores_destino": [],
-  "dotacoes_origem": [],
+  "dotacoes_destino": [
+   "10.001.10.302.0320.2202.4.4.90.52.1303"
+  ],
+  "valores_destino": [
+   null
+  ],
+  "dotacoes_origem": [
+   "10.001.10.122.0320.2193.4.4.90.51.1303"
+  ],
   "alertas_extracao": [
-   "PDF sem dotação legível (talvez imagem: precisa OCR)",
-   "sem dotação de destino",
-   "sem valor total"
+   "sem valor total",
+   "lido por OCR: conferir"
   ]
  },
  {
@@ -98,13 +127,18 @@
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
-  "dotacoes_destino": [],
-  "valores_destino": [],
-  "dotacoes_origem": [],
+  "dotacoes_destino": [
+   "10.001.10.302.0320.2202.4.4.90.52.1303"
+  ],
+  "valores_destino": [
+   null
+  ],
+  "dotacoes_origem": [
+   "10.001.10.122.0320.2193.4.4.90.51.1303"
+  ],
   "alertas_extracao": [
-   "PDF sem dotação legível (talvez imagem: precisa OCR)",
-   "sem dotação de destino",
-   "sem valor total"
+   "sem valor total",
+   "lido por OCR: conferir"
   ]
  },
  {
@@ -116,13 +150,18 @@
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
-  "dotacoes_destino": [],
-  "valores_destino": [],
-  "dotacoes_origem": [],
+  "dotacoes_destino": [
+   "10.001.10.302.0320.2202.4.4.90.52.1303"
+  ],
+  "valores_destino": [
+   null
+  ],
+  "dotacoes_origem": [
+   "10.001.10.122.0320.2193.4.4.90.51.1303"
+  ],
   "alertas_extracao": [
-   "PDF sem dotação legível (talvez imagem: precisa OCR)",
-   "sem dotação de destino",
-   "sem valor total"
+   "sem valor total",
+   "lido por OCR: conferir"
   ]
  },
  {
@@ -134,13 +173,18 @@
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
-  "dotacoes_destino": [],
-  "valores_destino": [],
-  "dotacoes_origem": [],
+  "dotacoes_destino": [
+   "10.001.10.301.0320.2305.4.4.50.42.1303"
+  ],
+  "valores_destino": [
+   null
+  ],
+  "dotacoes_origem": [
+   "10.001.10.122.0320.2193.4.4.90.51.1303"
+  ],
   "alertas_extracao": [
-   "PDF sem dotação legível (talvez imagem: precisa OCR)",
-   "sem dotação de destino",
-   "sem valor total"
+   "sem valor total",
+   "lido por OCR: conferir"
   ]
  },
  {
@@ -152,13 +196,20 @@
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
-  "dotacoes_destino": [],
-  "valores_destino": [],
-  "dotacoes_origem": [],
+  "dotacoes_destino": [
+   "10.001.10.306.0320.6005.3.3.50.41.1303",
+   "10.001.10.306.0320.6005.4.4.50.42.1303"
+  ],
+  "valores_destino": [
+   null,
+   null
+  ],
+  "dotacoes_origem": [
+   "10.001.10.122.0320.2193.4.4.90.51.1303"
+  ],
   "alertas_extracao": [
-   "PDF sem dotação legível (talvez imagem: precisa OCR)",
-   "sem dotação de destino",
-   "sem valor total"
+   "sem valor total",
+   "lido por OCR: conferir"
   ]
  },
  {
@@ -190,13 +241,18 @@
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
-  "dotacoes_destino": [],
-  "valores_destino": [],
-  "dotacoes_origem": [],
+  "dotacoes_destino": [
+   "10.001.10.301.0320.2305.3.3.50.41.1303"
+  ],
+  "valores_destino": [
+   null
+  ],
+  "dotacoes_origem": [
+   "10.001.10.122.0320.2193.4.4.90.51.1303"
+  ],
   "alertas_extracao": [
-   "PDF sem dotação legível (talvez imagem: precisa OCR)",
-   "sem dotação de destino",
-   "sem valor total"
+   "sem valor total",
+   "lido por OCR: conferir"
   ]
  },
  {
@@ -208,13 +264,18 @@
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
-  "dotacoes_destino": [],
-  "valores_destino": [],
-  "dotacoes_origem": [],
+  "dotacoes_destino": [
+   "10.001.10.301.0320.2305.4.4.50.42.1303"
+  ],
+  "valores_destino": [
+   null
+  ],
+  "dotacoes_origem": [
+   "10.001.10.122.0320.2193.4.4.90.51.1303"
+  ],
   "alertas_extracao": [
-   "PDF sem dotação legível (talvez imagem: precisa OCR)",
-   "sem dotação de destino",
-   "sem valor total"
+   "sem valor total",
+   "lido por OCR: conferir"
   ]
  },
  {
@@ -226,13 +287,18 @@
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
-  "dotacoes_destino": [],
-  "valores_destino": [],
-  "dotacoes_origem": [],
+  "dotacoes_destino": [
+   "08.002.08.245.0330.2231.4.4.50.42.1000"
+  ],
+  "valores_destino": [
+   null
+  ],
+  "dotacoes_origem": [
+   "07.001.04.123.0140.2035.3.3.90.39.1000"
+  ],
   "alertas_extracao": [
-   "PDF sem dotação legível (talvez imagem: precisa OCR)",
-   "sem dotação de destino",
-   "sem valor total"
+   "sem valor total",
+   "lido por OCR: conferir"
   ]
  },
  {
@@ -244,13 +310,20 @@
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
-  "dotacoes_destino": [],
-  "valores_destino": [],
-  "dotacoes_origem": [],
+  "dotacoes_destino": [
+   "31.002.13.392.0210.2306.3.3.50.41.1000",
+   "31.002.13.392.0210.2306.4.4.50.42.1000"
+  ],
+  "valores_destino": [
+   null,
+   null
+  ],
+  "dotacoes_origem": [
+   "07.001.04.123.0140.2035.3.3.90.39.1000"
+  ],
   "alertas_extracao": [
-   "PDF sem dotação legível (talvez imagem: precisa OCR)",
-   "sem dotação de destino",
-   "sem valor total"
+   "sem valor total",
+   "lido por OCR: conferir"
   ]
  },
  {
@@ -262,13 +335,18 @@
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
-  "dotacoes_destino": [],
-  "valores_destino": [],
-  "dotacoes_origem": [],
+  "dotacoes_destino": [
+   "12.003.12.365.0310.2300.4.4.50.42.1000"
+  ],
+  "valores_destino": [
+   null
+  ],
+  "dotacoes_origem": [
+   "07.001.04.123.0140.2035.3.3.90.39.1000"
+  ],
   "alertas_extracao": [
-   "PDF sem dotação legível (talvez imagem: precisa OCR)",
-   "sem dotação de destino",
-   "sem valor total"
+   "sem valor total",
+   "lido por OCR: conferir"
   ]
  },
  {
@@ -280,13 +358,18 @@
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
-  "dotacoes_destino": [],
-  "valores_destino": [],
-  "dotacoes_origem": [],
+  "dotacoes_destino": [
+   "12.003.12.365.0310.2300.4.4.50.42.1000"
+  ],
+  "valores_destino": [
+   null
+  ],
+  "dotacoes_origem": [
+   "07.001.04.123.0140.2035.3.3.90.39.1000"
+  ],
   "alertas_extracao": [
-   "PDF sem dotação legível (talvez imagem: precisa OCR)",
-   "sem dotação de destino",
-   "sem valor total"
+   "sem valor total",
+   "lido por OCR: conferir"
   ]
  },
  {
@@ -298,13 +381,20 @@
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
-  "dotacoes_destino": [],
-  "valores_destino": [],
-  "dotacoes_origem": [],
+  "dotacoes_destino": [
+   "12.003.12.365.0310.2300.3.3.50.41.1000",
+   "12.003.12.365.0310.2300.4.4.50.42.1000"
+  ],
+  "valores_destino": [
+   null,
+   null
+  ],
+  "dotacoes_origem": [
+   "07.001.04.123.0140.2035.3.3.90.39.1000"
+  ],
   "alertas_extracao": [
-   "PDF sem dotação legível (talvez imagem: precisa OCR)",
-   "sem dotação de destino",
-   "sem valor total"
+   "sem valor total",
+   "lido por OCR: conferir"
   ]
  },
  {
@@ -316,13 +406,18 @@
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
-  "dotacoes_destino": [],
-  "valores_destino": [],
-  "dotacoes_origem": [],
+  "dotacoes_destino": [
+   "12.003.12.361.0310.2301.4.4.50.42.1000"
+  ],
+  "valores_destino": [
+   null
+  ],
+  "dotacoes_origem": [
+   "07.001.04.123.0140.2035.3.3.90.39.1000"
+  ],
   "alertas_extracao": [
-   "PDF sem dotação legível (talvez imagem: precisa OCR)",
-   "sem dotação de destino",
-   "sem valor total"
+   "sem valor total",
+   "lido por OCR: conferir"
   ]
  },
  {
@@ -334,13 +429,18 @@
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
-  "dotacoes_destino": [],
-  "valores_destino": [],
-  "dotacoes_origem": [],
+  "dotacoes_destino": [
+   "12.003.12.367.0310.2181.4.4.50.42.1000"
+  ],
+  "valores_destino": [
+   null
+  ],
+  "dotacoes_origem": [
+   "07.001.04.123.0140.2035.3.3.90.39.1000"
+  ],
   "alertas_extracao": [
-   "PDF sem dotação legível (talvez imagem: precisa OCR)",
-   "sem dotação de destino",
-   "sem valor total"
+   "sem valor total",
+   "lido por OCR: conferir"
   ]
  },
  {
@@ -352,13 +452,20 @@
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
-  "dotacoes_destino": [],
-  "valores_destino": [],
-  "dotacoes_origem": [],
+  "dotacoes_destino": [
+   "31.002.13.392.0210.2306.3.3.50.41.1000",
+   "31.002.13.392.0210.2306.4.4.50.42.1000"
+  ],
+  "valores_destino": [
+   null,
+   null
+  ],
+  "dotacoes_origem": [
+   "07.001.04.123.0140.2035.3.3.90.39.1000"
+  ],
   "alertas_extracao": [
-   "PDF sem dotação legível (talvez imagem: precisa OCR)",
-   "sem dotação de destino",
-   "sem valor total"
+   "sem valor total",
+   "lido por OCR: conferir"
   ]
  },
  {
@@ -370,13 +477,20 @@
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
-  "dotacoes_destino": [],
-  "valores_destino": [],
-  "dotacoes_origem": [],
+  "dotacoes_destino": [
+   "31.002.13.392.0210.2306.3.3.50.41.1000",
+   "31.002.13.392.0210.2306.4.4.50.42.1000"
+  ],
+  "valores_destino": [
+   null,
+   null
+  ],
+  "dotacoes_origem": [
+   "07.001.04.123.0140.2035.3.3.90.39.1000"
+  ],
   "alertas_extracao": [
-   "PDF sem dotação legível (talvez imagem: precisa OCR)",
-   "sem dotação de destino",
-   "sem valor total"
+   "sem valor total",
+   "lido por OCR: conferir"
   ]
  },
  {
@@ -388,13 +502,18 @@
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
-  "dotacoes_destino": [],
-  "valores_destino": [],
-  "dotacoes_origem": [],
+  "dotacoes_destino": [
+   "09.005.27.812.0300.2166.4.4.50.42.1000"
+  ],
+  "valores_destino": [
+   null
+  ],
+  "dotacoes_origem": [
+   "07.001.04.123.0140.2035.3.3.90.39.1000"
+  ],
   "alertas_extracao": [
-   "PDF sem dotação legível (talvez imagem: precisa OCR)",
-   "sem dotação de destino",
-   "sem valor total"
+   "sem valor total",
+   "lido por OCR: conferir"
   ]
  },
  {
@@ -406,13 +525,18 @@
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
-  "dotacoes_destino": [],
-  "valores_destino": [],
-  "dotacoes_origem": [],
+  "dotacoes_destino": [
+   "09.005.27.812.0300.2166.4.4.50.42.1000"
+  ],
+  "valores_destino": [
+   null
+  ],
+  "dotacoes_origem": [
+   "07.001.04.123.0140.2035.3.3.90.39.1000"
+  ],
   "alertas_extracao": [
-   "PDF sem dotação legível (talvez imagem: precisa OCR)",
-   "sem dotação de destino",
-   "sem valor total"
+   "sem valor total",
+   "lido por OCR: conferir"
   ]
  },
  {
@@ -424,13 +548,18 @@
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
-  "dotacoes_destino": [],
-  "valores_destino": [],
-  "dotacoes_origem": [],
+  "dotacoes_destino": [
+   "09.003.27.812.0300.2307.4.4.90.51.1000"
+  ],
+  "valores_destino": [
+   null
+  ],
+  "dotacoes_origem": [
+   "07.001.04.123.0140.2035.3.3.90.39.1000"
+  ],
   "alertas_extracao": [
-   "PDF sem dotação legível (talvez imagem: precisa OCR)",
-   "sem dotação de destino",
-   "sem valor total"
+   "sem valor total",
+   "lido por OCR: conferir"
   ]
  },
  {
@@ -442,13 +571,18 @@
   "cnpjs": [],
   "impositiva": true,
   "autores": "Soldado Fruet (Vereador)",
-  "dotacoes_destino": [],
-  "valores_destino": [],
-  "dotacoes_origem": [],
+  "dotacoes_destino": [
+   "20.004.11.122.0190.2082.3.3.90.30.1000"
+  ],
+  "valores_destino": [
+   null
+  ],
+  "dotacoes_origem": [
+   "07.001.04.123.0140.2035.3.3.90.39.1000"
+  ],
   "alertas_extracao": [
-   "PDF sem dotação legível (talvez imagem: precisa OCR)",
-   "sem dotação de destino",
-   "sem valor total"
+   "sem valor total",
+   "lido por OCR: conferir"
   ]
  },
  {
@@ -8107,10 +8241,7 @@
   "autores": "Prefeito Municipal",
   "dotacoes_destino": [],
   "valores_destino": [],
-  "dotacoes_origem": [
-   "31.001.13.391.0210.20983390321.001",
-   "31.001.13.391.0210.20983390391.001"
-  ],
+  "dotacoes_origem": [],
   "alertas_extracao": [
    "não é emenda impositiva (Executivo ou modificativa)"
   ]
