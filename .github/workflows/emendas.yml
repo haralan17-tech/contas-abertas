@@ -32,6 +32,6 @@ jobs:
         run: |
           git config user.name "OSB Foz (automático)"
           git config user.email "actions@users.noreply.github.com"
-          git add programas/fontes_osb/emendas/*.json programas/fontes_osb/emendas/*.csv
+          git add programas/fontes_osb/emendas/*.json programas/fontes_osb/emendas/*.csv programas/fontes_osb/emendas/txt
           git diff --cached --quiet || git commit -m "Emendas: atualização automática"
           git push

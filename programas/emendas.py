@@ -111,6 +111,8 @@ def extrair(a):
     brutos = []
     for pdf in sorted((out / "pdf").glob("*.pdf")) + sorted((out / "pdf").glob("*.txt")):
         txt = pdf.read_text(errors="ignore") if pdf.suffix == ".txt" else texto_pdf(pdf)
+        if pdf.suffix == ".pdf":
+            (out / "txt").mkdir(exist_ok=True); (out / "txt" / f"{pdf.stem}.txt").write_text(txt)
         dots, total, cnpjs = ler_emenda(txt)
         m = meta.get(pdf.stem, {})
         brutos.append({"chave": pdf.stem, "numero": m.get("numero", pdf.stem.split("_")[0]),
@@ -124,7 +126,7 @@ def extrair(a):
     for b in brutos:
         dest, orig = [], []
         for d in b["dotacoes"]:
-            papel = "origem" if freq[d["dotacao"]] >= limiar else (d["papel_texto"] or "destino")
+            papel = d["papel_texto"] or ("origem" if freq[d["dotacao"]] >= limiar else "destino")
             (orig if papel == "origem" else dest).append(d)
         alertas = []
         if not b["dotacoes"]: alertas.append("PDF sem dotação legível (talvez imagem: precisa OCR)")
@@ -158,7 +160,7 @@ ALIAS = {  # nomes possíveis das colunas nos arquivos do TCE-PR (PIT) -> nome i
     "programa": ["cdprograma", "cdprogramaloa", "programa"], "projativ": ["cdprojetoatividade", "projetoatividade", "acao"],
     "categoria": ["cdcategoriaeconomica", "categoriaeconomica"], "grupo": ["cdgruponatureza", "gruponatureza"],
     "modalidade": ["cdmodalidade", "modalidade"], "elemento": ["cdelemento", "elemento"],
-    "fonte": ["cdfonte", "fonte", "cdfontepadrao", "cdfontedestinacao", "cdfonterecurso"], "idempenho": ["idempenho"], "nrempenho": ["nrempenho", "numeroempenho"],
+    "fonte": ["cdfontepadrao", "cdfonte", "fonte", "cdfontedestinacao", "cdfonterecurso"], "idempenho": ["idempenho"], "nrempenho": ["nrempenho", "numeroempenho"],
     "anoempenho": ["nranoempenho", "anoempenho"], "credor_doc": ["nrdoccredor", "documentocredor", "cnpjcpfcredor", "nrdocumento"],
     "credor_nome": ["nmcredor", "nomecredor", "credor"], "valor": ["vlempenho", "valorempenho", "vloperacao", "valor"],
     "data": ["dtempenho", "dataempenho"], "historico": ["dshistorico", "historico"],
@@ -202,14 +204,14 @@ def chave_dot(r):
     try:
         p = [int(so_digitos(r[k]) or -1) for k in ("orgao", "unidade", "funcao", "subfuncao", "programa", "projativ",
                                                      "categoria", "grupo", "modalidade", "elemento")]
-        return tuple(p) + (int(so_digitos(r["fonte"])[-4:] or -1),)
+        return tuple(p) + (int(so_digitos(r["fonte"])[-3:] or -1),)
     except KeyError:
         return None
 
 
 def chave_txt(dot):
     m = RE_DOT.fullmatch(dot)
-    return tuple(int(x) for x in m.groups()[:10]) + (int(m.group(11)[-4:]),)
+    return tuple(int(x) for x in m.groups()[:10]) + (int(m.group(11)[-3:]),)
 
 
 def val(x):
