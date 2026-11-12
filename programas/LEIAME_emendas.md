@@ -36,3 +36,18 @@ Saída: `programas/fontes_osb/emendas/emendas.json`, para a futura página #emen
 - Os nomes dos campos do TCE-PR (XML ou CSV) são reconhecidos por apelidos (`ALIAS`). Se mudarem, o programa para e mostra quais colunas encontrou.
 - A partir de 2027, usar também o `cdEmendaParlamentar` do SIM-AM como conferência do tipo.
 - A IN 200/2025 do TCE-PR exige conta bancária específica por emenda e oito grupos de informação no portal antes da execução. A falta disso é achado à parte, verificado no portal da Prefeitura.
+
+## Atualizar o site
+```
+python3 programas/emendas.py extrair --saida programas/fontes_osb/emendas         # usa os textos em txt/ se não houver PDFs
+python3 programas/emendas.py cruzar  --saida programas/fontes_osb/emendas --tce PASTA_TCE --ano 2026
+python3 programas/emendas.py painel  --saida programas/fontes_osb/emendas --remessa 2026/08 --dados dados.json
+python3 programas/montar.py --dados dados.json --saida index.html --sem-embutir --validacao
+```
+O `processar.py` também inclui `painel_emendas.json` no `dados.json` toda vez que roda.
+
+## Como o vínculo é feito (ordem de força)
+1. **Histórico do empenho cita a emenda** ("Emenda de Execução Obrigatória 387/2025"). Cobre a maior parte dos casos, inclusive compras diretas.
+2. **Mesma dotação e CNPJ do beneficiário** (repasses a entidades), desde que o empenho não cite outra emenda.
+3. Empenho que cita várias emendas é dividido na proporção do valor de cada uma; valores anulados (`vlEstornoEmpenho`) são descontados.
+4. Citação com credor diferente do beneficiário de um repasse fica marcada e fora da soma.

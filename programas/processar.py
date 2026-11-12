@@ -576,6 +576,10 @@ def main():
     fno = ler_foco_na_obra(os.path.join(fo, "foco_na_obra.kml"))
     if fno:
         saida["foco_na_obra"] = fno
+    pe = os.path.join(fo, "emendas", "painel_emendas.json")  # gerado por emendas.py painel
+    if os.path.exists(pe):
+        with open(pe, encoding="utf-8") as f:
+            saida["emendas"] = json.load(f)
     saida["osb"] = {"oficios": ler_csv(os.path.join(fo, "oficios.csv")),
                     "licitacoes": ler_csv(os.path.join(fo, "licitacoes_monitoradas.csv"))}
     with open(args.saida, "w", encoding="utf-8") as f:
