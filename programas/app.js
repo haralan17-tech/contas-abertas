@@ -1280,24 +1280,72 @@
 
   function paginaLicitacoesOSB(el) {
     const L = (DADOS.osb && DADOS.osb.licitacoes) || [];
-    el.innerHTML = topoEsp("Licitações monitoradas pelo OSB", "Os voluntários do Observatório acompanham licitações da Prefeitura e da Câmara, analisam editais, apontam problemas e acompanham as sessões. Aqui está o resultado desse trabalho e a economia gerada para a cidade.", "lupa-notebook");
-    const lic = L.map((l) => ({ ...l, est: numBR(l.valor_estimado), con: numBR(l.valor_contratado), eco: numBR(l.economia) || Math.max(0, numBR(l.valor_estimado) - numBR(l.valor_contratado)), dt: dataBR(l.data_sessao) }));
-    const tot = (c) => lic.reduce((s, x) => s + x[c], 0);
+    el.innerHTML = topoEsp("Licitações acompanhadas pelo OSB", "Os voluntários do Observatório acompanham as licitações e as contratações diretas da Prefeitura, da Câmara e dos órgãos municipais publicadas no Portal da Transparência: editais, sessões, resultados e valores. Quando encontram problemas, questionam o edital e acompanham a correção.", "lupa-notebook");
+    if (!L.length || L[0].est === undefined) { el.innerHTML += tilesHtml([["Licitações acompanhadas", "–", ""], ["Valor estimado", "–", ""], ["Valor contratado", "–", ""], ["Economia", "–", ""]]) + aguardando(["Processo", "Órgão", "Objeto", "Modalidade", "Data_sessão", "Valor_estimado", "Valor_contratado", "Economia", "Situação", "Observação", "Link"]); return; }
+    const DISPUTA = /preg[aã]o|concorr/i, DIRETA = /inexig|dispensa/i;
+    const hoje = new Date();
+    const lic = L.map((l) => {
+      const anoP = (l.processo.match(/\/(\d{4})/) || [])[1] || (l.data || "").slice(0, 4);
+      const dt = l.data ? new Date(l.data + "T12:00:00") : null;
+      return { ...l, ano: anoP, dt, dataSuspeita: dt && dt.getFullYear() > hoje.getFullYear(), disputa: DISPUTA.test(l.modalidade), direta: DIRETA.test(l.modalidade), aberta: /andamento|aguardando|nova data|suspensa/i.test(l.situacao) };
+    });
+    const anos = [...new Set(lic.map((l) => l.ano))].sort();
+    const orgaos = [...new Set(lic.map((l) => l.orgao))];
+    const disp = lic.filter((l) => l.disputa && /homolog/i.test(l.situacao) && l.est && l.con != null);
+    const soma = (lst, c) => lst.reduce((s, x) => s + (x[c] || 0), 0);
+    const ecoD = soma(disp, "eco"), estD = soma(disp, "est");
+    const diretas = lic.filter((l) => l.direta), abertas = lic.filter((l) => l.aberta), osb = lic.filter((l) => l.obs);
     el.innerHTML += tilesHtml([
-      ["Licitações monitoradas", nf0.format(lic.length), "Processos acompanhados pelos voluntários."],
-      ["Valor estimado", lic.length ? reais(tot("est")) : "–", "Soma do valor previsto nos editais."],
-      ["Valor contratado", lic.length ? reais(tot("con")) : "–", "Soma do valor final das contratações."],
-      ["Economia gerada", lic.length ? reais(tot("eco")) : "–", lic.length ? `${pct(pctN(tot("eco"), tot("est")))} do valor estimado.` : "Diferença entre o estimado e o contratado."],
+      ["Processos acompanhados", nf0.format(lic.length), `${anos.join(" e ")}, em ${orgaos.length} órgãos municipais.`],
+      ["Contratações sem disputa", pct(pctN(diretas.length, lic.length)), `${nf0.format(diretas.length)} inexigibilidades e dispensas, em que não há concorrência entre empresas.`],
+      ["Economia nas disputas", reais(ecoD), `${pct(pctN(ecoD, estD))} abaixo do valor estimado, em ${nf0.format(disp.length)} pregões e concorrências concluídos.`],
+      ["Em andamento", nf0.format(abertas.length), "Processos ainda abertos, aguardando sessão ou com nova data."],
     ]);
-    if (!lic.length) { el.innerHTML += aguardando(["processo", "orgao", "objeto", "modalidade", "data_sessao", "valor_estimado", "valor_contratado", "economia", "situacao", "observacao", "link"]); return; }
-    el.innerHTML += `<div class="grid-2"><div class="card"><h3>Economia por ano</h3><div class="colunas" id="lm-ano"></div></div><div class="card"><h3>Por situação</h3><div class="barras" id="lm-sit"></div></div></div>
-      <div class="card"><h3>Licitações acompanhadas</h3><div class="tabela-box"><table class="tabela-esp"><thead><tr><th>Processo</th><th>Objeto</th><th>Situação</th><th class="dir">Estimado</th><th class="dir">Contratado</th><th class="dir">Economia</th></tr></thead><tbody>${lic.sort((a, b) => b.eco - a.eco).map((l) => `<tr><td><strong>${l.link ? `<a href="${esc(l.link)}">${esc(l.processo)}</a>` : esc(l.processo)}</strong><span class="doc">${esc(l.orgao)} · ${esc(l.modalidade)} · ${l.dt ? l.dt.toLocaleDateString("pt-BR") : ""}</span></td><td>${esc(l.objeto)}${l.observacao ? `<span class="doc">${esc(l.observacao)}</span>` : ""}</td><td>${esc(l.situacao)}</td><td class="dir num">${brl.format(l.est)}</td><td class="dir num">${brl.format(l.con)}</td><td class="dir num"><strong>${brl.format(l.eco)}</strong></td></tr>`).join("")}</tbody></table></div></div>`;
-    const porAno = new Map(); lic.forEach((l) => { const a = l.dt ? l.dt.getFullYear() : "s/d"; porAno.set(a, (porAno.get(a) || 0) + l.eco); });
-    const anos = [...porAno.keys()].sort();
-    colunas($("#lm-ano"), anos.map((a) => porAno.get(a)), anos.map(String), "var(--good)", fmtCurto);
-    const sit = new Map(); lic.forEach((l) => sit.set(l.situacao || "Não informada", (sit.get(l.situacao || "Não informada") || 0) + 1));
-    barras($("#lm-sit"), [...sit.entries()].map(([nome, valor]) => ({ nome, valor })), "var(--series-1)", null, { porHab: false });
-    $("#lm-sit").querySelectorAll(".valor").forEach((v, i) => { v.textContent = [...sit.values()][i]; });
+    let h = "";
+    h += `<div class="card osb-atua"><h3>Onde o Observatório atuou</h3>${osb.length ? `<p class="intro">Licitações em que a análise dos voluntários levou a questionamentos, correções ou suspensões.</p>` + osb.map((l) => `<div class="osb-item"><img src="img/lupa-anotando.webp" alt=""><div><span class="fo-tag">${esc(l.orgao)} · ${esc(l.modalidade)} ${esc(l.processo)}${l.est ? " · estimado em " + reais(l.est) : ""}</span><strong>${esc(l.objeto.length > 220 ? l.objeto.slice(0, 219) + "…" : l.objeto)}</strong><p>${esc(l.obs)}</p><span class="pill">${esc(l.situacao)}</span>${l.link ? ` <a href="${esc(l.link)}" target="_blank" rel="noopener">Ver no Portal da Transparência ↗</a>` : ""}</div></div>`).join("") : `<p class="intro">Ainda não há atuações registradas na coluna "Observação" da planilha.</p>`}</div>`;
+    h += `<div class="grid-2"><div class="card"><h3>Como a cidade contrata</h3><p class="intro">Número de processos por modalidade. Pregão e concorrência têm disputa entre empresas; inexigibilidade e dispensa são contratações diretas.</p><div class="barras" id="lm-mod"></div></div>
+      <div class="card"><h3>Processos por órgão</h3><p class="intro">Quantos processos cada órgão abriu e quanto deles foi sem disputa.</p><div class="barras" id="lm-org"></div></div></div>`;
+    h += `<div class="card"><h3>Economia nas disputas, ano a ano</h3><p class="intro">Diferença entre o valor estimado no edital e o valor contratado, em pregões e concorrências já homologados. Quanto mais empresas disputam, maior costuma ser o desconto.</p><div class="colunas" id="lm-ano"></div><p class="nota">Em inexigibilidades, credenciamentos e dispensas, o valor estimado costuma ser um teto de gastos, não um preço disputado. Por isso a diferença nesses casos <strong>não</strong> entra na conta da economia.</p></div>`;
+    h += `<div class="card"><h3>Todos os processos</h3><div id="lm-tab"></div>
+      ${lic.some((l) => l.dataSuspeita) ? `<p class="nota">${nf0.format(lic.filter((l) => l.dataSuspeita).length)} processos têm data da sessão depois de ${hoje.getFullYear()} (até ${Math.max(...lic.filter((l) => l.dataSuspeita).map((l) => l.dt.getFullYear()))}), o que pode ser erro de digitação ou a data de encerramento de um credenciamento. Vale conferir na planilha. Nos filtros, o ano usado é o do número do processo.</p>` : ""}
+      <p class="fonte">Fonte: planilha de acompanhamento de licitações do OSB Foz do Iguaçu, com base no Portal da Transparência de Foz do Iguaçu. "Diferença" = valor estimado − valor contratado.</p></div>`;
+    el.innerHTML += h;
+
+    const mods = new Map(); lic.forEach((l) => mods.set(l.modalidade || "Não informada", (mods.get(l.modalidade || "Não informada") || 0) + 1));
+    const corMod = (m) => DISPUTA.test(m) ? "var(--good)" : DIRETA.test(m) ? "var(--series-2)" : "var(--s8)";
+    const lm = [...mods.entries()].sort((a, b) => b[1] - a[1]);
+    barras($("#lm-mod"), lm.map(([nome, valor]) => ({ nome, valor, cor: corMod(nome) })), "", null, { porHab: false });
+    $("#lm-mod").querySelectorAll(".valor").forEach((v, i) => { const m = lm[i][0], lst = lic.filter((l) => (l.modalidade || "Não informada") === m); v.innerHTML = `${nf0.format(lm[i][1])}<small>${soma(lst, "est") ? reais(soma(lst, "est")) + " estimados" : "sem valor"}</small>`; });
+    const lo = orgaos.map((o) => [o, lic.filter((l) => l.orgao === o)]).sort((a, b) => b[1].length - a[1].length);
+    barras($("#lm-org"), lo.map(([nome, lst]) => ({ nome, valor: lst.length })), "var(--series-1)", null, { porHab: false });
+    $("#lm-org").querySelectorAll(".valor").forEach((v, i) => { const lst = lo[i][1], d = lst.filter((l) => l.direta).length; v.innerHTML = `${nf0.format(lst.length)}<small>${pct(pctN(d, lst.length))} sem disputa</small>`; });
+    colunas($("#lm-ano"), anos.map((a) => soma(disp.filter((l) => l.ano === a), "eco")), anos.map((a) => a + (a === String(hoje.getFullYear()) ? " (até agora)" : "")), "var(--good)", fmtCurto);
+
+    const corte = (t, n) => t.length > n ? t.slice(0, n - 1) + "…" : t;
+    const pillSit = (s) => /homolog/i.test(s) ? "ok" : /fracass|desert|anulad|revogad|suspens/i.test(s) ? "ruim" : "alerta";
+    tabelaInterativa($("#lm-tab"), {
+      linhas: lic,
+      busca: { rot: "Buscar por objeto ou número", ph: "Ex.: merenda, limpeza, 34/2026", txt: (l) => l.processo + " " + l.objeto + " " + l.obs },
+      filtros: [
+        { rot: "Órgão", todos: "Todos os órgãos", val: (l) => l.orgao },
+        { rot: "Modalidade", todos: "Todas as modalidades", val: (l) => l.modalidade || "Não informada" },
+        { rot: "Situação", todos: "Todas as situações", val: (l) => l.situacao || "Não informada" },
+        { rot: "Ano", todos: "Todos os anos", val: (l) => l.ano },
+        { rot: "Atuação do OSB", opcoes: [{ rot: "Todos os processos" }, { rot: "Só onde o OSB atuou", fn: (l) => !!l.obs }] },
+      ],
+      colunas: [
+        { rot: "Processo", ord: (l) => l.ano + String(parseInt(l.processo, 10)).padStart(5, "0"), cel: (l) => `<strong>${l.link ? `<a href="${esc(l.link)}" target="_blank" rel="noopener">${esc(l.processo)}</a>` : esc(l.processo)}</strong><span class="doc">${esc(l.orgao)}</span>` },
+        { rot: "Objeto", ord: (l) => l.objeto, cel: (l) => `<span title="${esc(l.objeto)}">${esc(corte(l.objeto, 180))}</span>${l.obs ? `<span class="doc" style="color:var(--accent);font-weight:700">OSB: ${esc(l.obs)}</span>` : ""}` },
+        { rot: "Modalidade e sessão", ord: (l) => l.data || null, cel: (l) => `${esc(l.modalidade)}<span class="doc num">${l.dt ? l.dt.toLocaleDateString("pt-BR") + (l.dataSuspeita ? " (data a conferir)" : "") : "Sem data"}</span>` },
+        { rot: "Situação", ord: (l) => l.situacao, cel: (l) => `<span class="pill ${pillSit(l.situacao)}">${esc(l.situacao || "–")}</span>` },
+        { rot: "Estimado", dir: true, ord: (l) => l.est, cel: (l) => l.est != null ? brl.format(l.est) : "–" },
+        { rot: "Contratado", dir: true, ord: (l) => l.con, cel: (l) => l.con != null ? brl.format(l.con) : "–" },
+        { rot: "Diferença", dir: true, ord: (l) => l.eco, cel: (l) => l.eco ? `<strong${l.disputa ? ' style="color:var(--good)"' : ""}>${brl.format(l.eco)}</strong>${l.disputa ? "" : '<span class="doc">teto, não economia</span>'}` : "–" },
+      ],
+      ordem: { col: 0, desc: true },
+      resumo: (r) => { const d = r.filter((l) => l.disputa && /homolog/i.test(l.situacao)); return `${nf0.format(r.length)} processos. Estimado: ${reais(soma(r, "est"))}. Contratado: ${reais(soma(r, "con"))}. Economia em pregões e concorrências homologados: ${reais(soma(d, "eco"))}.`; },
+      vazio: "Nenhum processo encontrado com esses filtros.",
+    });
   }
 
   function paginaOficios(el) {
@@ -1597,7 +1645,7 @@
   });
   const TITULOS = { "caminho-do-dinheiro": "O caminho do dinheiro", camara: "Temas · Câmara de Vereadores", transporte: "Temas · Transporte coletivo", alugueis: "Temas · Aluguéis de imóveis",
     obras: "Temas · Obras", "sem-licitacao": "Temas · Contratações sem licitação", diarias: "Temas · Diárias e passagens", gratificacoes: "Temas · Gratificações",
-    "horas-extras": "Temas · Horas extras", remuneracao: "Temas · Remuneração dos servidores", "licitacoes-monitoradas": "Atuação do OSB · Licitações monitoradas", oficios: "Atuação do OSB · Ofícios enviados",
+    "horas-extras": "Temas · Horas extras", remuneracao: "Temas · Remuneração dos servidores", "licitacoes-monitoradas": "Atuação do OSB · Licitações acompanhadas", oficios: "Atuação do OSB · Ofícios enviados",
     emendas: "Temas · Emendas impositivas" };
 
   // ============================================================ slider de destaques

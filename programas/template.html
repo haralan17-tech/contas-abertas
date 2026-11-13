@@ -267,6 +267,12 @@ footer .lema { font-weight: 700; color: var(--accent); }
 nav.secoes li.sep { width: 1px; background: var(--line); margin: 10px 6px; flex: none; }
 nav.secoes a.esp { color: var(--accent); }
 nav.secoes a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--lime); }
+.osb-atua .osb-item { display: flex; gap: 16px; align-items: flex-start; padding: 16px; margin-top: 12px; border-radius: 12px; background: var(--accent-soft); border-left: 6px solid var(--accent); }
+.osb-atua .osb-item img { width: 64px; flex: none; }
+.osb-atua .osb-item strong { display: block; margin: 4px 0 6px; line-height: 1.35; }
+.osb-atua .osb-item p { margin: 0 0 8px; }
+.osb-atua .fo-tag { font-size: .74rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--accent); }
+@media (max-width: 640px) { .osb-atua .osb-item img { width: 44px; } }
 .sk-filtros { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; margin: 4px 0 8px; }
 .fsk { position: relative; }
 .fsk summary { list-style: none; cursor: pointer; display: flex; flex-direction: column; gap: 1px; min-width: 190px; padding: 8px 34px 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); position: relative; }
@@ -512,7 +518,7 @@ td a { font-size: .82rem; font-weight: 700; }
           </ul></li>
         <li class="tem-sub"><button type="button" aria-expanded="false">Atuação do OSB</button>
           <ul class="sub">
-            <li><a href="#licitacoes-monitoradas">Licitações monitoradas</a></li>
+            <li><a href="#licitacoes-monitoradas">Licitações acompanhadas</a></li>
             <li><a href="#oficios">Ofícios enviados</a></li>
           </ul></li>
         <li class="tem-sub"><button type="button" aria-expanded="false">Sobre</button>
@@ -692,7 +698,7 @@ td a { font-size: .82rem; font-weight: 700; }
       <a class="card-esp" href="#gratificacoes"><img src="img/lupa-prancheta.webp" alt=""><strong>Gratificações</strong><span>Valores pagos além do salário-base.</span></a>
       <a class="card-esp" href="#horas-extras"><img src="img/lupa-pensando.webp" alt=""><strong>Horas extras</strong><span>Serviço extraordinário, mês a mês.</span></a>
       <a class="card-esp" href="#remuneracao"><img src="img/lupa-notebook.webp" alt=""><strong>Remuneração</strong><span>Salários por cargo, vínculo e lotação.</span></a>
-      <a class="card-esp" href="#licitacoes-monitoradas"><img src="img/lupa-notebook.webp" alt=""><strong>Licitações monitoradas</strong><span>O trabalho do OSB e a economia gerada.</span></a>
+      <a class="card-esp" href="#licitacoes-monitoradas"><img src="img/lupa-notebook.webp" alt=""><strong>Licitações acompanhadas</strong><span>As licitações dos órgãos municipais, a economia nas disputas e a atuação do OSB.</span></a>
       <a class="card-esp" href="#oficios"><img src="img/lupa-anotando.webp" alt=""><strong>Ofícios do OSB</strong><span>Pedidos de informação e tempo de resposta.</span></a>
     </div>
   </section>
