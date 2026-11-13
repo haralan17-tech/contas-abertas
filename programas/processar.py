@@ -488,7 +488,7 @@ def main():
     ap.add_argument("--tce", required=True)
     ap.add_argument("--saida", default="dados.json")
     ap.add_argument("--fontes-osb", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "fontes_osb"),
-                    help="pasta com camara.json, transporte.json, oficios.csv e licitacoes_monitoradas.csv")
+                    help="pasta com camara.json, transporte.json, oficios.csv e licitacoes_monitoradas.xlsx (ou .csv)")
     ap.add_argument("--servidores", help="planilha Servidores (.xls/.xlsx) do Portal da Transparência")
     ap.add_argument("--indicadores", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "indicadores_manuais.json"),
                     help="percentuais de saúde e educação copiados do SIOPS/SIOPE")
@@ -572,7 +572,7 @@ def main():
         if os.path.exists(c):
             with open(c, encoding="utf-8") as f:
                 saida[nome] = json.load(f)
-    from temas import ler_foco_na_obra
+    from temas import ler_foco_na_obra, ler_licitacoes
     fno = ler_foco_na_obra(os.path.join(fo, "foco_na_obra.kml"))
     if fno:
         saida["foco_na_obra"] = fno
@@ -581,7 +581,7 @@ def main():
         with open(pe, encoding="utf-8") as f:
             saida["emendas"] = json.load(f)
     saida["osb"] = {"oficios": ler_csv(os.path.join(fo, "oficios.csv")),
-                    "licitacoes": ler_csv(os.path.join(fo, "licitacoes_monitoradas.csv"))}
+                    "licitacoes": ler_licitacoes(fo)}
     with open(args.saida, "w", encoding="utf-8") as f:
         json.dump(saida, f, ensure_ascii=False, separators=(",", ":"))
     for a in avisos:

@@ -254,6 +254,60 @@ def ler_csv(caminho):
         return [{k.strip(): (v or "").strip() for k, v in r.items()} for r in csv.DictReader(f, delimiter=";")]
 
 
+# ------------------------------------------------------------------ licitações acompanhadas pelo OSB
+# Lê a planilha "Acompanhamento de Licitações" (xlsx, 1ª aba) ou, se não houver, o CSV antigo (;).
+# Colunas: Processo, Órgão, Objeto, Modalidade, Data_sessão, Valor_estimado, Valor_contratado, Economia, Situação, Observação, Link
+def _num(v):
+    if v is None or v == "":
+        return None
+    if isinstance(v, (int, float)):
+        return round(float(v), 2)
+    s = str(v).strip().replace("R$", "").replace(" ", "")
+    if "," in s:
+        s = s.replace(".", "").replace(",", ".")
+    try:
+        return round(float(s), 2)
+    except ValueError:
+        return None
+
+
+def _data(v):
+    import datetime as _dt
+    if isinstance(v, (_dt.datetime, _dt.date)):
+        return v.strftime("%Y-%m-%d")
+    m = re.match(r"(\d{1,2})/(\d{1,2})/(\d{4})", str(v or ""))
+    if m:
+        return f"{m.group(3)}-{int(m.group(2)):02d}-{int(m.group(1)):02d}"
+    m = re.match(r"\d{4}-\d{2}-\d{2}", str(v or ""))
+    return m.group(0) if m else ""
+
+
+def ler_licitacoes(pasta):
+    xl = sorted(f for f in os.listdir(pasta) if f.lower().startswith("licitacoes_monitoradas") and f.lower().endswith(".xlsx")) if os.path.isdir(pasta) else []
+    if xl:
+        import openpyxl
+        ws = openpyxl.load_workbook(os.path.join(pasta, xl[-1]), read_only=True, data_only=True).worksheets[0]
+        it = ws.iter_rows(values_only=True)
+        cab = [str(c or "").strip() for c in next(it)]
+        brutas = [dict(zip(cab, r)) for r in it]
+    else:
+        brutas = ler_csv(os.path.join(pasta, "licitacoes_monitoradas.csv"))
+    norm = lambda k: re.sub(r"[^a-z]", "", k.lower().translate(str.maketrans("áàâãéêíóôõúç", "aaaaeeiooouc")))
+    saida = []
+    for r in brutas:
+        r = {norm(k): v for k, v in r.items()}
+        if not str(r.get("processo") or "").strip():
+            continue
+        est, con, eco = _num(r.get("valorestimado")), _num(r.get("valorcontratado")), _num(r.get("economia"))
+        if eco is None and est is not None and con is not None:
+            eco = round(est - con, 2)
+        txt = lambda k: re.sub(r"\s+", " ", str(r.get(k) or "")).replace("\u200b", "").strip()
+        saida.append({"processo": txt("processo"), "orgao": txt("orgao"), "objeto": txt("objeto"), "modalidade": txt("modalidade"),
+                      "data": _data(r.get("datasessao")), "est": est, "con": con, "eco": eco, "situacao": txt("situacao"),
+                      "obs": txt("observacao"), "link": txt("link")})
+    return saida
+
+
 # ------------------------------------------------------------------ mapa Foco na Obra (KML exportado do Google My Maps)
 def ler_foco_na_obra(caminho):
     if not caminho or not os.path.exists(caminho):
