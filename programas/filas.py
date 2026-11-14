@@ -5,8 +5,11 @@ e acrescenta uma "carga" ao histórico. Mesma regra de agrupamento da coleta do 
 (Dropbox: /Observatório Social/GT Saúde/Filas na Saúde), para as séries serem comparáveis.
 
 Uso:
-  python programas/filas.py coletar   # baixa a carga atual e acrescenta ao histórico (se for nova)
-  python programas/filas.py json      # gera filas.json (lido pelo site) a partir do histórico
+  python programas/filas.py dropbox URL  # junta ao histórico o historico_*.csv da pasta do OSB no Dropbox
+                                         # (URL = link público da pasta "historico" ou do arquivo)
+  python programas/filas.py coletar      # coleta direto do painel (só funciona a partir de rede no Brasil;
+                                         # os servidores do GitHub não conseguem acessar o painel)
+  python programas/filas.py json         # gera filas.json (lido pelo site) a partir do histórico
 """
 import csv, io, json, os, re, sys, unicodedata, datetime, urllib.request, urllib.parse
 
@@ -116,6 +119,47 @@ def coletar():
     return True
 
 
+def ler_csv_texto(txt):
+    rows = list(csv.DictReader(io.StringIO(txt)))
+    if not rows or set(CAMPOS) - set(rows[0].keys()):
+        raise SystemExit("arquivo do Dropbox sem as colunas esperadas: " + ",".join(CAMPOS))
+    return rows
+
+
+def importar_dropbox(url):
+    """Baixa o histórico mantido pela coleta diária do OSB (Dropbox) e junta ao histórico do site.
+    Cargas já existentes são substituídas pela versão do Dropbox; nenhuma carga é apagada."""
+    import zipfile
+    pr = urllib.parse.urlsplit(url)
+    q = dict(urllib.parse.parse_qsl(pr.query)); q["dl"] = "1"
+    url = urllib.parse.urlunsplit(pr._replace(query=urllib.parse.urlencode(q)))
+    req = urllib.request.Request(url, headers={"User-Agent": UA["User-Agent"]})
+    with urllib.request.urlopen(req, timeout=120) as r:
+        bruto = r.read()
+    if bruto[:2] == b"PK":
+        z = zipfile.ZipFile(io.BytesIO(bruto))
+        nomes = sorted(n for n in z.namelist() if re.search(r"historico_.*\.csv$", n))
+        if not nomes:
+            raise SystemExit("a pasta do Dropbox não tem historico_*.csv")
+        txt = z.read(nomes[-1]).decode("utf-8-sig")
+        print("Dropbox:", nomes[-1])
+    else:
+        txt = bruto.decode("utf-8-sig")
+    novas = ler_csv_texto(txt)
+    antigas = []
+    if os.path.exists(HIST):
+        with open(HIST, encoding="utf-8") as f:
+            antigas = list(csv.DictReader(f))
+    cargas_novas = {r["carga"] for r in novas}
+    junto = [r for r in antigas if r["carga"] not in cargas_novas] + novas
+    junto.sort(key=lambda r: (r["carga"], r["grupo"] != "TOTAL", r["grupo"], r["tipo"]))
+    os.makedirs(os.path.dirname(HIST), exist_ok=True)
+    with open(HIST, "w", encoding="utf-8", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=CAMPOS, lineterminator="\n", extrasaction="ignore")
+        w.writeheader(); w.writerows(junto)
+    print(f"histórico: {len({r['carga'] for r in antigas})} → {len({r['carga'] for r in junto})} cargas")
+
+
 def gerar_json():
     with open(HIST, encoding="utf-8") as f:
         rows = list(csv.DictReader(f))
@@ -144,7 +188,9 @@ def gerar_json():
 
 if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else ""
-    if cmd == "coletar":
+    if cmd == "dropbox" and len(sys.argv) > 2:
+        importar_dropbox(sys.argv[2])
+    elif cmd == "coletar":
         coletar()
     elif cmd == "json":
         gerar_json()

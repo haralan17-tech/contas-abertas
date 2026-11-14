@@ -273,6 +273,52 @@ nav.secoes a[aria-current="page"] { color: var(--ink); border-bottom-color: var(
 .osb-atua .osb-item p { margin: 0 0 8px; }
 .osb-atua .fo-tag { font-size: .74rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--accent); }
 @media (max-width: 640px) { .osb-atua .osb-item img { width: 44px; } }
+/* ---------- Filas na Saúde */
+:root { --f1: #f2b632; --f2: #e8772e; --f3: #c4302b; }
+@media (prefers-color-scheme: dark) { :root { --f1: #d9a22a; --f2: #e0752f; --f3: #e0524c; } }
+.fl-hero { display: grid; grid-template-columns: 1.3fr 1fr; gap: 18px; margin: 8px 0 22px; }
+.fl-hero > div { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 22px 24px; }
+.fl-hero-num { background: #436617 !important; color: #fff; border: 0 !important; }
+.fl-hero-num .fl-rot { color: #d8f5b0; }
+.fl-hero strong.num { display: block; font-family: var(--font-display); font-weight: 900; font-size: clamp(2.6rem, 7vw, 4.4rem); line-height: 1.05; margin: 6px 0; }
+.fl-hero-lado strong.num { font-size: clamp(2rem, 5vw, 3rem); color: var(--ink); }
+.fl-hero p { margin: 10px 0 0; font-size: 1rem; line-height: 1.45; }
+.fl-data { grid-column: 1 / -1; margin: 0 !important; font-size: .85rem !important; color: var(--ink-3); }
+.fl-rot { font-size: .8rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); }
+.fl-sub { font-size: .85rem; color: var(--ink-3); }
+.fl-var { display: inline-block; font-size: .85rem; font-weight: 700; padding: 2px 10px; border-radius: 99px; background: rgba(255,255,255,.16); }
+.fl-hero-lado .fl-var.sobe, .fl-var.sobe { color: var(--f3); } .fl-hero-num .fl-var { color: #fff; }
+.fl-var.desce { color: var(--good); }
+.fl-sec { margin: 6px 0 12px; font-size: 1.25rem; }
+.fl-tipos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.fl-tipo { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 2px; }
+.fl-tipo .fl-ico { font-size: 2rem; line-height: 1; margin-bottom: 6px; }
+.fl-tipo strong.num { font-family: var(--font-display); font-weight: 900; font-size: 2.3rem; line-height: 1.1; }
+.fl-tipo p { margin: 8px 0 0; line-height: 1.4; }
+.fl-tipo .fl-barra { margin-top: 14px; }
+.fl-barra { display: flex; height: 12px; border-radius: 99px; overflow: hidden; background: var(--line); min-width: 90px; }
+.fl-barra.alta { height: 30px; border-radius: 8px; }
+.fl-barra span { display: flex; align-items: center; justify-content: center; color: #fff; font-size: .78rem; font-weight: 800; }
+.fl-leg { margin: 10px 0 22px; }
+.fl-dez .fl-bonecos { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0 14px; }
+.fl-boneco { width: 44px; height: 88px; }
+.fl-dez-txt p { margin: 6px 0; font-size: 1.05rem; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.fl-pt { width: 14px; height: 14px; border-radius: 4px; display: inline-block; flex: none; align-self: center; }
+.fl-h4 { margin: 14px 0 2px; font-size: 1.02rem; }
+.fl-rank { list-style: none; padding: 0; margin: 10px 0 0; counter-reset: rk; display: grid; gap: 8px; }
+.fl-rank li { display: grid; grid-template-columns: 1.6rem minmax(0, 1.3fr) minmax(60px, 1fr) auto; gap: 8px; align-items: center; counter-increment: rk; font-size: .92rem; }
+.fl-rank li::before { content: counter(rk) "º"; color: var(--ink-3); font-size: .8rem; font-weight: 700; }
+.fl-rk-nome { line-height: 1.25; }
+.fl-rk-barra { height: 14px; background: var(--line); border-radius: 4px; overflow: hidden; }
+.fl-rk-barra i { display: block; height: 100%; border-radius: 4px; }
+.fl-rk-val { font-weight: 800; white-space: nowrap; font-size: .9rem; }
+.fl-espera-serie { display: flex; gap: 16px; align-items: center; }
+.fl-espera-serie img { width: 70px; }
+.fl-espera-serie p { margin: 0; font-size: 1rem; }
+.fl-entenda p { line-height: 1.5; }
+.fl-pill { display: inline-flex; align-items: center; gap: 6px; font-weight: 800; white-space: nowrap; }
+.fl-pill::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--c); flex: none; }
+@media (max-width: 760px) { .fl-hero, .fl-tipos { grid-template-columns: 1fr; } .fl-boneco { width: 26px; height: 52px; } .fl-rank li { grid-template-columns: 1.4rem minmax(0, 1fr) auto; } .fl-rk-barra { grid-column: 2 / -1; grid-row: 2; } }
 .sk-filtros { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; margin: 4px 0 8px; }
 .fsk { position: relative; }
 .fsk summary { list-style: none; cursor: pointer; display: flex; flex-direction: column; gap: 1px; min-width: 190px; padding: 8px 34px 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); position: relative; }
@@ -503,6 +549,11 @@ td a { font-size: .82rem; font-weight: 700; }
             <li><a href="#limites">Limites da lei</a></li>
           </ul></li>
         <li><a class="topo-link" href="#caminho-do-dinheiro">O caminho do dinheiro</a></li>
+        <li class="tem-sub"><button type="button" aria-expanded="false">Saúde</button>
+          <ul class="sub">
+            <li><a href="#saude-filas">Filas na Saúde</a></li>
+            <li><a href="#limites">Gasto mínimo com saúde</a></li>
+          </ul></li>
         <li class="tem-sub"><button type="button" aria-expanded="false">Temas</button>
           <ul class="sub">
             <li><a href="#camara">Câmara de Vereadores</a></li>
@@ -693,6 +744,7 @@ td a { font-size: .82rem; font-weight: 700; }
       <a class="card-esp" href="#obras"><img src="img/lupa-notebook.webp" alt=""><strong>Obras</strong><span>Obras em andamento, prazos e pagamentos às construtoras.</span></a>
       <a class="card-esp" href="#alugueis"><img src="img/lupa-prancheta.webp" alt=""><strong>Aluguéis de imóveis</strong><span>Prédios alugados pela Prefeitura e quem recebe.</span></a>
       <a class="card-esp" href="#sem-licitacao"><img src="img/lupa-pensando.webp" alt=""><strong>Sem licitação</strong><span>Dispensas e inexigibilidades: o que foi comprado e de quem.</span></a>
+      <a class="card-esp" href="#saude-filas"><img src="img/lupa-pensando.webp" alt=""><strong>Filas na Saúde</strong><span>Quantas pessoas esperam consulta, exame ou cirurgia, e há quanto tempo. Atualizado todo dia.</span></a>
       <a class="card-esp" href="#emendas"><img src="img/lupa-prancheta.webp" alt=""><strong>Emendas impositivas</strong><span>O que os vereadores indicaram e o que a Prefeitura já pagou.</span></a>
       <a class="card-esp" href="#diarias"><img src="img/lupa-anotando.webp" alt=""><strong>Diárias e passagens</strong><span>Quem viajou, para onde, por quê e quanto custou.</span></a>
       <a class="card-esp" href="#gratificacoes"><img src="img/lupa-prancheta.webp" alt=""><strong>Gratificações</strong><span>Valores pagos além do salário-base.</span></a>

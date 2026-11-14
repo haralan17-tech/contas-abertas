@@ -273,6 +273,52 @@ nav.secoes a[aria-current="page"] { color: var(--ink); border-bottom-color: var(
 .osb-atua .osb-item p { margin: 0 0 8px; }
 .osb-atua .fo-tag { font-size: .74rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--accent); }
 @media (max-width: 640px) { .osb-atua .osb-item img { width: 44px; } }
+/* ---------- Filas na Saúde */
+:root { --f1: #f2b632; --f2: #e8772e; --f3: #c4302b; }
+@media (prefers-color-scheme: dark) { :root { --f1: #d9a22a; --f2: #e0752f; --f3: #e0524c; } }
+.fl-hero { display: grid; grid-template-columns: 1.3fr 1fr; gap: 18px; margin: 8px 0 22px; }
+.fl-hero > div { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 22px 24px; }
+.fl-hero-num { background: #436617 !important; color: #fff; border: 0 !important; }
+.fl-hero-num .fl-rot { color: #d8f5b0; }
+.fl-hero strong.num { display: block; font-family: var(--font-display); font-weight: 900; font-size: clamp(2.6rem, 7vw, 4.4rem); line-height: 1.05; margin: 6px 0; }
+.fl-hero-lado strong.num { font-size: clamp(2rem, 5vw, 3rem); color: var(--ink); }
+.fl-hero p { margin: 10px 0 0; font-size: 1rem; line-height: 1.45; }
+.fl-data { grid-column: 1 / -1; margin: 0 !important; font-size: .85rem !important; color: var(--ink-3); }
+.fl-rot { font-size: .8rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-3); }
+.fl-sub { font-size: .85rem; color: var(--ink-3); }
+.fl-var { display: inline-block; font-size: .85rem; font-weight: 700; padding: 2px 10px; border-radius: 99px; background: rgba(255,255,255,.16); }
+.fl-hero-lado .fl-var.sobe, .fl-var.sobe { color: var(--f3); } .fl-hero-num .fl-var { color: #fff; }
+.fl-var.desce { color: var(--good); }
+.fl-sec { margin: 6px 0 12px; font-size: 1.25rem; }
+.fl-tipos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.fl-tipo { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 2px; }
+.fl-tipo .fl-ico { font-size: 2rem; line-height: 1; margin-bottom: 6px; }
+.fl-tipo strong.num { font-family: var(--font-display); font-weight: 900; font-size: 2.3rem; line-height: 1.1; }
+.fl-tipo p { margin: 8px 0 0; line-height: 1.4; }
+.fl-tipo .fl-barra { margin-top: 14px; }
+.fl-barra { display: flex; height: 12px; border-radius: 99px; overflow: hidden; background: var(--line); min-width: 90px; }
+.fl-barra.alta { height: 30px; border-radius: 8px; }
+.fl-barra span { display: flex; align-items: center; justify-content: center; color: #fff; font-size: .78rem; font-weight: 800; }
+.fl-leg { margin: 10px 0 22px; }
+.fl-dez .fl-bonecos { display: flex; gap: 6px; flex-wrap: wrap; margin: 6px 0 14px; }
+.fl-boneco { width: 44px; height: 88px; }
+.fl-dez-txt p { margin: 6px 0; font-size: 1.05rem; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.fl-pt { width: 14px; height: 14px; border-radius: 4px; display: inline-block; flex: none; align-self: center; }
+.fl-h4 { margin: 14px 0 2px; font-size: 1.02rem; }
+.fl-rank { list-style: none; padding: 0; margin: 10px 0 0; counter-reset: rk; display: grid; gap: 8px; }
+.fl-rank li { display: grid; grid-template-columns: 1.6rem minmax(0, 1.3fr) minmax(60px, 1fr) auto; gap: 8px; align-items: center; counter-increment: rk; font-size: .92rem; }
+.fl-rank li::before { content: counter(rk) "º"; color: var(--ink-3); font-size: .8rem; font-weight: 700; }
+.fl-rk-nome { line-height: 1.25; }
+.fl-rk-barra { height: 14px; background: var(--line); border-radius: 4px; overflow: hidden; }
+.fl-rk-barra i { display: block; height: 100%; border-radius: 4px; }
+.fl-rk-val { font-weight: 800; white-space: nowrap; font-size: .9rem; }
+.fl-espera-serie { display: flex; gap: 16px; align-items: center; }
+.fl-espera-serie img { width: 70px; }
+.fl-espera-serie p { margin: 0; font-size: 1rem; }
+.fl-entenda p { line-height: 1.5; }
+.fl-pill { display: inline-flex; align-items: center; gap: 6px; font-weight: 800; white-space: nowrap; }
+.fl-pill::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--c); flex: none; }
+@media (max-width: 760px) { .fl-hero, .fl-tipos { grid-template-columns: 1fr; } .fl-boneco { width: 26px; height: 52px; } .fl-rank li { grid-template-columns: 1.4rem minmax(0, 1fr) auto; } .fl-rk-barra { grid-column: 2 / -1; grid-row: 2; } }
 .sk-filtros { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; margin: 4px 0 8px; }
 .fsk { position: relative; }
 .fsk summary { list-style: none; cursor: pointer; display: flex; flex-direction: column; gap: 1px; min-width: 190px; padding: 8px 34px 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); position: relative; }
@@ -503,6 +549,11 @@ td a { font-size: .82rem; font-weight: 700; }
             <li><a href="#limites">Limites da lei</a></li>
           </ul></li>
         <li><a class="topo-link" href="#caminho-do-dinheiro">O caminho do dinheiro</a></li>
+        <li class="tem-sub"><button type="button" aria-expanded="false">Saúde</button>
+          <ul class="sub">
+            <li><a href="#saude-filas">Filas na Saúde</a></li>
+            <li><a href="#limites">Gasto mínimo com saúde</a></li>
+          </ul></li>
         <li class="tem-sub"><button type="button" aria-expanded="false">Temas</button>
           <ul class="sub">
             <li><a href="#camara">Câmara de Vereadores</a></li>
@@ -693,6 +744,7 @@ td a { font-size: .82rem; font-weight: 700; }
       <a class="card-esp" href="#obras"><img src="img/lupa-notebook.webp" alt=""><strong>Obras</strong><span>Obras em andamento, prazos e pagamentos às construtoras.</span></a>
       <a class="card-esp" href="#alugueis"><img src="img/lupa-prancheta.webp" alt=""><strong>Aluguéis de imóveis</strong><span>Prédios alugados pela Prefeitura e quem recebe.</span></a>
       <a class="card-esp" href="#sem-licitacao"><img src="img/lupa-pensando.webp" alt=""><strong>Sem licitação</strong><span>Dispensas e inexigibilidades: o que foi comprado e de quem.</span></a>
+      <a class="card-esp" href="#saude-filas"><img src="img/lupa-pensando.webp" alt=""><strong>Filas na Saúde</strong><span>Quantas pessoas esperam consulta, exame ou cirurgia, e há quanto tempo. Atualizado todo dia.</span></a>
       <a class="card-esp" href="#emendas"><img src="img/lupa-prancheta.webp" alt=""><strong>Emendas impositivas</strong><span>O que os vereadores indicaram e o que a Prefeitura já pagou.</span></a>
       <a class="card-esp" href="#diarias"><img src="img/lupa-anotando.webp" alt=""><strong>Diárias e passagens</strong><span>Quem viajou, para onde, por quê e quanto custou.</span></a>
       <a class="card-esp" href="#gratificacoes"><img src="img/lupa-prancheta.webp" alt=""><strong>Gratificações</strong><span>Valores pagos além do salário-base.</span></a>
@@ -2382,15 +2434,132 @@ td a { font-size: .82rem; font-weight: 700; }
     tudo();
   }
 
+  // ============================================================ Saúde · Filas na Saúde
+  // filas.json é atualizado todo dia (fluxo "Filas na Saúde" no GitHub). Sem ele, usa DADOS.filas (versão embutida).
+  let FILAS = null;
+  const filasPromessa = fetch("filas.json", { cache: "no-cache" }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const obterFilas = () => filasPromessa.then((f) => (FILAS = f || (DADOS && DADOS.filas) || null));
+  function espera(d) {
+    if (d == null) return "–";
+    if (d < 45) return `${nf0.format(Math.round(d))} dias`;
+    if (d < 365) { const m = Math.round(d / 30.44); return `${m} ${m === 1 ? "mês" : "meses"}`; }
+    let a = Math.floor(d / 365.25), m = Math.round((d - a * 365.25) / 30.44);
+    if (m === 12) { a++; m = 0; }
+    return `${a} ${a === 1 ? "ano" : "anos"}${m ? ` e ${m} ${m === 1 ? "mês" : "meses"}` : ""}`;
+  }
+  const CORES_ESPERA = ["var(--f1)", "var(--f2)", "var(--f3)"];
+  const faixasEspera = (x) => [x.pedidos - x.mais_1_ano, x.mais_1_ano - x.mais_3_anos, x.mais_3_anos];
+  function barraEspera(x, alto) {
+    const f = faixasEspera(x), t = x.pedidos || 1;
+    return `<div class="fl-barra${alto ? " alta" : ""}" role="img" aria-label="${nf0.format(f[0])} há até 1 ano, ${nf0.format(f[1])} de 1 a 3 anos, ${nf0.format(f[2])} há mais de 3 anos">${f.map((v, i) => v > 0 ? `<span style="width:${(v / t * 100).toFixed(2)}%;background:${CORES_ESPERA[i]}">${alto && v / t > 0.09 ? pct(v / t * 100) : ""}</span>` : "").join("")}</div>`;
+  }
+  const legendaEspera = `<div class="legenda fl-leg"><span><i class="marca" style="background:var(--f1)"></i>Esperam há até 1 ano</span><span><i class="marca" style="background:var(--f2)"></i>De 1 a 3 anos</span><span><i class="marca" style="background:var(--f3)"></i>Há mais de 3 anos</span></div>`;
+  const dataCarga = (c) => `${c.slice(8, 10)}/${c.slice(5, 7)}/${c.slice(0, 4)}, às ${c.slice(11, 13)}h${c.slice(14, 16)}`;
+  const ICONE = { Consulta: "🩺", Exame: "🔬", Cirurgia: "🏥" };
+  const PLURAL = { Consulta: "Consultas", Exame: "Exames", Cirurgia: "Cirurgias" };
+
+  async function paginaFilas(el) {
+    el.innerHTML = topoEsp("Filas na Saúde", "Quem precisa de consulta com especialista, exame ou cirurgia pelo SUS em Foz do Iguaçu entra numa fila da Secretaria Municipal de Saúde. Aqui você vê, de um jeito simples, quantas pessoas estão esperando, o que elas esperam e há quanto tempo. Os números são atualizados todos os dias.", "lupa-pensando") + `<p class="intro">Carregando as filas…</p>`;
+    const F = await obterFilas();
+    if (location.hash.replace("#", "") !== "saude-filas") return;
+    if (!F || !F.atual) { el.innerHTML = el.innerHTML.replace(/<p class="intro">Carregando as filas…<\/p>$/, "") + semDados("Os dados das filas ainda não foram carregados."); return; }
+    const at = F.atual, tot = at.total, S = F.serie || [], ant = S.length > 1 ? S[S.length - 2] : null;
+    const tipos = ["Consulta", "Exame", "Cirurgia"].filter((t) => at.tipos[t]);
+    const varia = (atual, antes, txt) => { if (antes == null) return ""; const d = atual - antes; if (!d) return `<span class="fl-var igual">igual ao dia anterior</span>`; return `<span class="fl-var ${d > 0 ? "sobe" : "desce"}">${d > 0 ? "▲" : "▼"} ${nf0.format(Math.abs(d))} ${txt} desde ${dataCarga(ant.carga).slice(0, 5)}</span>`; };
+    const dezDe = (p) => Math.round(p * 10);
+    const p1 = tot.mais_1_ano / tot.pedidos, p3 = tot.mais_3_anos / tot.pedidos;
+    let h = topoEsp("Filas na Saúde", "Quem precisa de consulta com especialista, exame ou cirurgia pelo SUS em Foz do Iguaçu entra numa fila da Secretaria Municipal de Saúde. Aqui você vê, de um jeito simples, quantas pessoas estão esperando, o que elas esperam e há quanto tempo. Os números são atualizados todos os dias.", "lupa-pensando");
+
+    // 1. o número principal
+    h += `<div class="fl-hero">
+      <div class="fl-hero-num"><span class="fl-rot">Pessoas esperando atendimento agora</span><strong class="num">${nf0.format(tot.pacientes)}</strong>${varia(tot.pacientes, ant && ant.pacientes, "pessoas")}
+        <p>Isso equivale a <strong>${pct(tot.pacientes / DADOS.meta.populacao * 100)}</strong> da população de Foz do Iguaçu: ${(() => { const r = tot.pacientes / DADOS.meta.populacao * 10, n = Math.round(r); return `<strong>${n > r + 0.05 ? "quase " : n < r - 0.05 ? "mais de " : ""}${nf0.format(n)} em cada 10 moradores</strong>`; })()}.</p></div>
+      <div class="fl-hero-lado"><span class="fl-rot">Pedidos na fila</span><strong class="num">${nf0.format(tot.pedidos)}</strong>${varia(tot.pedidos, ant && ant.pedidos, "pedidos")}
+        <p>Uma pessoa pode estar esperando mais de uma coisa ao mesmo tempo: uma consulta e um exame, por exemplo. Por isso há mais pedidos do que pessoas.</p></div>
+      <p class="fl-data">Situação em ${dataCarga(at.carga)} · fonte: painel público da Secretaria Municipal de Saúde</p></div>`;
+
+    // 2. consultas, exames, cirurgias
+    h += `<h3 class="fl-sec">O que as pessoas estão esperando</h3><div class="fl-tipos">${tipos.map((t) => { const x = at.tipos[t]; return `<div class="fl-tipo"><span class="fl-ico" aria-hidden="true">${ICONE[t]}</span><span class="fl-rot">${PLURAL[t]}</span><strong class="num">${nf0.format(x.pedidos)}</strong><span class="fl-sub">pedidos esperando</span>
+      <p>Metade espera há mais de <strong>${espera(x.mediana)}</strong>.</p><p><strong>${nf0.format(x.mais_1_ano)}</strong> esperam há mais de 1 ano${x.mais_3_anos ? ` e <strong>${nf0.format(x.mais_3_anos)}</strong> há mais de 3 anos` : ""}.</p>${barraEspera(x)}</div>`; }).join("")}</div>${legendaEspera}`;
+
+    // 3. de cada 10
+    const f = faixasEspera(tot), n10 = [0, 0, 0]; { const q = f.map((v) => v / tot.pedidos * 10); const base = q.map(Math.floor); let falta = 10 - base.reduce((s, v) => s + v, 0); const ord = q.map((v, i) => [v - base[i], i]).sort((a, b) => b[0] - a[0]); ord.forEach(([, i]) => { if (falta > 0) { base[i]++; falta--; } }); base.forEach((v, i) => (n10[i] = v)); }
+    const bonecos = n10.flatMap((n, i) => Array(n).fill(i));
+    h += `<div class="card fl-dez"><h3>Há quanto tempo esperam: de cada 10 pedidos…</h3><div class="fl-bonecos" role="img" aria-label="De cada 10 pedidos, ${n10[0]} esperam há até 1 ano, ${n10[1]} de 1 a 3 anos e ${n10[2]} há mais de 3 anos">${bonecos.map((i) => `<svg viewBox="0 0 24 48" class="fl-boneco" style="fill:${CORES_ESPERA[i]}"><circle cx="12" cy="7" r="6"/><path d="M4 16h16a2 2 0 0 1 2 2v13h-4v15h-5V33h-2v13H6V31H2V18a2 2 0 0 1 2-2z"/></svg>`).join("")}</div>
+      <div class="fl-dez-txt">${n10.map((n, i) => `<p><span class="fl-pt" style="background:${CORES_ESPERA[i]}"></span><strong>${n} de cada 10</strong> ${["esperam há até 1 ano", "esperam de 1 a 3 anos", "esperam há mais de 3 anos"][i]} <span class="fl-sub">(${nf0.format(f[i])} pedidos)</span></p>`).join("")}</div>
+      <p class="nota">Metade de todos os pedidos está na fila há mais de <strong>${espera(tot.mediana)}</strong>. ${nf0.format(tot.mais_1_ano)} pedidos (${pct(p1 * 100)}) já passaram de 1 ano de espera; ${nf0.format(tot.mais_3_anos)} (${pct(p3 * 100)}) passaram de 3 anos.</p></div>`;
+
+    // 4. rankings
+    h += `<div class="card"><h3>Onde a espera é maior e onde a fila é mais longa</h3><p class="intro">Escolha o tipo de atendimento. Só entram especialidades com pelo menos 100 pedidos.</p>
+      <div class="chips" role="group" aria-label="Tipo de atendimento" id="fl-chips">${["Todos", ...tipos].map((t, i) => `<button type="button" class="chip" data-t="${t}" aria-pressed="${i === 0}">${t === "Todos" ? "Todos" : PLURAL[t]}</button>`).join("")}</div>
+      <div class="grid-2"><div><h4 class="fl-h4">⏳ Onde se espera mais</h4><p class="fl-sub">Tempo que metade dos pedidos já esperou</p><div id="fl-rk-tempo"></div></div><div><h4 class="fl-h4">👥 Onde há mais pedidos</h4><p class="fl-sub">Quantidade de pedidos na fila</p><div id="fl-rk-qtd"></div></div></div></div>`;
+
+    // 5. busca
+    h += `<div class="card"><h3>Procure uma especialidade</h3><p class="intro">Digite o nome (por exemplo: ortopedia, dentista, olho) ou use os filtros. Clique no título de uma coluna para ordenar.</p><div id="fl-tab"></div>
+      <p class="fonte">As ${nf0.format(at.grupos.length)} linhas juntam as filas da Prefeitura pelo nome: por exemplo, todas as filas de dentista ficam em "Odontologia". "Infantil" reúne as filas de crianças.</p></div>`;
+
+    // 6. evolução
+    h += `<div class="card"><h3>A fila está crescendo ou diminuindo?</h3>${S.length > 1 ? `<div class="legenda"><span><i class="marca" style="background:var(--s1)"></i>Pedidos na fila</span><span><i class="marca" style="background:var(--s2)"></i>Pessoas esperando</span></div><div id="fl-evol"></div>` : `<div class="fl-espera-serie"><img src="img/lupa-anotando.webp" alt=""><p>O acompanhamento diário começou em <strong>${dataCarga(S[0].carga).slice(0, 10)}</strong>. A partir dos próximos dias, este gráfico vai mostrar se a fila está aumentando ou diminuindo.</p></div>`}</div>`;
+
+    // 7. entenda
+    h += `<div class="card fl-entenda"><h3>Entenda os números</h3><div class="grid-2">
+      <div><h4 class="fl-h4">Pessoa ou pedido?</h4><p>Cada <strong>pedido</strong> é uma consulta, um exame ou uma cirurgia que alguém está esperando. Uma mesma <strong>pessoa</strong> pode ter vários pedidos. Por isso aparecem ${nf0.format(tot.pacientes)} pessoas e ${nf0.format(tot.pedidos)} pedidos.</p></div>
+      <div><h4 class="fl-h4">"Metade espera há mais de…"</h4><p>Colocamos todos os pedidos em ordem, do mais novo ao mais antigo, e olhamos o do meio. Se esse número é 8 meses, metade dos pedidos espera há menos de 8 meses e a outra metade, há mais. Os estatísticos chamam isso de <em>mediana</em>.</p></div>
+      <div><h4 class="fl-h4">E o "tempo médio" da Prefeitura?</h4><p>O painel da Prefeitura informa um tempo médio de <strong>${nf0.format(tot.tempo_medio_painel || 0)} dias</strong> até o atendimento. Esse número mede quem <strong>já foi atendido</strong>. Aqui mostramos há quanto tempo esperam as pessoas que <strong>ainda estão na fila</strong>.</p></div>
+      <div><h4 class="fl-h4">De onde vêm os dados?</h4><p>Do <a href="https://saudeintegrada.pmfi.pr.gov.br/public/dashboard/9fceaf55-99df-498c-af98-bdc569f25fd9" target="_blank" rel="noopener">painel público de filas da Secretaria Municipal de Saúde ↗</a>. Os voluntários do OSB Foz do Iguaçu registram a situação uma vez por dia e montam esta página. A espera é contada a partir da data em que o pedido entrou na fila.</p></div>
+    </div></div>`;
+    el.innerHTML = h;
+
+    // rankings
+    const G = at.grupos.filter((g) => g.pedidos >= 100);
+    const rotG = (g, todos) => todos ? `${g.grupo} <span class="fl-sub">· ${g.tipo.toLowerCase()}</span>` : g.grupo;
+    function lista(alvo, itens, val, txt, cor, todos) {
+      const mx = Math.max(...itens.map(val), 1);
+      $(alvo).innerHTML = `<ol class="fl-rank">${itens.map((g) => `<li><span class="fl-rk-nome">${rotG(g, todos)}</span><span class="fl-rk-barra"><i style="width:${(val(g) / mx * 100).toFixed(1)}%;background:${cor(g)}"></i></span><span class="fl-rk-val num">${txt(g)}</span></li>`).join("")}</ol>`;
+    }
+    const corTempo = (g) => g.mediana > 1095 ? "var(--f3)" : g.mediana > 365 ? "var(--f2)" : "var(--f1)";
+    function ranks(t) {
+      const L = t === "Todos" ? G : G.filter((g) => g.tipo === t);
+      lista("#fl-rk-tempo", [...L].sort((a, b) => b.mediana - a.mediana).slice(0, 10), (g) => g.mediana, (g) => espera(g.mediana), corTempo, t === "Todos");
+      lista("#fl-rk-qtd", [...L].sort((a, b) => b.pedidos - a.pedidos).slice(0, 10), (g) => g.pedidos, (g) => nf0.format(g.pedidos), () => "var(--s1)", t === "Todos");
+    }
+    el.querySelectorAll("#fl-chips .chip").forEach((b) => b.addEventListener("click", () => { el.querySelectorAll("#fl-chips .chip").forEach((x) => x.setAttribute("aria-pressed", String(x === b))); ranks(b.dataset.t); }));
+    ranks("Todos");
+
+    // tabela
+    const sinon = (g) => ({ Odontologia: "dentista dente", Oftalmologia: "olho vista oculista", Otorrinolaringologia: "ouvido nariz garganta", Cardiologia: "coração", Ortopedia: "osso joelho coluna", "Psiquiatria e CAPS": "saúde mental", Ginecologia: "mulher", "Ginecologia e obstetrícia": "mulher gravidez", Urologia: "próstata rim", Dermatologia: "pele", "Cirurgia de pele": "pele", Gastroenterologia: "estômago intestino endoscopia colonoscopia", Neurologia: "cérebro cabeça", Pneumologia: "pulmão", Radiologia: "raio-x radiografia", Vascular: "varizes veias", Endocrinologia: "diabetes tireoide", "CER IV – Reabilitação": "deficiência reabilitação" })[g.grupo.replace(" infantil", "")] || "";
+    tabelaInterativa($("#fl-tab"), {
+      linhas: at.grupos,
+      busca: { rot: "Buscar especialidade", ph: "Ex.: ortopedia, dentista, olho", txt: (g) => g.grupo + " " + g.tipo + " " + sinon(g) },
+      filtros: [
+        { rot: "Tipo", todos: "Consultas, exames e cirurgias", val: (g) => PLURAL[g.tipo] || g.tipo },
+        { rot: "Público", opcoes: [{ rot: "Adultos e crianças" }, { rot: "Só crianças", fn: (g) => /infantil/.test(g.grupo) }, { rot: "Só adultos", fn: (g) => !/infantil/.test(g.grupo) }] },
+      ],
+      colunas: [
+        { rot: "Especialidade", ord: (g) => g.grupo, cel: (g) => `<strong>${esc(g.grupo)}</strong><span class="doc">${ICONE[g.tipo] || ""} ${esc(g.tipo)}</span>` },
+        { rot: "Pedidos na fila", dir: true, ord: (g) => g.pedidos, cel: (g) => `<strong>${nf0.format(g.pedidos)}</strong>` },
+        { rot: "Metade espera há mais de", dir: true, ord: (g) => g.mediana, cel: (g) => `<span class="fl-pill" style="--c:${corTempo(g)}">${espera(g.mediana)}</span>` },
+        { rot: "Há mais de 1 ano", dir: true, ord: (g) => g.mais_1_ano, cel: (g) => `${nf0.format(g.mais_1_ano)}<span class="doc">${pct(g.mais_1_ano / g.pedidos * 100)} dos pedidos</span>` },
+        { rot: "Há mais de 3 anos", dir: true, ord: (g) => g.mais_3_anos, cel: (g) => nf0.format(g.mais_3_anos) },
+        { rot: "Quanto tempo esperam", cel: (g) => barraEspera(g) },
+      ],
+      ordem: { col: 1, desc: true }, lim: 20,
+      resumo: (r) => `${nf0.format(r.length)} especialidades, com ${nf0.format(r.reduce((s, g) => s + g.pedidos, 0))} pedidos na fila.`,
+      vazio: "Nenhuma especialidade encontrada. Tente outra palavra.",
+    });
+
+    if (S.length > 1) linhas($("#fl-evol"), S.map((c) => c.carga.slice(8, 10) + "/" + c.carga.slice(5, 7)), [{ nome: "Pedidos", cor: "var(--s1)", valores: S.map((c) => c.pedidos) }, { nome: "Pessoas", cor: "var(--s2)", valores: S.map((c) => c.pacientes) }], (v) => nf0.format(v), { rotulo: "Evolução diária da fila", zero: false });
+  }
+
   Object.assign(ESPECIAIS, {
     "caminho-do-dinheiro": paginaCaminho, "camara": paginaCamara, "transporte": paginaTransporte, "alugueis": paginaAlugueis,
     "obras": paginaObras, "sem-licitacao": paginaSemLicitacao, "licitacoes-monitoradas": paginaLicitacoesOSB, "oficios": paginaOficios,
-    "emendas": paginaEmendas,
+    "emendas": paginaEmendas, "saude-filas": paginaFilas,
   });
   const TITULOS = { "caminho-do-dinheiro": "O caminho do dinheiro", camara: "Temas · Câmara de Vereadores", transporte: "Temas · Transporte coletivo", alugueis: "Temas · Aluguéis de imóveis",
     obras: "Temas · Obras", "sem-licitacao": "Temas · Contratações sem licitação", diarias: "Temas · Diárias e passagens", gratificacoes: "Temas · Gratificações",
     "horas-extras": "Temas · Horas extras", remuneracao: "Temas · Remuneração dos servidores", "licitacoes-monitoradas": "Atuação do OSB · Licitações acompanhadas", oficios: "Atuação do OSB · Ofícios enviados",
-    emendas: "Temas · Emendas impositivas" };
+    emendas: "Temas · Emendas impositivas", "saude-filas": "Saúde · Filas na Saúde" };
 
   // ============================================================ slider de destaques
   let slAtual = 0, slTimer = null, slPausado = false;
@@ -2411,6 +2580,7 @@ td a { font-size: .82rem; font-weight: 700; }
     if (sl) { const R = sl.resumo, n = (R.Dispensa ? R.Dispensa.qtd : 0) + (R.Inexigibilidade ? R.Inexigibilidade.qtd : 0), tot = Object.values(R).reduce((s, x) => s + x.qtd, 0); S.push({ tag: "Compras sem licitação", num: nf0.format(n), txt: `processos sem licitação em ${anoAtual}`, det: `${pct(pctN(n, tot))} de todos os processos de compra abertos no ano.`, link: "#sem-licitacao", cta: "Ver as contratações", img: "lupa-notebook", foto: "prefeitura" }); }
     const Em = DADOS.emendas;
     if (Em && Em.lista.length) { const L = Em.lista, v = L.reduce((s, x) => s + x.valor, 0), p = L.reduce((s, x) => s + Math.min(x.pago, x.valor || x.pago), 0), n0 = L.filter((x) => x.situacao === "Nenhum gasto encontrado").length; S.push({ tag: "Emendas dos vereadores", num: `R$ ${nf0.format(p / v * 100)}`, txt: `de cada R$ 100 das emendas impositivas de ${Em.ano_orcamento} já foram pagos`, det: `São ${nf0.format(L.length)} emendas e ${reais(v)}. ${nf0.format(n0)} ainda não tiveram nenhum gasto.`, link: "#emendas", cta: "Acompanhe cada emenda", foto: "camara", img: "lupa-prancheta" }); }
+    if (FILAS && FILAS.atual && FILAS.atual.total) { const t = FILAS.atual.total; S.unshift({ tag: "Filas na Saúde · hoje", num: nf0.format(t.pacientes), txt: "pessoas esperam consulta, exame ou cirurgia na rede municipal", det: `São ${nf0.format(t.pedidos)} pedidos na fila. ${nf0.format(t.mais_1_ano)} deles esperam há mais de 1 ano.`, link: "#saude-filas", cta: "Veja as filas da saúde", img: "lupa-pensando", foto: "padrao" }); }
     const FO = DADOS.foco_na_obra && DADOS.foco_na_obra.obras;
     if (FO && FO.length) { const par = FO.filter((o) => o.grupo === "Paralisada").length, and = FO.filter((o) => o.grupo === "Em andamento").length; S.push({ tag: "Obras públicas", num: nf0.format(FO.length), txt: "obras acompanhadas pelo OSB no projeto Foco na Obra", det: `${and} em andamento e ${par} paralisada${par === 1 ? "" : "s"}. Veja no mapa onde ficam e quanto já foi executado.`, link: "#obras", cta: "Ver as obras no mapa", img: "lupa-anotando", foto: "obras" }); }
     return S;
@@ -2547,6 +2717,7 @@ td a { font-size: .82rem; font-weight: 700; }
     let largura = innerWidth, tmr = null;
     window.addEventListener("resize", () => { clearTimeout(tmr); tmr = setTimeout(() => { if (Math.abs(innerWidth - largura) > 60) { largura = innerWidth; render(); if (!$("#pagina-especial").hidden) rota(); } }, 250); });
     rota();
+    obterFilas().then((f) => { if (f && f.atual) montaSlider(); });
   }
 
   const embutidos = () => { try { return JSON.parse(document.getElementById("dados-embutidos").textContent); } catch (e) { return null; } };
