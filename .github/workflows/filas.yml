@@ -1,7 +1,7 @@
 # .github/workflows/filas.yml — Filas na Saúde no site
 # A coleta diária do OSB (20h–23h) grava o histórico na pasta do Dropbox
 # "/Observatório Social/GT Saúde/Filas na Saúde/historico". Este fluxo baixa esse
-# histórico pelo link público da pasta (variável FILAS_DROPBOX_URL em
+# histórico pelo link público da pasta (abaixo; ou variável FILAS_DROPBOX_URL em
 # Settings → Secrets and variables → Actions → Variables), gera filas.json e publica.
 # Obs.: o painel da Prefeitura não aceita conexões dos servidores do GitHub,
 # por isso a coleta em si continua sendo feita pela tarefa do OSB.
@@ -22,7 +22,9 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
       - name: Baixar o histórico do Dropbox
-        env: { FILAS_DROPBOX_URL: "${{ vars.FILAS_DROPBOX_URL }}" }
+        env:
+          # link público (somente leitura) da pasta "historico"; pode ser trocado pela variável FILAS_DROPBOX_URL
+          FILAS_DROPBOX_URL: "${{ vars.FILAS_DROPBOX_URL || 'https://www.dropbox.com/scl/fo/mkivvz4lkxoemwf3l6suh/AHR-5qL_Y_HsGq_A6Oh_NLY?rlkey=o9f08i8401pq6edpsql6d5kj9&dl=1' }}"
         run: |
           if [ -z "$FILAS_DROPBOX_URL" ]; then echo "::error::Configure a variável FILAS_DROPBOX_URL"; exit 1; fi
           python programas/filas.py dropbox "$FILAS_DROPBOX_URL"
