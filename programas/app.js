@@ -1937,6 +1937,63 @@
     obterFilas().then((f) => { if (f && f.atual) montaSlider(); });
   }
 
+  // ============================================================ animações de entrada
+  // Números contam do zero, barras crescem e gráficos se desenham quando aparecem na tela.
+  // Desligadas para quem pede menos movimento no sistema (prefers-reduced-motion).
+  (function animacoes() {
+    if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const SEL = ".preench, .fl-barra, .fl-rk-barra i, .prog > div, svg[viewBox]:not(.fl-boneco), .tile .val, .fl-hero strong.num, .fl-tipo strong.num, .fl-bonecos";
+    const NUM = /(\d{1,3}(?:\.\d{3})+|\d+)(?:,(\d+))?/;
+    const ehNumero = (el) => el.matches(".val, strong.num") && el.children.length === 0 && NUM.test(el.textContent);
+    function conta(el) {
+      const txt = el.textContent, m = txt.match(NUM);
+      const alvo = parseFloat(m[1].replace(/\./g, "") + (m[2] ? "." + m[2] : "")), dec = m[2] ? m[2].length : 0, milhar = m[1].includes(".") || alvo >= 10000;
+      const ini = txt.slice(0, m.index), fim = txt.slice(m.index + m[0].length);
+      const fmt = new Intl.NumberFormat("pt-BR", { minimumFractionDigits: dec, maximumFractionDigits: dec, useGrouping: milhar });
+      const t0 = performance.now(), dur = 1100;
+      const passo = (t) => { const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3); el.textContent = ini + fmt.format(alvo * e) + fim; if (p < 1) requestAnimationFrame(passo); else el.textContent = txt; };
+      requestAnimationFrame(passo);
+    }
+    function desenhaLinhas(svg) {
+      svg.querySelectorAll('path[fill="none"]').forEach((p) => {
+        if (p.getAttribute("stroke-dasharray") || !p.getTotalLength) return;
+        const L = p.getTotalLength(); if (!L) return;
+        p.style.strokeDasharray = L; p.style.strokeDashoffset = L; p.getBoundingClientRect();
+        p.style.transition = "stroke-dashoffset 1.3s cubic-bezier(.3,.7,.3,1)"; p.style.strokeDashoffset = 0;
+        setTimeout(() => { p.style.strokeDasharray = p.style.strokeDashoffset = p.style.transition = ""; }, 1400);
+      });
+      svg.querySelectorAll(".col").forEach((g, i) => g.style.setProperty("--d", `${Math.min(i * 45, 600)}ms`));
+    }
+    function anima(el) {
+      el.classList.remove("pre-anima");
+      if (ehNumero(el)) { conta(el); return; }
+      if (el.tagName.toLowerCase() === "svg") desenhaLinhas(el);
+      if (el.classList.contains("fl-bonecos")) [...el.children].forEach((b, i) => b.style.setProperty("--d", `${i * 90}ms`));
+      el.classList.add("anima");
+      setTimeout(() => el.classList.remove("anima"), 2200);
+    }
+    // barras encolhidas (scaleX 0) não têm área visível: observa o elemento pai, que não muda de tamanho
+    const grupos = new Map();
+    const io = new IntersectionObserver((ents) => ents.forEach((e) => { if (e.isIntersecting) { io.unobserve(e.target); (grupos.get(e.target) || []).forEach(anima); grupos.delete(e.target); } }), { threshold: 0.12 });
+    const observa = (el) => { const o = el.matches(".preench, .fl-barra, .fl-rk-barra i, .prog > div") ? el.parentElement : el; if (!grupos.has(o)) { grupos.set(o, []); io.observe(o); } grupos.get(o).push(el); };
+    let pendente = false;
+    function varre() {
+      pendente = false;
+      document.querySelectorAll(SEL).forEach((el) => {
+        if (el.dataset.an) return;
+        el.dataset.an = "1";
+        if (el.closest("#slider, .tip, .fsk-painel")) return;
+        if (el.tagName.toLowerCase() === "svg" && el.closest(".mapa-box, .lupa")) return;
+        if (el.matches(".val, strong.num") && !ehNumero(el)) return;
+        el.classList.add("pre-anima");
+        observa(el);
+      });
+    }
+    const mo = new MutationObserver(() => { if (!pendente) { pendente = true; requestAnimationFrame(varre); } });
+    ["#pagina-principal", "#especial-conteudo"].forEach((s) => { const n = document.querySelector(s); if (n) mo.observe(n, { childList: true, subtree: true }); });
+    varre();
+  })();
+
   const embutidos = () => { try { return JSON.parse(document.getElementById("dados-embutidos").textContent); } catch (e) { return null; } };
   const falhou = () => { document.getElementById("pagina-principal").innerHTML = `<div class="card" style="margin-top:24px"><h2>Não foi possível carregar os dados</h2><p class="intro">Verifique sua conexão e recarregue a página. Se o problema continuar, avise o Observatório Social de Foz do Iguaçu.</p></div>`; };
   const comDados = (d) => (d ? iniciar(d) : falhou());

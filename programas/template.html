@@ -273,6 +273,22 @@ nav.secoes a[aria-current="page"] { color: var(--ink); border-bottom-color: var(
 .osb-atua .osb-item p { margin: 0 0 8px; }
 .osb-atua .fo-tag { font-size: .74rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--accent); }
 @media (max-width: 640px) { .osb-atua .osb-item img { width: 44px; } }
+/* ---------- animações de entrada */
+@keyframes anCresceX { from { transform: scaleX(0); } }
+@keyframes anCresceY { from { transform: scaleY(0); } }
+@keyframes anAparece { from { opacity: 0; } }
+@keyframes anSobe { from { opacity: 0; transform: translateY(14px); } }
+.preench.pre-anima, .fl-barra.pre-anima, .fl-rk-barra i.pre-anima, .prog > div.pre-anima { transform: scaleX(0); transform-origin: left; }
+.preench.anima, .fl-barra.anima, .fl-rk-barra i.anima, .prog > div.anima { transform-origin: left; animation: anCresceX 1s cubic-bezier(.22,.8,.3,1) backwards; }
+svg.pre-anima { opacity: 0; }
+svg.anima { animation: anAparece .45s ease backwards; }
+svg.anima .col path { transform-box: fill-box; transform-origin: 50% 100%; animation: anCresceY .9s cubic-bezier(.22,.8,.3,1) backwards; animation-delay: var(--d, 0ms); }
+svg.anima .col text { animation: anAparece .5s ease backwards; animation-delay: calc(var(--d, 0ms) + 500ms); }
+svg.anima path.lk { animation: anAparece 1.1s ease backwards .25s; }
+svg.anima circle { animation: anAparece .4s ease backwards 1.1s; }
+.fl-bonecos.pre-anima .fl-boneco { opacity: 0; }
+.fl-bonecos.anima .fl-boneco { animation: anSobe .45s cubic-bezier(.22,.8,.3,1) backwards; animation-delay: var(--d, 0ms); }
+@media (prefers-reduced-motion: reduce) { .pre-anima, .pre-anima * { transform: none !important; opacity: 1 !important; } }
 /* ---------- Filas na Saúde */
 :root { --f1: #f2b632; --f2: #e8772e; --f3: #c4302b; }
 @media (prefers-color-scheme: dark) { :root { --f1: #d9a22a; --f2: #e0752f; --f3: #e0524c; } }
