@@ -1703,7 +1703,15 @@
       <p class="fonte">As ${nf0.format(at.grupos.length)} linhas juntam as filas da Prefeitura pelo nome: por exemplo, todas as filas de dentista ficam em "Odontologia". "Infantil" reúne as filas de crianças.</p></div>`;
 
     // 6. evolução
-    h += `<div class="card"><h3>A fila está crescendo ou diminuindo?</h3>${S.length > 1 ? `<div class="legenda"><span><i class="marca" style="background:var(--s1)"></i>Pedidos na fila</span><span><i class="marca" style="background:var(--s2)"></i>Pessoas esperando</span></div><div id="fl-evol"></div>` : `<div class="fl-espera-serie"><img src="img/lupa-anotando.webp" alt=""><p>O acompanhamento diário começou em <strong>${dataCarga(S[0].carga).slice(0, 10)}</strong>. A partir dos próximos dias, este gráfico vai mostrar se a fila está aumentando ou diminuindo.</p></div>`}</div>`;
+    const prim = dataCarga(S[0].carga).slice(0, 10);
+    h += `<h3 class="fl-sec">A fila está crescendo ou diminuindo?</h3>`;
+    if (S.length > 1) {
+      h += `<div class="card"><h3>Pessoas e pedidos na fila, dia a dia</h3><div class="legenda"><span><i class="marca" style="background:var(--s1)"></i>Pedidos na fila</span><span><i class="marca" style="background:var(--s2)"></i>Pessoas esperando</span></div><div id="fl-evol"></div></div>
+        <div class="grid-2"><div class="card"><h3>Pedidos de consultas, exames e cirurgias</h3><p class="intro">Quantos pedidos de cada tipo estavam na fila em cada dia.</p><div class="legenda">${tipos.map((t, i) => `<span><i class="marca" style="background:var(--s${[1, 3, 2][i]})"></i>${PLURAL[t]}</span>`).join("")}</div><div id="fl-evol-tipos"></div></div>
+        <div class="card"><h3>Tempo de espera: "metade espera há mais de…"</h3><p class="intro">Se a linha sobe, a espera está ficando mais longa. Em dias.</p><div class="legenda"><span><i class="marca" style="background:var(--ink)"></i>Todos os pedidos</span>${tipos.map((t, i) => `<span><i class="marca" style="background:var(--s${[1, 3, 2][i]})"></i>${PLURAL[t]}</span>`).join("")}</div><div id="fl-evol-med"></div></div></div>`;
+    } else {
+      h += `<div class="card"><div class="fl-espera-serie"><img src="img/lupa-anotando.webp" alt=""><p>O acompanhamento diário começou em <strong>${prim}</strong>. A cada dia, os voluntários registram a situação da fila. A partir do segundo registro, aparecem aqui três gráficos: <strong>pessoas e pedidos na fila</strong>, <strong>pedidos de consultas, exames e cirurgias</strong> e <strong>o tempo de espera</strong>, para mostrar se a fila está aumentando ou diminuindo.</p></div></div>`;
+    }
 
     // 7. entenda
     h += `<div class="card fl-entenda"><h3>Entenda os números</h3><div class="grid-2">
@@ -1752,7 +1760,12 @@
       vazio: "Nenhuma especialidade encontrada. Tente outra palavra.",
     });
 
-    if (S.length > 1) linhas($("#fl-evol"), S.map((c) => c.carga.slice(8, 10) + "/" + c.carga.slice(5, 7)), [{ nome: "Pedidos", cor: "var(--s1)", valores: S.map((c) => c.pedidos) }, { nome: "Pessoas", cor: "var(--s2)", valores: S.map((c) => c.pacientes) }], (v) => nf0.format(v), { rotulo: "Evolução diária da fila", zero: false });
+    if (S.length > 1) {
+      const dias = S.map((c) => c.carga.slice(8, 10) + "/" + c.carga.slice(5, 7)), cT = (i) => `var(--s${[1, 3, 2][i]})`;
+      linhas($("#fl-evol"), dias, [{ nome: "Pedidos", cor: "var(--s1)", valores: S.map((c) => c.pedidos) }, { nome: "Pessoas", cor: "var(--s2)", valores: S.map((c) => c.pacientes) }], (v) => nf0.format(v), { rotulo: "Pessoas e pedidos na fila por dia", zero: false });
+      linhas($("#fl-evol-tipos"), dias, tipos.map((t, i) => ({ nome: PLURAL[t], cor: cT(i), valores: S.map((c) => c.tipos && c.tipos[t] ? c.tipos[t].pedidos : null) })), (v) => nf0.format(v), { rotulo: "Pedidos por tipo por dia" });
+      linhas($("#fl-evol-med"), dias, [{ nome: "Todos", cor: "var(--ink)", valores: S.map((c) => c.mediana) }, ...tipos.map((t, i) => ({ nome: PLURAL[t], cor: cT(i), valores: S.map((c) => c.tipos && c.tipos[t] ? c.tipos[t].mediana : null) }))], (v) => nf0.format(v), { rotulo: "Espera mediana em dias por dia" });
+    }
   }
 
   Object.assign(ESPECIAIS, {
@@ -1763,7 +1776,7 @@
   const TITULOS = { "caminho-do-dinheiro": "O caminho do dinheiro", camara: "Temas · Câmara de Vereadores", transporte: "Temas · Transporte coletivo", alugueis: "Temas · Aluguéis de imóveis",
     obras: "Temas · Obras", "sem-licitacao": "Temas · Contratações sem licitação", diarias: "Temas · Diárias e passagens", gratificacoes: "Temas · Gratificações",
     "horas-extras": "Temas · Horas extras", remuneracao: "Temas · Remuneração dos servidores", "licitacoes-monitoradas": "Atuação do OSB · Licitações acompanhadas", oficios: "Atuação do OSB · Ofícios enviados",
-    emendas: "Temas · Emendas impositivas", "saude-filas": "Saúde · Filas na Saúde" };
+    emendas: "Temas · Emendas impositivas", "saude-filas": "Temas · Filas na Saúde" };
 
   // ============================================================ slider de destaques
   let slAtual = 0, slTimer = null, slPausado = false;
