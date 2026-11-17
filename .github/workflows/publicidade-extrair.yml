@@ -1,0 +1,25 @@
+# Extração única dos dados de publicidade (ZIPs do TCE-PR no Dropbox, links temporários)
+name: Publicidade (extração)
+on:
+  push:
+    branches: [publicidade]
+    paths: ["programas/fontes_osb/publicidade/links.txt"]
+permissions: { contents: write }
+jobs:
+  extrair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Baixar ZIPs
+        run: |
+          mkdir -p /tmp/zips
+          while read -r nome url; do [ -n "$nome" ] && curl -sSfL -o "/tmp/zips/$nome" "$url" && ls -la "/tmp/zips/$nome"; done < programas/fontes_osb/publicidade/links.txt
+      - name: Extrair
+        run: python programas/publicidade_extrair.py /tmp/zips programas/fontes_osb/publicidade/extraido
+      - name: Salvar
+        run: |
+          git rm -q programas/fontes_osb/publicidade/links.txt
+          git config user.name "OSB Foz (automático)"; git config user.email "actions@users.noreply.github.com"
+          git add programas/fontes_osb/publicidade/extraido
+          git commit -m "Publicidade: extração dos ZIPs do TCE-PR 2023–2026"
+          git push

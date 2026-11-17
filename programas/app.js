@@ -1768,15 +1768,114 @@
     }
   }
 
+  // ============================================================ Publicidade e propaganda
+  const SIGLAS = new Set(["LTDA", "ME", "EPP", "SS", "S/A", "SA", "EIRELI", "PR", "CNPJ", "MEI", "II", "III"]);
+  const capitaliza = (t) => String(t || "").toLowerCase().replace(/\S+/g, (w, i) => SIGLAS.has(w.toUpperCase()) ? w.toUpperCase() : (i && ["de", "da", "do", "das", "dos", "e"].includes(w)) ? w : w.charAt(0).toUpperCase() + w.slice(1));
+  function paginaPublicidade(el) {
+    const P = DADOS.publicidade;
+    el.innerHTML = topoEsp("Publicidade e propaganda", "Quanto a Prefeitura e a Câmara de Foz do Iguaçu gastam com publicidade: campanhas em TV, rádio, internet e jornais, feitas por agência contratada, e a publicação obrigatória de editais e avisos. Ano a ano, por órgão, por empresa e por secretaria.", "lupa-notebook");
+    if (!P) { el.innerHTML += semDados("Os dados de publicidade ainda não foram carregados."); return; }
+    const anos = P.anos, ult = anos[anos.length - 1], mesCorte = Number(P.corte.slice(5, 7)), nomeMes = MESES_LONGO[mesCorte - 1];
+    const ENTES = [["PMFI", "Prefeitura", "var(--s1)"], ["CMFI", "Câmara", "var(--s2)"], ["Outros", "Autarquias e fundações", "var(--s8)"]];
+    const tot = (a, campo) => ENTES.reduce((s, [k]) => s + P.por_ano[a][k][campo], 0);
+    const anoCompleto = anos[anos.length - 2];
+    const varPct = (a, b) => b ? (a / b - 1) * 100 : null;
+    const pPer = tot(ult, "pago_periodo"), pPerAnt = tot(anoCompleto, "pago_periodo"), vP = varPct(pPer, pPerAnt);
+    const eUlt = tot(ult, "empenhado"), eAnt = tot(anoCompleto, "empenhado");
+    const F = P.fornecedores, totF = F.reduce((s, x) => s + x.total, 0), top = F[0];
+    let h = tilesHtml([
+      [`Pago em ${anoCompleto}`, reais(tot(anoCompleto, "pago")), `Prefeitura, Câmara, autarquias e fundações, no ano inteiro.`],
+      [`Pago em ${ult} (jan–${nomeMes.slice(0, 3)})`, reais(pPer), vP == null ? "" : `${vP < 0 ? "▼" : "▲"} ${pct(Math.abs(vP))} em relação ao mesmo período de ${anoCompleto} (${reais(pPerAnt)}).`],
+      [`Reservado para ${ult}`, reais(eUlt), `Valor empenhado (comprometido) até ${nomeMes}: ${nf1.format(eUlt / eAnt)} vezes o de ${anoCompleto} inteiro (${reais(eAnt)}).`],
+      ["Uma agência concentra", pct(top.total / totF * 100), `${capitaliza(top.nome)} recebeu ${reais(top.total)} de ${reais(totF)} pagos de ${anos[0]} a ${ult}.`],
+    ]);
+
+    // evolução
+    h += `<div class="card"><h3>Quanto foi gasto, ano a ano</h3><p class="intro">Valor pago em cada ano, pela data do pagamento. Escolha comparar os anos inteiros ou só os meses que já temos de ${ult}.</p>
+      <div class="chips" role="group" aria-label="Período" id="pb-per"><button type="button" class="chip" data-p="pago" aria-pressed="true">Ano inteiro</button><button type="button" class="chip" data-p="pago_periodo" aria-pressed="false">Só janeiro a ${nomeMes}</button></div>
+      <div class="legenda">${ENTES.map(([, n, c]) => `<span><i class="marca" style="background:${c}"></i>${n}</span>`).join("")}<span><i class="marca" style="background:transparent;border:2px dashed var(--ink-3)"></i>Valor reservado (empenhado)</span></div>
+      <div id="pb-anos" class="pb-anos"></div>
+      <p class="nota">${ult} vai só até ${nomeMes}. O "valor reservado" é o empenho: o dinheiro que o órgão separou no orçamento para pagar a agência ao longo do ano. Em ${ult}, a reserva já é bem maior que o que foi pago até agora.</p></div>`;
+
+    // prefeitura x câmara
+    h += `<div class="grid-2">${ENTES.slice(0, 2).map(([k, n, c]) => `<div class="card"><h3>${k === "PMFI" ? "Prefeitura (PMFI)" : "Câmara Municipal (CMFI)"}</h3><div class="tabela-box"><table class="tabela-esp"><thead><tr><th>Ano</th><th class="dir">Reservado</th><th class="dir">Pago</th><th class="dir">Pago jan–${nomeMes.slice(0, 3)}</th></tr></thead><tbody>${anos.map((a) => `<tr><td><strong>${a}</strong>${a === ult ? `<span class="doc">até ${nomeMes}</span>` : ""}</td><td class="dir num">${brl.format(P.por_ano[a][k].empenhado)}</td><td class="dir num"><strong>${brl.format(P.por_ano[a][k].pago)}</strong></td><td class="dir num">${brl.format(P.por_ano[a][k].pago_periodo)}</td></tr>`).join("")}</tbody></table></div></div>`).join("")}</div>`;
+
+    // mensal
+    h += `<div class="card"><h3>Mês a mês</h3><p class="intro">Pagamentos de publicidade em cada mês, de janeiro de ${anos[0]} a ${nomeMes} de ${ult}.</p><div class="legenda">${ENTES.slice(0, 2).map(([, n, c]) => `<span><i class="marca" style="background:${c}"></i>${n}</span>`).join("")}</div><div id="pb-mes"></div></div>`;
+
+    // fornecedores e secretarias
+    h += `<div class="grid-2"><div class="card"><h3>Quem recebe</h3><p class="intro">Empresas e órgãos que receberam por publicidade de ${anos[0]} a ${ult}.</p><div id="pb-forn"></div></div>
+      <div class="card"><h3>Quem pede: secretarias e órgãos</h3><p class="intro">Quem fez os pedidos de publicidade, somando ${anos[0]} a ${ult}.</p><div id="pb-sec"></div>
+      <p class="nota">Em 2025 a Secretaria de Transparência e Governança deu lugar à Secretaria de Comunicação e Relações Institucionais, que passou a concentrar a publicidade da Prefeitura.</p></div></div>`;
+
+    // contratos
+    const C = P.contratos.filter((c) => c.valor >= 1000).sort((a, b) => b.valor - a.valor);
+    const pagoA = (doc, ente, desde) => P.empenhos.filter((e) => e.doc === doc && e.ente === ente && e.data >= desde.slice(0, 4) + "-01-01").reduce((s, e) => s + e.pago, 0);
+    h += `<div class="card"><h3>Contratos de publicidade</h3><p class="intro">Contratos registrados no Tribunal de Contas de ${anos[0]} a ${ult}. Contratos assinados antes de ${anos[0]} não aparecem aqui.</p>
+      <div class="pb-contratos">${C.map((c) => { const pg = /TRADE/i.test(c.contratado) ? pagoA(c.doc, c.ente, c.inicio) : null; return `<div class="pb-ct"><span class="fo-tag">${c.ente === "PMFI" ? "Prefeitura" : c.ente === "CMFI" ? "Câmara" : "Autarquia/fundação"} · contrato ${esc(c.numero)}</span><strong>${esc(capitaliza(c.contratado))}</strong><span class="pb-ct-val num">${brl.format(c.valor)}</span><span class="doc">Vigência: ${fmtDataBR(c.inicio)} a ${fmtDataBR(c.fim)}${(new Date(c.fim) - new Date(c.inicio)) / 3.15e10 > 1.5 ? ` (<strong>${nf0.format((new Date(c.fim) - new Date(c.inicio)) / 3.156e10)} anos</strong>)` : ""}</span>${pg != null ? `<div class="prog" title="${pct(pg / c.valor * 100)} pago"><div style="width:${Math.min(100, pg / c.valor * 100)}%"></div></div><span class="doc">${brl.format(pg)} pagos à agência em ${c.inicio.slice(0, 4)}${c.inicio.slice(0, 4) === ult ? `, até ${nomeMes}` : ""} (${pct(pg / c.valor * 100)} do contrato)</span>` : ""}<p>${esc(c.objeto.length > 200 ? c.objeto.slice(0, 199) + "…" : c.objeto)}</p></div>`; }).join("")}</div></div>`;
+
+    // pontos de atenção
+    const trCM = F.find((x) => /TRADE/i.test(x.nome) && x.entes.includes("CMFI") && x.entes.includes("PMFI"));
+    const ctCM = C.find((c) => c.ente === "CMFI" && /TRADE/i.test(c.contratado));
+    h += `<div class="card pb-atencao"><h3>Pontos de atenção</h3><ul>
+      ${trCM ? `<li><strong>A mesma agência atende Prefeitura e Câmara.</strong> ${capitaliza(trCM.nome)} recebeu ${pct(trCM.total / totF * 100)} de todo o dinheiro de publicidade desde ${anos[0]}, dos dois Poderes. Não é proibido, mas o Legislativo fiscaliza o Executivo, e a comunicação de cada um deveria ser independente.</li>` : ""}
+      ${ctCM ? `<li><strong>Contrato longo na Câmara.</strong> O contrato de ${brl.format(ctCM.valor)} vai de ${fmtDataBR(ctCM.inicio)} a ${fmtDataBR(ctCM.fim)}, passando da atual legislatura.</li>` : ""}
+      <li><strong>Reserva maior em ${ult}.</strong> O valor empenhado até ${nomeMes} (${reais(eUlt)}) já é ${nf1.format(eUlt / eAnt)} vezes o de ${anoCompleto} inteiro. Vale acompanhar quanto disso será de fato pago.</li>
+      <li><strong>Para onde vai o dinheiro?</strong> O Tribunal de Contas mostra só o pagamento à agência. Quanto foi para cada TV, rádio, site ou jornal, e quais campanhas foram feitas, depende da divulgação pela Prefeitura e pela Câmara. A Lei 12.232/2010, que trata dos contratos com agências, prevê essa transparência. Se a informação não estiver publicada, ela pode ser pedida pela Lei de Acesso à Informação.</li></ul></div>`;
+
+    // tabela
+    h += `<div class="card"><h3>Todos os empenhos de publicidade</h3><div id="pb-tab"></div>
+      <p class="fonte">Fonte: TCE-PR, SIM-AM (arquivos de despesa e de contratos de ${anos[0]} a ${ult}). ${esc(P.criterio)} Valores nominais (sem correção pela inflação). Não entram salários da equipe de comunicação, serviços de áudio, vídeo e foto, nem assinaturas de jornais. Os pagamentos de ${anos[0]} de empenhos feitos antes de ${anos[0]} não estão nos arquivos, então o pago de ${anos[0]} pode estar um pouco abaixo do real.</p></div>`;
+    el.innerHTML += h;
+
+    // ---------- gráficos
+    function desenhaAnos(campo) {
+      const mx = Math.max(...anos.map((a) => Math.max(tot(a, campo), campo === "pago" ? tot(a, "empenhado") : 0)), 1);
+      $("#pb-anos").innerHTML = anos.map((a) => { const t = tot(a, campo), emp = tot(a, "empenhado"); return `<div class="pb-ano"><span class="pb-ano-rot"><strong>${a}</strong>${a === ult ? `<small>até ${nomeMes.slice(0, 3)}</small>` : ""}</span>
+        <div class="pb-ano-trilho"><div class="fl-barra pb-ano-barra" style="width:${(t / mx * 100).toFixed(2)}%">${ENTES.map(([k, n, c]) => { const v = P.por_ano[a][k][campo]; return v > 0 ? `<span style="width:${(v / (t || 1) * 100).toFixed(2)}%;background:${c}" title="${n}: ${brl.format(v)}"></span>` : ""; }).join("")}</div>${campo === "pago" ? `<i class="pb-emp" style="left:${(emp / mx * 100).toFixed(2)}%" title="Reservado: ${brl.format(emp)}"></i>` : ""}</div>
+        <span class="pb-ano-val num"><strong>${reais(t)}</strong>${campo === "pago" ? `<small>reservado ${reais(emp)}</small>` : ""}</span></div>`; }).join("");
+    }
+    el.querySelectorAll("#pb-per .chip").forEach((b) => b.addEventListener("click", () => { el.querySelectorAll("#pb-per .chip").forEach((x) => x.setAttribute("aria-pressed", String(x === b))); desenhaAnos(b.dataset.p); }));
+    desenhaAnos("pago");
+    const M = P.mensal;
+    linhas($("#pb-mes"), M.map((m) => m.mes.slice(5, 7) === "01" ? m.mes.slice(0, 4) : MESES_LONGO[Number(m.mes.slice(5, 7)) - 1].slice(0, 3)), ENTES.slice(0, 2).map(([k, n, c]) => ({ nome: n, cor: c, valores: M.map((m) => m[k]) })), (v) => reais(v), { rotulo: "Pagamentos de publicidade por mês" });
+    const lst = (alvo, itens, nome, sub, cor) => { const mx = Math.max(...itens.map((x) => x.total), 1); $(alvo).innerHTML = `<ol class="fl-rank">${itens.map((x) => `<li><span class="fl-rk-nome">${nome(x)}<span class="fl-sub" style="display:block">${sub(x)}</span></span><span class="fl-rk-barra"><i style="width:${(x.total / mx * 100).toFixed(1)}%;background:${cor(x)}"></i></span><span class="fl-rk-val num">${reais(x.total)}</span></li>`).join("")}</ol>`; };
+    const corEnte = (x) => (ENTES.find(([k]) => k === (x.ente || (x.entes.length === 1 ? x.entes[0] : "PMFI"))) || ENTES[0])[2];
+    lst("#pb-forn", F.slice(0, 10), (x) => esc(capitaliza(x.nome)), (x) => x.entes.map((k) => ENTES.find((e) => e[0] === k)[1]).join(" e ") + " · " + pct(x.total / totF * 100) + " do total", corEnte);
+    lst("#pb-sec", P.secretarias.slice(0, 10), (x) => esc(x.orgao), (x) => ENTES.find((e) => e[0] === x.ente)[1] + " · " + Object.keys(x.anos).sort().join(", "), corEnte);
+
+    tabelaInterativa($("#pb-tab"), {
+      linhas: P.empenhos,
+      busca: { rot: "Buscar por empresa ou descrição", ph: "Ex.: campanha, turismo, edital", txt: (e) => e.credor + " " + e.historico + " " + e.orgao },
+      filtros: [
+        { rot: "Ano", todos: "Todos os anos", val: (e) => e.ano },
+        { rot: "Quem gastou", todos: "Todos", val: (e) => ENTES.find((x) => x[0] === e.ente)[1] },
+        { rot: "Secretaria/órgão", todos: "Todos", val: (e) => e.orgao },
+        { rot: "Tipo", todos: "Todos os tipos", val: (e) => e.cat },
+        { rot: "Empresa", todos: "Todas", val: (e) => capitaliza(e.credor) },
+      ],
+      colunas: [
+        { rot: "Data", ord: (e) => e.data, cel: (e) => `<span class="num">${fmtDataBR(e.data)}</span><span class="doc">Empenho ${esc(e.nr)}/${e.ano}</span>` },
+        { rot: "Empresa", ord: (e) => e.credor, cel: (e) => `<strong>${esc(capitaliza(e.credor))}</strong><span class="doc">${esc(e.doc)}</span>` },
+        { rot: "Quem pediu", ord: (e) => e.orgao, cel: (e) => `${esc(e.orgao)}<span class="doc">${ENTES.find((x) => x[0] === e.ente)[1]} · ${esc(e.cat)}</span>` },
+        { rot: "Descrição", cel: (e) => `<span title="${esc(e.historico)}">${esc(e.historico.length > 160 ? e.historico.slice(0, 159) + "…" : e.historico)}</span>` },
+        { rot: "Reservado", dir: true, ord: (e) => e.empenhado, cel: (e) => brl.format(e.empenhado) },
+        { rot: "Pago", dir: true, ord: (e) => e.pago, cel: (e) => `<strong>${brl.format(e.pago)}</strong>` },
+      ],
+      ordem: { col: 0, desc: true },
+      resumo: (r) => `${nf0.format(r.length)} empenhos. Reservado: ${reais(r.reduce((s, e) => s + e.empenhado, 0))}. Pago: ${reais(r.reduce((s, e) => s + e.pago, 0))}.`,
+    });
+  }
+
   Object.assign(ESPECIAIS, {
     "caminho-do-dinheiro": paginaCaminho, "camara": paginaCamara, "transporte": paginaTransporte, "alugueis": paginaAlugueis,
     "obras": paginaObras, "sem-licitacao": paginaSemLicitacao, "licitacoes-monitoradas": paginaLicitacoesOSB, "oficios": paginaOficios,
-    "emendas": paginaEmendas, "saude-filas": paginaFilas,
+    "emendas": paginaEmendas, "saude-filas": paginaFilas, "publicidade": paginaPublicidade,
   });
   const TITULOS = { "caminho-do-dinheiro": "O caminho do dinheiro", camara: "Temas · Câmara de Vereadores", transporte: "Temas · Transporte coletivo", alugueis: "Temas · Aluguéis de imóveis",
     obras: "Temas · Obras", "sem-licitacao": "Temas · Contratações sem licitação", diarias: "Temas · Diárias e passagens", gratificacoes: "Temas · Gratificações",
     "horas-extras": "Temas · Horas extras", remuneracao: "Temas · Remuneração dos servidores", "licitacoes-monitoradas": "Atuação do OSB · Licitações acompanhadas", oficios: "Atuação do OSB · Ofícios enviados",
-    emendas: "Temas · Emendas impositivas", "saude-filas": "Temas · Filas na Saúde" };
+    emendas: "Temas · Emendas impositivas", "saude-filas": "Temas · Filas na Saúde", "publicidade": "Temas · Publicidade e propaganda" };
 
   // ============================================================ slider de destaques
   let slAtual = 0, slTimer = null, slPausado = false;
