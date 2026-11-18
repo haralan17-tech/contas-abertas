@@ -1,0 +1,18 @@
+# Uso único: copia ZIPs do TCE-PR do Dropbox (links temporários) para o branch tce-brutos
+name: TCE brutos (cópia)
+on:
+  push:
+    branches: [tce-brutos]
+    paths: ["brutos/links.txt"]
+permissions: { contents: write }
+jobs:
+  copiar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          while read -r nome url; do [ -n "$nome" ] && curl -sSfL -o "brutos/$nome" "$url"; done < brutos/links.txt
+          ls -la brutos
+          git rm -q brutos/links.txt
+          git config user.name "OSB Foz (automático)"; git config user.email "actions@users.noreply.github.com"
+          git add brutos && git commit -m "ZIPs do TCE-PR 2023–2025 (temporário)" && git push
