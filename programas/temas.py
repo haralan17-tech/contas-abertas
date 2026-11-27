@@ -8,10 +8,10 @@ from processar import achar, xml_iter, capitaliza, formata_doc, rotulo, _pag_mes
 # ------------------------------------------------------------------ classificações
 def grupo_fonte(ds):
     d = (ds or "").upper()
+    if "ROYALT" in d or "ITAIPU" in d:  # antes de "PREVID": "Outros Royalties ... não Previdenciárias"
+        return "Royalties de Itaipu"
     if "RPPS" in d or "PREVID" in d or "COMPENSAÇÃO ENTRE REGIMES" in d:
         return "Previdência dos servidores"
-    if "ROYALT" in d or "ITAIPU" in d:
-        return "Royalties de Itaipu"
     if "FUNDEB" in d:
         return "Fundeb"
     if "EDUCA" in d or "MERENDA" in d or "PNAE" in d or "PNATE" in d:
