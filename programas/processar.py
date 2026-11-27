@@ -573,6 +573,10 @@ def main():
             with open(c, encoding="utf-8") as f:
                 saida[nome] = json.load(f)
     from temas import ler_foco_na_obra, ler_licitacoes
+    inv = os.path.join(fo, "investimentos", "investimentos.json")  # gerado por programas/investimentos.py
+    if os.path.exists(inv):
+        with open(inv, encoding="utf-8") as fh:
+            saida["investimentos"] = json.load(fh)
     pub = os.path.join(fo, "publicidade", "publicidade.json")  # gerado por programas/publicidade.py
     if os.path.exists(pub):
         with open(pub, encoding="utf-8") as fh:
